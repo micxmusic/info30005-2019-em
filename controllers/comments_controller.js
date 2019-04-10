@@ -13,11 +13,11 @@ const showDropComments= function(req,res){
 };
 // create a new comment object and put into into mongo, refer to michelle's participant_controller
 const addDropComments = function(req,res){
-    const newComment = new Comment({
-        User: req.body.username,
-        Content: req.body.comment,
-        Pinned: false,
-        timeOfPost: new Date()
+    const newComment = /*new Comments*/({
+        "User": req.body.User,
+        "Content": req.body.Content,
+        "Pinned": false,
+        "timeOfPost": new Date()
     });
     newComment.save((err, comment) => {
         if (!err) {

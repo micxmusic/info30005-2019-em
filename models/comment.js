@@ -3,7 +3,7 @@ const commentSchema = mongoose.Schema(
     {
         "User": String,  
         "Content": String,
-        "Pinned": boolean,
+        "Pinned": Boolean,
         "timeOfPost": Date,
         // "inReplyTo" : commentSchema
     }
