@@ -8,7 +8,7 @@ router.get('/api/participate/byUser/:user_id', participantController.showDropsFo
 router.get('/api/participate/byDrop/:drop_id', participantController.showUsersForDrop);
 router.post('/api/participate', participantController.joinDrop);
 
-router.get('/api/comments/:id',commentsController.showComment);
-router.post('/api/comments',commentsController.addDropComments);
+router.get('/api/comments/:id', commentsController.showDropComments);
+router.post('/api/comments', commentsController.addDropComments);
 
 module.exports = router;
