@@ -12,3 +12,7 @@ mongoose.connect(
 );
 
 require('./comment.js');
+
+/*
+Meaghan's database details
+'mongodb+srv://mgaunt:s1lv3rf1sh13s@drops-nztgj.mongodb.net/Drops?retryWrites=true'*/
