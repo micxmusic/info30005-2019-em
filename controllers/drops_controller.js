@@ -1,13 +1,13 @@
-var mongoose = require('mongoose');
-var Drop = mongoose.model('Drops');
+const mongoose = require('mongoose');
+const Drop = mongoose.model('Drops');
 
-var createDrop = function(req,res){
-    var drop = new Drop({
-        "name":req.body.name,
-        "price":req.body.price,
-        "purchaseDate":req.body.purchaseDate,
-        "creator":req.body.creator,
-        "description":req.body.description
+const createDrop = function(req,res){
+    const drop = new Drop({
+        name: req.body.name,
+        price: req.body.price,
+        purchaseDate: req.body.purchaseDate,
+        creator: req.body.creator,
+        description: req.body.description
     });
     drop.save(function(err,newDrop){
         if(!err){
@@ -18,8 +18,8 @@ var createDrop = function(req,res){
     });
 };
 
-var findAllDrops = function(req,res){
-    drops.find(function(err,Drop){
+const findAllDrops = function(req,res){
+    Drop.find(function(err,drops){
         if(!err){
             res.send(drops);
         }else{
@@ -28,22 +28,22 @@ var findAllDrops = function(req,res){
     });
 };
 
-var findDrop = function(req,res){
-    var cafeInx = req.params.id;
-    drops.findById(cafeInx,function(err,Drop){
+const findDrop = function(req,res){
+    const dropID = req.params.id;
+    Drop.findById(dropID,function(err,drop){
         if(!err){
-            res.send(Drop);
+            res.send(drop);
         }else{
             res.sendStatus(404);
         }
     });
 };
 
-var findDropByName = function(req, res){
-    var dropName = req.params.name;
-    Drop.find({name:dropName},function(err,Drop){
+const findDropByName = function(req, res){
+    const dropName = req.params.name;
+    Drop.find({name:dropName},function(err,drop){
         if(!err){
-            res.send(dropName);
+            res.send(drop);
         }else{
             res.sendStatus(404);
         }
