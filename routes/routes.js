@@ -5,6 +5,8 @@ const participantController = require('../controllers/participation.controller.j
 const commentsController = require('../controllers/comments.controller.js');
 const dropsController = require('../controllers/drops.controller.js');
 
+router.get('/', (req, res) => res.send('The E-Musketeers'));
+
 router.get('/api/participate/byUser/:user_id', participantController.showDropsForUser);
 router.get('/api/participate/byDrop/:drop_id', participantController.showUsersForDrop);
 router.post('/api/participate', participantController.joinDrop);
