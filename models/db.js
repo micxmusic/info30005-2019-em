@@ -1,18 +1,15 @@
 const mongoose = require('mongoose');
 
 mongoose.connect(
-  'mongodb+srv://glenda-s-l:nfapr87ap987pa@worksop-5-03ok4.mongodb.net/WebInfoTech?retryWrites=true',
+  'mongodb+srv://experiments:Sjp4YOyb74eH1ZFN@info30005-tutorials-s0j6n.mongodb.net/experiments?retryWrites=true',
   err => {
     if (!err) {
       console.log('Connected to mongo');
     } else {
+      console.log(err);
       console.log('Failed to connect to mongo');
     }
   }
 );
 
-require('./comment.js');
-
-/*
-Meaghan's database details
-'mongodb+srv://mgaunt:s1lv3rf1sh13s@drops-nztgj.mongodb.net/Drops?retryWrites=true'*/
+require('require-dir')(__dirname);

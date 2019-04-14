@@ -22,14 +22,21 @@
   },
   "dependencies": {
     "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.4",
     "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "lodash": "^4.17.11",
     "mongoose": "^5.4.20",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^5.0.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.0",
     "react-imported-component": "^5.5.3",
     "react-router": "^5.0.0",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "require-dir": "^1.2.0"
   },
   "devDependencies": {
     "eslint": "^5.16.0",
@@ -44,7 +51,7 @@
     "eslint-plugin-react": "^7.12.4",
     "parcel-bundler": "^1.12.3",
     "prettier": "^1.16.4",
-    "react-hot-loader": "^4.8.2"
+    "react-hot-loader": "^4.8.3"
   },
   "eslintConfig": {
     "extends": [
