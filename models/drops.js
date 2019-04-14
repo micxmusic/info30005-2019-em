@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 
 const dropSchema = mongoose.Schema({
   name: String,
-  price: String,
-  purchaseDate: String,
+  price: Number,
+  purchaseDate: Date,
   creator: String,
   description: String,
 });
