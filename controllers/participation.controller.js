@@ -24,9 +24,9 @@ const showDropsForUser = (req, res) => {
 
 const joinDrop = (req, res) => {
   const newDrop = new Participant({
-    user_id: req.body.user_id,
-    drop_id: req.body.drop_id,
-    type: req.body.type,
+    user_id: mongoose.Types.ObjectId(req.body.user_id),
+    drop_id: mongoose.Types.ObjectId(req.body.drop_id),
+    participation_type: req.body.participation_type,
   });
   newDrop.save((err, participants) => {
     if (!err) {

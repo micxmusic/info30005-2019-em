@@ -30,8 +30,7 @@ const findAllDrops = (req, res) => {
 };
 
 const findDrop = (req, res) => {
-  const dropInx = req.params.id;
-  Drop.findById(dropInx, (err, drop) => {
+  Drop.findById(req.params.id, (err, drop) => {
     if (!err) {
       res.send(drop);
     } else {
@@ -41,8 +40,7 @@ const findDrop = (req, res) => {
 };
 
 const findDropByName = (req, res) => {
-  const dropName = req.params.name;
-  Drop.find({ name: dropName }, (err, drop) => {
+  Drop.find({ name: req.params.name }, (err, drop) => {
     if (!err) {
       res.send(drop);
     } else {
