@@ -12,14 +12,20 @@ const showDropComments = (req, res) => {
     }
   });
 };
-// create a new comment object and put into into mongo, refer to michelle's participant_controller
-const addDropComments = (req, res) => {
-  const newComment = /* new Comments */ {
-    User: req.body.User,
-    Content: req.body.Content,
-    Pinned: false,
+
+const addDropComment = (req, res) => {
+  const newComment = new Comments({
+    user_id: req.body.user_id,
+    drop_id: req.body.drop_id,
+    content: req.body.content,
+    pinned: false,
     timeOfPost: new Date(),
-  };
+  });
+
+  if (req.body.inReplyTo) {
+    newComment.inReplyTo = req.body.inReplyTo;
+  }
+
   newComment.save((err, comment) => {
     if (!err) {
       res.send(comment);
@@ -30,4 +36,4 @@ const addDropComments = (req, res) => {
 };
 
 module.exports.showDropComments = showDropComments;
-module.exports.addDropComments = addDropComments;
+module.exports.addDropComment = addDropComment;

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const Participant = mongoose.model('participants');
+const Participant = mongoose.model('participation');
 
 const showUsersForDrop = (req, res) => {
   Participant.find({ drop_id: req.params.drop_id }, (err, participants) => {
