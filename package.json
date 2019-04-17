@@ -4,7 +4,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "prestart": "./node_modules/.bin/parcel build --experimental-scope-hoisting public/index.html",
+    "dev": "./node_modules/.bin/nodemon --ignore .cache --ignore dist --ignore public -r dotenv/config app.js"
   },
   "repository": {
     "type": "git",
@@ -21,77 +23,51 @@
     "node": "^10"
   },
   "dependencies": {
+    "@material-ui/core": "^3.9.3",
+    "@material-ui/icons": "^3.0.2",
+    "@material-ui/styles": "^3.0.0-alpha.10",
     "body-parser": "^1.18.3",
+    "classnames": "^2.2.6",
+    "compression": "^1.7.4",
+    "connect-mongodb-session": "^2.1.1",
     "cookie-parser": "^1.4.4",
     "express": "^4.16.4",
-    "express-session": "^1.15.6",
+    "express-session": "^1.16.1",
     "lodash": "^4.17.11",
-    "mongoose": "^5.4.20",
+    "mongoose": "^5.4.23",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^5.0.1",
+    "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.0",
     "react-imported-component": "^5.5.3",
-    "react-router": "^5.0.0",
+    "react-router-dom": "^5.0.0",
     "request": "^2.88.0",
     "require-dir": "^1.2.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/plugin-proposal-class-properties": "^7.4.0",
+    "@babel/preset-env": "^7.4.3",
+    "@babel/preset-react": "^7.0.0",
+    "babel-eslint": "^10.0.1",
+    "dotenv": "^7.0.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^4.1.0",
     "eslint-plugin-html": "^5.0.3",
-    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-import": "^2.17.2",
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-node": "^8.0.1",
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-promise": "^4.1.1",
     "eslint-plugin-react": "^7.12.4",
+    "nodemon": "^1.18.11",
     "parcel-bundler": "^1.12.3",
     "prettier": "^1.16.4",
-    "react-hot-loader": "^4.8.3"
-  },
-  "eslintConfig": {
-    "extends": [
-      "airbnb",
-      "prettier",
-      "plugin:node/recommended",
-      "plugin:promise/recommended"
-    ],
-    "env": {
-      "browser": true,
-      "node": true,
-      "es6": true,
-      "jest": true
-    },
-    "parserOptions": {
-      "ecmaVersion": 6,
-      "ecmaFeatures": {
-        "jsx": true,
-        "experimentalObjectRestSpread": true
-      }
-    },
-    "plugins": [
-      "html",
-      "prettier",
-      "promise"
-    ],
-    "rules": {
-      "prettier/prettier": [
-        "error",
-        {
-          "printWidth": 100,
-          "singleQuote": true,
-          "trailingComma": "es5"
-        }
-      ]
-    }
-  },
-  "prettier": {
-    "printWidth": 100,
-    "singleQuote": true,
-    "trailingComma": "es5"
+    "react-hot-loader": "^4.8.4"
   }
 }

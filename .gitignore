@@ -165,6 +165,11 @@ typings/
 
 # next.js build output
 .next
+
+# parcel bundler output
+.cache
+dist
+
 ### Vim template
 # Swap
 [._]*.s[a-v][a-z]
