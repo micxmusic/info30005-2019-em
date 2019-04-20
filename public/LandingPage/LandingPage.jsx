@@ -5,10 +5,10 @@ import { Helmet } from 'react-helmet/es/Helmet';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/styles';
 import GlobalStyle from '../GlobalStyle';
-import Multiplying from './Multiplying';
 import PaperSheet from './PaperSheet';
-import SignIn from './SignIn';
 import FullWidthTabs from './FullWidthTabs';
+import TitleBarGridList from './TitleBarGridList';
+
 function LandingPage(props) {
   const { classes } = props;
 
@@ -25,6 +25,7 @@ function LandingPage(props) {
               titleText="Welcome to Sustineo!"
               bodyText="Our goal is to redefine the way people look at buying and using foods, so that we can create a less wasteful, communal way of eating for everyone."
             />
+            <TitleBarGridList />
           </Grid>
           <Grid item xs={5}>
             <FullWidthTabs tabOneText="Sign In" tabTwoText="Register" />
