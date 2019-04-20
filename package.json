@@ -44,6 +44,7 @@
     "react-helmet": "^5.2.0",
     "react-imported-component": "^5.5.3",
     "react-router-dom": "^5.0.0",
+    "react-swipeable-views": "^0.13.1",
     "request": "^2.88.0",
     "require-dir": "^1.2.0"
   },
