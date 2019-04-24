@@ -27,13 +27,16 @@ const sessionSettings = {
   },
 };
 
+app.use(compression());
+
 if (process.env.NODE_ENV === 'production') {
   sessionSettings.cookie.secure = true;
+  app.use(express.static('dist'));
 } else {
   const webpack = require('webpack');
   const webpackDevMiddleware = require('webpack-dev-middleware');
   const webpackHotMiddleware = require('webpack-hot-middleware');
-  const config = require('./webpack.config.js');
+  const config = require('./webpack.dev.js');
   const compiler = webpack(config);
 
   app.use(webpackDevMiddleware(compiler));
@@ -42,7 +45,6 @@ if (process.env.NODE_ENV === 'production') {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(compression());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(session(sessionSettings));
