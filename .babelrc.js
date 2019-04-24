@@ -7,5 +7,7 @@ module.exports = {
         loose: true,
       },
     ],
+    '@babel/plugin-syntax-dynamic-import',
+    'react-hot-loader/babel',
   ],
 };

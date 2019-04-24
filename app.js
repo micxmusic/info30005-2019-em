@@ -28,12 +28,16 @@ const sessionSettings = {
 };
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('dist'));
   sessionSettings.cookie.secure = true;
 } else {
-  const Parcel = require('parcel-bundler');
-  const bundle = new Parcel('public/index.html');
-  app.use(bundle.middleware());
+  const webpack = require('webpack');
+  const webpackDevMiddleware = require('webpack-dev-middleware');
+  const webpackHotMiddleware = require('webpack-hot-middleware');
+  const config = require('./webpack.config.js');
+  const compiler = webpack(config);
+
+  app.use(webpackDevMiddleware(compiler));
+  app.use(webpackHotMiddleware(compiler));
 }
 
 app.use(bodyParser.json());
