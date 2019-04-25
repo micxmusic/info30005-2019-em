@@ -4,43 +4,49 @@ import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import DropInformation from './DropInformation';
+// import DropInformation from './DropInformation';
 
 const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
-    margin: `${theme.spacing.unit * 5}px ${theme.spacing.unit * 5}px ${theme.spacing.unit *
-      5}px  ${theme.spacing.unit * 5}px`,
+    margin: `${theme.spacing.unit * 5}px ${0}px ${theme.spacing.unit * 5}px  ${0}px`,
   },
 });
 
 function PaperSheet(props) {
-  const { classes, dropName, dropDetails } = props;
+  const { classes, name, description, price, purchaseDate, creator } = props;
 
   return (
-    <React.Fragment>
-      <Grid container spacing={16}>
-        <Grid item xs={12}>
-          <Paper className={classes.root} elevation={1}>
-            <Typography variant="h5" component="h3">
-              {dropName}
-            </Typography>
-            {/* <DropInformation /> */}
-            <Typography component="p">{dropDetails}</Typography>
-          </Paper>
+    <Paper className={classes.root} elevation={1}>
+      <Typography variant="h5" component="h3">
+        {name}
+      </Typography>
+      <Grid container>
+        <Grid item xs={12} sm={4}>
+          <Typography component="p">{description}</Typography>
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <Typography component="p">{`Creator: ${creator}`}</Typography>
+          <Typography component="p">{`Price: ${price}`}</Typography>
+          <Typography component="p">{`Drop ends: ${purchaseDate}`}</Typography>
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <Typography component="p">INSERT LIST OF VOLUNTEERS HERE</Typography>
         </Grid>
       </Grid>
-    </React.Fragment>
+    </Paper>
   );
 }
 
 PaperSheet.propTypes = {
   classes: PropTypes.object.isRequired,
-  dropName: PropTypes.string.isRequired,
-  dropDetails: PropTypes.object.isRequired,
-  // dropDetails: PropTypes.Dropinformation.isRequired,
+  name: PropTypes.object.isRequired,
+  description: PropTypes.object.isRequired,
+  price: PropTypes.object.isRequired,
+  purchaseDate: PropTypes.object.isRequired,
+  creator: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(PaperSheet);
