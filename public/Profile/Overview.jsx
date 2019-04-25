@@ -1,23 +1,95 @@
 import React from 'react';
-import { Grid, Typography } from '@material-ui/core';
-import { withStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
+import {
+  Button,
+  Card,
+  CardContent,
+  CardMedia,
+  Grid,
+  List,
+  ListItem,
+  ListItemSecondaryAction,
+  ListItemText,
+  Typography,
+} from '@material-ui/core';
+import { Redeem } from '@material-ui/icons';
+import { withStyles } from '@material-ui/styles';
 
-const styles = {
+import { arriving, redeem } from './data';
+
+const styles = theme => ({
   root: {
     flexGrow: 1,
+    margin: 'auto',
+    width: '95%',
   },
-};
+  button: {
+    margin: theme.spacing.unit,
+  },
+  leftIcon: {
+    marginRight: theme.spacing.unit,
+  },
+  media: {
+    height: 0,
+    paddingTop: '56.25%', // 16:9
+  },
+  card: {
+    margin: 0,
+    padding: 0,
+  },
+});
 
 function Overview(props) {
   const { classes } = props;
   return (
-    <Grid container className={classes.root} spacing={24}>
-      <Grid container item xs={12} sm={6}>
-        <Typography variant="h6">Points</Typography>
+    <Grid
+      container
+      spacing={40}
+      className={classes.root}
+      alignItems="flex-start"
+      justify="space-around"
+    >
+      <Grid container item xs={12} sm={6} spacing={8}>
+        <Grid item xs={12}>
+          <Typography variant="h6">Points</Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <List>
+            {redeem.map(item => (
+              <ListItem disableGutters divider key={item.name}>
+                <ListItemText>{item.name}</ListItemText>
+                <ListItemSecondaryAction>
+                  <Button variant="contained" color="primary">
+                    <Redeem className={classes.leftIcon} />
+                    {item.cost}
+                  </Button>
+                </ListItemSecondaryAction>
+              </ListItem>
+            ))}
+          </List>
+        </Grid>
       </Grid>
-      <Grid container item xs={12} sm={6}>
-        <Typography variant="h6">Arriving Soon</Typography>
+      <Grid container item xs={12} sm={6} spacing={8}>
+        <Grid item xs={12}>
+          <Typography variant="h6">Arriving Soon</Typography>
+        </Grid>
+        {arriving.map(item => (
+          <Grid item xs={12} sm={6} md={4} key={item.name}>
+            <Card className={classes.card}>
+              <CardMedia className={classes.media} image={item.image} title={item.name} />
+              <CardContent>
+                <Typography>{item.name}</Typography>
+                <Typography>
+                  {item.date.toLocaleDateString('en-AU', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
       </Grid>
     </Grid>
   );

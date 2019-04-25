@@ -5,15 +5,15 @@ import { Hidden, Paper, Tab, Tabs } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import { Helmet } from 'react-helmet/es/Helmet';
 
-import Box from '../components/Box';
 import BottomNav from './BottomNav';
 import CenteredCircularProgress from '../components/CenteredCircularProgress';
 
 const Overview = React.lazy(() => import('./Overview'));
 
-const styles = {
+const styles = theme => ({
   root: {
     flexGrow: 1,
+    marginTop: 64,
   },
   tab: {
     '&:hover': {
@@ -21,19 +21,28 @@ const styles = {
       opacity: 1,
     },
   },
-};
+  tabContainer: {
+    'max-width': 1100,
+    margin: `${theme.spacing.unit * 2}px auto ${theme.spacing.unit * 2}px auto`,
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2,
+    [theme.breakpoints.down('md')]: {
+      width: '90%',
+      paddingBottom: '64px',
+    },
+  },
+});
 
-function TabContainer({ children }) {
+function TabContainer({ classes, children }) {
   return (
-    <Box width="75%" mx="auto" py={2}>
-      <Paper>
-        <Box p={5}>{children}</Box>
-      </Paper>
-    </Box>
+    <div className={classes.tabContainer}>
+      <Paper>{children}</Paper>
+    </div>
   );
 }
 
 TabContainer.propTypes = {
+  classes: PropTypes.object.isRequired,
   children: PropTypes.node.isRequired,
 };
 
@@ -55,7 +64,7 @@ class Profile extends React.Component {
     const { tab } = this.state;
 
     return (
-      <>
+      <React.Fragment>
         <Helmet>
           <title>Sustineo - Profile</title>
         </Helmet>
@@ -81,25 +90,25 @@ class Profile extends React.Component {
           onChangeIndex={this.handleChangeIndex}
         >
           <Suspense fallback={<CenteredCircularProgress />}>
-            <TabContainer>
+            <TabContainer classes={classes}>
               <Overview />
             </TabContainer>
           </Suspense>
 
           <Suspense fallback={<CenteredCircularProgress />}>
-            <TabContainer>
+            <TabContainer classes={classes}>
               <Overview />
             </TabContainer>
           </Suspense>
 
           <Suspense fallback={<CenteredCircularProgress />}>
-            <TabContainer>
+            <TabContainer classes={classes}>
               <Overview />
             </TabContainer>
           </Suspense>
 
           <Suspense fallback={<CenteredCircularProgress />}>
-            <TabContainer>
+            <TabContainer classes={classes}>
               <Overview />
             </TabContainer>
           </Suspense>
@@ -107,7 +116,7 @@ class Profile extends React.Component {
         <Hidden lgUp>
           <BottomNav tab={tab} handleChange={this.handleChange} />
         </Hidden>
-      </>
+      </React.Fragment>
     );
   }
 }
