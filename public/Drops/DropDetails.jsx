@@ -4,7 +4,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-// import DropInformation from './DropInformation';
 
 const styles = theme => ({
   root: {
@@ -15,7 +14,7 @@ const styles = theme => ({
   },
 });
 
-function PaperSheet(props) {
+function DropDetails(props) {
   const { classes, name, description, price, purchaseDate, creator } = props;
 
   return (
@@ -40,7 +39,7 @@ function PaperSheet(props) {
   );
 }
 
-PaperSheet.propTypes = {
+DropDetails.propTypes = {
   classes: PropTypes.object.isRequired,
   name: PropTypes.object.isRequired,
   description: PropTypes.object.isRequired,
@@ -49,4 +48,4 @@ PaperSheet.propTypes = {
   creator: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(PaperSheet);
+export default withStyles(styles)(DropDetails);
