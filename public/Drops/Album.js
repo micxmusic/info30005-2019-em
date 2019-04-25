@@ -13,7 +13,7 @@ import Grid from '@material-ui/core/Grid';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import Popup from '../Drops/drop';
+import Popup from '../Drops/popupwindow';
 import Popover from '../Drops/popopver';
 import Collapse from '@material-ui/core/Collapse';
 
