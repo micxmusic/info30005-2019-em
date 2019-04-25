@@ -4,7 +4,11 @@ import { withStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import classNames from 'classnames';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import { unstable_Box as Box } from '@material-ui/core/Box';
 import DropDetails from './DropDetails';
+import image from '../Images/boxed-water-is-better-1463986-unsplash.jpg';
 
 const styles = theme => ({
   layout: {
@@ -28,9 +32,15 @@ function Drops(props) {
         <title>Sustineo - Drops</title>
       </Helmet>
       <div className={classNames(classes.layout)}>
-        <Grid container spacing={16} justify="center">
+        <Grid container spacing={16}>
           <Grid item xs={12}>
-            <DropDetails dropName="Carrots" dropDetails="This is a carrot" />
+            <img style={{ width: 400 }} src={image} alt="food image" fluid />
+          </Grid>
+          <Grid item xs={12}>
+            <DropDetails dropName="Boxed Water" dropDetails="This is a dog drinking boxed water" />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography>comments section</Typography>
           </Grid>
         </Grid>
       </div>
