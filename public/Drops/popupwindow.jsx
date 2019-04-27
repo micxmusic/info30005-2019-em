@@ -5,6 +5,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
 
 class ScrollDialog extends React.Component {
   state = {
@@ -29,12 +31,14 @@ class ScrollDialog extends React.Component {
           scroll={this.state.scroll}
           aria-labelledby="scroll-dialog-title"
         >
-          <DialogTitle id="scroll-dialog-title">Subscribe</DialogTitle>
+          <DialogTitle id="scroll-dialog-title">Drop Name</DialogTitle>
           <DialogContent>
             <DialogContentText>
               Information about the drop
             </DialogContentText>
+            
           </DialogContent>
+          
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">
               Cancel
@@ -44,6 +48,7 @@ class ScrollDialog extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
+        
       </div>
     );
   }
