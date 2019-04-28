@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "prestart": "./node_modules/.bin/parcel build --experimental-scope-hoisting public/index.html",
+    "prestart": "./node_modules/.bin/parcel build public/index.html",
     "dev": "./node_modules/.bin/nodemon --ignore .cache --ignore dist --ignore public -r dotenv/config app.js"
   },
   "repository": {
@@ -23,6 +23,12 @@
     "node": "^10"
   },
   "dependencies": {
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/plugin-proposal-class-properties": "^7.4.0",
+    "@babel/preset-env": "^7.4.3",
+    "@babel/preset-react": "^7.0.0",
+    "babel-eslint": "^10.0.1",
     "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^3.0.2",
     "@material-ui/styles": "^3.0.0-alpha.10",
@@ -36,6 +42,7 @@
     "express-session": "^1.16.1",
     "lodash": "^4.17.11",
     "mongoose": "^5.5.4",
+    "parcel-bundler": "^1.12.3",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^5.0.1",
@@ -52,12 +59,6 @@
     "typeface-roboto": "0.0.54"
   },
   "devDependencies": {
-    "@babel/cli": "^7.4.3",
-    "@babel/core": "^7.4.3",
-    "@babel/plugin-proposal-class-properties": "^7.4.0",
-    "@babel/preset-env": "^7.4.3",
-    "@babel/preset-react": "^7.0.0",
-    "babel-eslint": "^10.0.1",
     "dotenv": "^7.0.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
@@ -71,7 +72,6 @@
     "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-react-hooks": "^1.6.0",
     "nodemon": "^1.18.11",
-    "parcel-bundler": "^1.12.3",
     "prettier": "^1.16.4",
     "react-hot-loader": "^4.8.4"
   }
