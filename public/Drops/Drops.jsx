@@ -38,8 +38,15 @@ function Drops(props) {
       </Helmet>
       <div className={classes.layout}>
         <Grid container spacing={16}>
-          <Grid item xs={12}>
-            <img style={{ 'max-width': '100%', 'max-height': '50vh' }} src={image} alt="food" />
+          <Grid item xs={12} style={{ 'text-align': 'center' }}>
+            <img
+              style={{
+                'max-width': '100%',
+                'max-height': '50vh',
+              }}
+              src={image}
+              alt="food"
+            />
           </Grid>
           <Grid item xs={12}>
             <DropDetails {...testDrop} />
