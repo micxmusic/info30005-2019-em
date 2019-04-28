@@ -4,10 +4,15 @@ import PropTypes from 'prop-types';
 import {
   AppBar,
   Button,
+  Drawer,
   Toolbar,
   IconButton,
   Typography,
   InputBase,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
   Menu,
   MenuItem,
 } from '@material-ui/core';
@@ -16,8 +21,11 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 import {
   AccountCircle,
   Chat,
+  Home,
+  ShoppingBasket,
   Menu as MenuIcon,
   MoreVert,
+  VerticalAlignBottom,
   Notifications,
   Search,
 } from '@material-ui/icons';
@@ -102,7 +110,12 @@ const styles = theme => ({
 class PrimarySearchAppBar extends React.Component {
   state = {
     anchorEl: null,
+    drawer: false,
     mobileMoreAnchorEl: null,
+  };
+
+  toggleDrawer = () => {
+    this.setState({ drawer: !this.state.drawer });
   };
 
   handleProfileMenuOpen = event => {
@@ -123,10 +136,36 @@ class PrimarySearchAppBar extends React.Component {
   };
 
   render() {
-    const { anchorEl, mobileMoreAnchorEl } = this.state;
+    const { anchorEl, drawer, mobileMoreAnchorEl } = this.state;
     const { classes } = this.props;
+    const isDrawerOpen = Boolean(drawer);
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+    const sideList = (
+      <div className={classes.list}>
+        <List>
+          <ListItem button key="Index" component={Link} to="/">
+            <ListItemIcon>
+              <Home />
+            </ListItemIcon>
+            <ListItemText primary="Index" />
+          </ListItem>
+          <ListItem button key="Marketplace" component={Link} to="/marketplace">
+            <ListItemIcon>
+              <ShoppingBasket />
+            </ListItemIcon>
+            <ListItemText primary="Marketplace" />
+          </ListItem>
+          <ListItem button key="Drop" component={Link} to="/drop">
+            <ListItemIcon>
+              <VerticalAlignBottom />
+            </ListItemIcon>
+            <ListItemText primary="Drop" />
+          </ListItem>
+        </List>
+      </div>
+    );
 
     const renderMenu = (
       <Menu
@@ -163,20 +202,42 @@ class PrimarySearchAppBar extends React.Component {
           </IconButton>
           <p>Notifications</p>
         </MenuItem>
+        <MenuItem onClick={this.handleMobileMenuClose} component={Link} to="/profile">
+          <IconButton color="inherit">
+            <AccountCircle />
+          </IconButton>
+          <p>Profile</p>
+        </MenuItem>
+        {/*
         <MenuItem onClick={this.handleProfileMenuOpen}>
           <IconButton color="inherit" component={Link} to="/profile">
             <AccountCircle />
           </IconButton>
           <p>Profile</p>
         </MenuItem>
+        */}
       </Menu>
+    );
+
+    const mobileDrawer = (
+      <Drawer open={isDrawerOpen} onClose={this.toggleDrawer}>
+        <div tabIndex={0} role="button" onClick={this.toggleDrawer} onKeyDown={this.toggleDrawer}>
+          {sideList}
+        </div>
+      </Drawer>
     );
 
     return (
       <div className={classes.root}>
+        {mobileDrawer}
         <AppBar position="fixed" className={classes.appBar}>
           <Toolbar>
-            <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
+            <IconButton
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="Open drawer"
+              onClick={this.toggleDrawer}
+            >
               <MenuIcon />
             </IconButton>
             <Button
