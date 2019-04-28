@@ -5,17 +5,11 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
 
-class ScrollDialog extends React.Component {
+class PopOverWindow extends React.Component {
   state = {
     open: true,
     scroll: 'body',
-  };
-
-  handleClickOpen = scroll => () => {
-    this.setState({ open: true, scroll });
   };
 
   handleClose = () => {
@@ -23,22 +17,19 @@ class ScrollDialog extends React.Component {
   };
 
   render() {
+    const { open, scroll } = this.state;
     return (
       <div>
         <Dialog
-          open={this.state.open}
+          open={open}
           onClose={this.handleClose}
-          scroll={this.state.scroll}
+          scroll={scroll}
           aria-labelledby="scroll-dialog-title"
         >
           <DialogTitle id="scroll-dialog-title">Drop Name</DialogTitle>
           <DialogContent>
-            <DialogContentText>
-              Information about the drop
-            </DialogContentText>
-            
+            <DialogContentText>Information about the drop</DialogContentText>
           </DialogContent>
-          
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">
               Cancel
@@ -48,10 +39,9 @@ class ScrollDialog extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
-        
       </div>
     );
   }
 }
 
-export default ScrollDialog;
+export default PopOverWindow;

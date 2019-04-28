@@ -5,13 +5,11 @@ import Popper from '@material-ui/core/Popper';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Fade from '@material-ui/core/Fade';
-import Paper from '@material-ui/core/Paper';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import Popup from '../Drops/popupwindow';
-
+import Popup from './PopOverWindow';
 
 const styles = theme => ({
   typography: {
@@ -19,7 +17,7 @@ const styles = theme => ({
   },
 });
 
-class SimplePopper extends React.Component {
+class PopOver extends React.Component {
   state = {
     anchorEl: null,
     open: false,
@@ -40,7 +38,6 @@ class SimplePopper extends React.Component {
 
     return (
       <div>
-
         <Card className={classes.card}>
           <CardMedia
             className={classes.cardMedia}
@@ -51,36 +48,31 @@ class SimplePopper extends React.Component {
             <Typography gutterBottom variant="h5" component="h2">
               Drop name
             </Typography>
-              <Typography>                      
-                Small bit of information about drop
-              </Typography>
+            <Typography>Small bit of information about drop</Typography>
           </CardContent>
           <CardActions>
             <Button aria-describedby={id} variant="contained" onClick={this.handleClick}>
-             More Info
+              More Info
             </Button>
-        <Popper id={id} open={open} anchorEl={anchorEl} transition>
-          {({ TransitionProps }) => (
-            <Fade {...TransitionProps} timeout={350}>
-              <Popup>
-          
-               </Popup>
-            </Fade>
-          )}
-        </Popper>
-                    <Button size="small" color="primary">
-                      Edit Drop
-                    </Button>
-                  </CardActions>
-                </Card>
-        
+            <Popper id={id} open={open} anchorEl={anchorEl} transition>
+              {({ TransitionProps }) => (
+                <Fade {...TransitionProps} timeout={350}>
+                  <Popup />
+                </Fade>
+              )}
+            </Popper>
+            <Button size="small" color="primary">
+              Edit Drop
+            </Button>
+          </CardActions>
+        </Card>
       </div>
     );
   }
 }
 
-SimplePopper.propTypes = {
+PopOver.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SimplePopper);
+export default withStyles(styles)(PopOver);

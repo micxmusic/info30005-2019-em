@@ -1,29 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
-import CameraIcon from '@material-ui/icons/PhotoCamera';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import Popup from '../Drops/popupwindow';
-import Popover from '../Drops/popopver';
-import Collapse from '@material-ui/core/Collapse';
+import Popover from './PopOver';
 
 const styles = theme => ({
-  appBar: {
-    position: 'relative',
-  },
-  icon: {
-    marginRight: theme.spacing.unit * 2,
-  },
   heroUnit: {
     backgroundColor: theme.palette.background.paper,
   },
@@ -53,29 +36,15 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
   },
-  cardMedia: {
-    paddingTop: '56.25%', // 16:9
-  },
-  cardContent: {
-    flexGrow: 1,
-  },
-  footer: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing.unit * 6,
-  },
 });
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-function Album(props) {
+function Marketplace(props) {
   const { classes } = props;
 
   return (
     <React.Fragment>
-      <CssBaseline />
-      <AppBar position="static" className={classes.appBar}>
-        
-      </AppBar>
       <main>
         {/* Hero unit */}
         <div className={classes.heroUnit}>
@@ -87,9 +56,7 @@ function Album(props) {
               Welcome to the Marketplace
             </Typography>
 
-            <div className={classes.heroButtons}>
-
-            </div>
+            <div className={classes.heroButtons} />
           </div>
         </div>
         <div className={classNames(classes.layout, classes.cardGrid)}>
@@ -97,28 +64,18 @@ function Album(props) {
           <Grid container spacing={40}>
             {cards.map(card => (
               <Grid item key={card} sm={6} md={4} lg={3}>
-                <Popover>
-
-                </Popover>
-
+                <Popover />
               </Grid>
             ))}
           </Grid>
         </div>
       </main>
-      {/* Footer */}
-      <footer className={classes.footer}>
-        <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-          Copywrite stuff
-        </Typography>
-      </footer>
-      {/* End footer */}
     </React.Fragment>
   );
 }
 
-Album.propTypes = {
+Marketplace.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Album);
+export default withStyles(styles)(Marketplace);
