@@ -267,8 +267,8 @@ class PrimarySearchAppBar extends React.Component {
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              <Button component={Link} to="/about">
-                About
+              <Button component={Link} to="/marketplace">
+                Marketplace
               </Button>
               <Button component={Link} to="/drop">
                 Drop
