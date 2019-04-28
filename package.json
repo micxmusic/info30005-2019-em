@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "prestart": "./node_modules/.bin/parcel build public/index.html",
+    "build": "./node_modules/.bin/parcel build public/index.html",
     "dev": "./node_modules/.bin/nodemon --ignore .cache --ignore dist --ignore public -r dotenv/config app.js"
   },
   "repository": {
