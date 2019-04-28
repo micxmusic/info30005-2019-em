@@ -1,16 +1,22 @@
-import React from 'react';
-import { Route } from 'react-router-dom';
-import Home from '../Home/Home';
-import About from '../About/About';
-import Drop from '../Drops/Drop';
+import React, { Suspense } from 'react';
+import { Route, Switch } from 'react-router-dom';
+import CenteredCircularProgress from './CenteredCircularProgress';
+
+const Home = React.lazy(() => import('../Home/Home'));
+const About = React.lazy(() => import('../About/About'));
+const Drop = React.lazy(() => import('../Drops/Drop'));
+const Profile = React.lazy(() => import('../Profile/Profile'));
 
 function Routes() {
   return (
-    <React.Fragment>
-      <Route exact path="/" component={Home} />
-      <Route exact path="/about" component={About} />
-      <Route exact path="/drop" component={Drop} />
-    </React.Fragment>
+    <Suspense fallback={<CenteredCircularProgress />}>
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/about" component={About} />
+        <Route exact path="/drop" component={Drop} />
+        <Route exact path="/profile" component={Profile} />
+      </Switch>
+    </Suspense>
   );
 }
 

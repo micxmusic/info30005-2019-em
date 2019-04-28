@@ -8,7 +8,7 @@ import GlobalTheme from '../GlobalTheme';
 
 const styles = {
   root: {
-    marginTop: 48,
+    marginTop: 64,
   },
 };
 
