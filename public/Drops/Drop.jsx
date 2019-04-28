@@ -29,7 +29,7 @@ const styles = theme => ({
   },
 });
 
-function Drops(props) {
+function Drop(props) {
   const { classes } = props;
   return (
     <React.Fragment>
@@ -66,8 +66,8 @@ function Drops(props) {
     </React.Fragment>
   );
 }
-Drops.propTypes = {
+Drop.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Drops);
+export default withStyles(styles)(Drop);

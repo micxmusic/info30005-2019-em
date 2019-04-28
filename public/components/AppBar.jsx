@@ -270,8 +270,8 @@ class PrimarySearchAppBar extends React.Component {
               <Button component={Link} to="/about">
                 About
               </Button>
-              <Button component={Link} to="/drops">
-                Drops
+              <Button component={Link} to="/drop">
+                Drop
               </Button>
               <IconButton color="inherit">
                 <Chat />
