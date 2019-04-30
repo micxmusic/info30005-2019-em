@@ -27,18 +27,9 @@ const sessionSettings = {
   },
 };
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('dist'));
-  sessionSettings.cookie.secure = true;
-} else {
-  const Parcel = require('parcel-bundler');
-  const bundle = new Parcel('public/index.html');
-  app.use(bundle.middleware());
-}
-
+app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(compression());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(session(sessionSettings));
@@ -48,6 +39,15 @@ require('./models/db.js');
 const routes = require('./routes/routes.js');
 
 app.use('/', routes);
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('dist'));
+  sessionSettings.cookie.secure = true;
+} else {
+  const Parcel = require('parcel-bundler');
+  const bundle = new Parcel('public/index.html');
+  app.use(bundle.middleware());
+}
 
 app.listen(PORT, () => {
   console.log(`Express listening on port ${PORT}`);

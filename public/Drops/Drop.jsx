@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet/es/Helmet';
 import { withStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
@@ -8,9 +8,7 @@ import { List } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import DropDetails from './DropDetails';
 import Comment from './Comments';
-import image from '../Images/boxed-water-is-better-1463986-unsplash.jpg';
-
-import { testDrop, testComments } from './data';
+import CenteredCircularProgress from '../components/CenteredCircularProgress';
 
 const styles = theme => ({
   layout: {
@@ -24,50 +22,77 @@ const styles = theme => ({
       marginRight: 'auto',
     },
   },
-  paper: {
+  commentBox: {
     marginTop: theme.spacing.unit * 2,
   },
 });
 
 function Drop(props) {
-  const { classes } = props;
+  const {
+    match: { params },
+    classes,
+  } = props;
+
+  const [dropData, setDropData] = useState({});
+
+  useEffect(() => {
+    async function fetchData() {
+      const detailsRes = await fetch(`http://localhost:3000/api/comments/${params.dropId}`);
+      const commentsRes = await fetch(`http://localhost:3000/api/drops/byID/${params.dropId}`);
+      const details = await detailsRes.json();
+      const comments = await commentsRes.json();
+      const data = [details, comments];
+      await setDropData(data);
+    }
+    fetchData();
+  }, [params.dropId]);
+
   return (
     <React.Fragment>
       <Helmet>
         <title>Sustineo - Drops</title>
       </Helmet>
       <div className={classes.layout}>
-        <Grid container spacing={16}>
-          <Grid item xs={12} style={{ 'text-align': 'center' }}>
-            <img
-              style={{
-                'max-width': '100%',
-                'max-height': '50vh',
-              }}
-              src={image}
-              alt="food"
-            />
+        {!Object.keys(dropData).length ? (
+          <CenteredCircularProgress />
+        ) : (
+          <Grid container spacing={16}>
+            <Grid item xs={12} style={{ textAlign: 'center' }}>
+              <img
+                style={{
+                  maxWidth: '100%',
+                  maxHeight: '50vh',
+                }}
+                src={dropData[1].image}
+                alt="food"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <DropDetails {...dropData[1]} />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="h5">Comments</Typography>
+              <Paper className={classes.paper}>
+                {!dropData[0] ? (
+                  <Typography variant="h5">No comments</Typography>
+                ) : (
+                  <List>
+                    {dropData[0].map(comment => (
+                      <Comment {...comment} key={comment.timeOfPost} />
+                    ))}
+                  </List>
+                )}
+              </Paper>
+            </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <DropDetails {...testDrop} />
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant="h5">Comments</Typography>
-            <Paper className={classes.paper}>
-              <List>
-                {testComments.map(comment => (
-                  <Comment {...comment} />
-                ))}
-              </List>
-            </Paper>
-          </Grid>
-        </Grid>
+        )}
       </div>
     </React.Fragment>
   );
 }
 Drop.propTypes = {
   classes: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(Drop);

@@ -27,10 +27,17 @@ const styles = theme => ({
 });
 
 function Comment(props) {
-  const { classes, user, timeOfPost, content } = props;
+  const { classes, userId, timeOfPost, content } = props;
+  const options = {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+  };
 
   return (
-    <ListItem>
+    <ListItem key={timeOfPost}>
       <Grid container>
         <ListItemIcon>
           <ListItemAvatar>
@@ -43,13 +50,13 @@ function Comment(props) {
               primary: classes.listItemPrimaryText,
               secondary: classes.listItemSecondaryText,
             }}
-            primary={user}
+            primary={userId}
             secondary={content}
           />
         </Grid>
         <Grid item xs={12} sm={2}>
           <Typography component="p" align="right">
-            {timeOfPost}
+            {Intl.DateTimeFormat('en-AU', options).format(new Date(timeOfPost))}
           </Typography>
         </Grid>
       </Grid>
@@ -59,9 +66,9 @@ function Comment(props) {
 
 Comment.propTypes = {
   classes: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
-  timeOfPost: PropTypes.object.isRequired,
-  content: PropTypes.object.isRequired,
+  userId: PropTypes.string.isRequired,
+  timeOfPost: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
 };
 
 export default withStyles(styles)(Comment);
