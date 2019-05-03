@@ -1,14 +1,14 @@
 import { createMuiTheme } from '@material-ui/core/styles';
-import { green } from '@material-ui/core/colors';
 
 const defaultTheme = createMuiTheme({
   typography: {
     useNextVariants: true,
   },
 });
-const theme = createMuiTheme({
+export default createMuiTheme({
   palette: {
-    primary: green,
+    primary: { main: '#99CC66' },
+    secondary: { main: '#9966FF' },
   },
   typography: {
     useNextVariants: true,
@@ -26,5 +26,3 @@ const theme = createMuiTheme({
     },
   },
 });
-
-export default theme;

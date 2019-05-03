@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet/es/Helmet';
 import { withStyles } from '@material-ui/styles';
@@ -33,19 +34,32 @@ function Drop(props) {
     classes,
   } = props;
 
-  const [dropData, setDropData] = useState({});
+  const [dropData, setDropData] = useState(null);
 
+  // equivalent to React lifecycle method componentDidMount
   useEffect(() => {
-    async function fetchData() {
-      const detailsRes = await fetch(`http://localhost:3000/api/comments/${params.dropId}`);
-      const commentsRes = await fetch(`http://localhost:3000/api/drops/byID/${params.dropId}`);
-      const details = await detailsRes.json();
-      const comments = await commentsRes.json();
-      const data = [details, comments];
-      await setDropData(data);
-    }
-    fetchData();
-  }, [params.dropId]);
+    const source = axios.CancelToken.source();
+    (async () => {
+      try {
+        // await the result for all API calls run asynchronously (Promise.all)
+        const [details, comments] = await Promise.all([
+          axios.get(`/api/drops/byID/${params.dropId}`, { cancelToken: source.token }),
+          axios.get(`/api/comments/${params.dropId}`, { cancelToken: source.token }),
+        ]);
+        setDropData({ details: details.data, comments: comments.data });
+      } catch (err) {
+        if (!axios.isCancel(err)) {
+          console.error(err);
+        }
+      }
+    })();
+    // equivalent to componentDidUnmount
+    return () => {
+      // cancel API requests when component unmounted
+      source.cancel();
+    };
+    // only update if params.dropID (/drops/dropID in url) changes
+  }, [params.dropId]); // shouldComponentUpdate equivalent check
 
   return (
     <React.Fragment>
@@ -53,7 +67,7 @@ function Drop(props) {
         <title>Sustineo - Drops</title>
       </Helmet>
       <div className={classes.layout}>
-        {!Object.keys(dropData).length ? (
+        {!dropData ? (
           <CenteredCircularProgress />
         ) : (
           <Grid container spacing={16}>
@@ -63,22 +77,22 @@ function Drop(props) {
                   maxWidth: '100%',
                   maxHeight: '50vh',
                 }}
-                src={dropData[1].image}
+                src={dropData.details.image}
                 alt="food"
               />
             </Grid>
             <Grid item xs={12}>
-              <DropDetails {...dropData[1]} />
+              <DropDetails {...dropData.details} />
             </Grid>
             <Grid item xs={12}>
               <Typography variant="h5">Comments</Typography>
               <Paper className={classes.paper}>
-                {!dropData[0] ? (
+                {!dropData.comments ? (
                   <Typography variant="h5">No comments</Typography>
                 ) : (
                   <List>
-                    {dropData[0].map(comment => (
-                      <Comment {...comment} key={comment.timeOfPost} />
+                    {dropData.comments.map(comment => (
+                      <Comment {...comment} key={comment._id} />
                     ))}
                   </List>
                 )}

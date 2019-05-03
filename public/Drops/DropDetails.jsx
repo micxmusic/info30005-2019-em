@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -49,4 +49,4 @@ DropDetails.propTypes = {
   creator: PropTypes.string.isRequired,
 };
 
-export default withStyles(styles)(DropDetails);
+export default memo(withStyles(styles)(DropDetails));

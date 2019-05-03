@@ -28,6 +28,10 @@ const joinDrop = (req, res) => {
     dropId: mongoose.Types.ObjectId(req.body.dropId),
     participationType: req.body.participationType,
   });
+  newDrop
+    .save()
+    .then(result => res.send(result))
+    .catch(err => res.send(err));
   newDrop.save((err, participants) => {
     if (!err) {
       res.send(participants);

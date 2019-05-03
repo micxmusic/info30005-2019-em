@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
@@ -71,4 +71,4 @@ Comment.propTypes = {
   content: PropTypes.string.isRequired,
 };
 
-export default withStyles(styles)(Comment);
+export default memo(withStyles(styles)(Comment));

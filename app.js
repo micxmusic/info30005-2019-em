@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
+const db = require('./models/db.js');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -34,11 +35,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(session(sessionSettings));
 
-require('./models/db.js');
-
-const routes = require('./routes/routes.js');
-
-app.use('/', routes);
+app.use('/', require('./routes/routes.js'));
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('dist'));
@@ -49,6 +46,10 @@ if (process.env.NODE_ENV === 'production') {
   app.use(bundle.middleware());
 }
 
-app.listen(PORT, () => {
-  console.log(`Express listening on port ${PORT}`);
-});
+db.connectDb()
+  .then(() =>
+    app.listen(PORT, () => {
+      console.log(`Express listening on port ${PORT}`);
+    })
+  )
+  .catch(err => console.error(err));
