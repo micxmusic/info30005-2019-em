@@ -6,6 +6,7 @@ const dropSchema = mongoose.Schema({
   purchaseDate: Date,
   creator: String,
   description: String,
+  image: String,
 });
 
 mongoose.model('drops', dropSchema);

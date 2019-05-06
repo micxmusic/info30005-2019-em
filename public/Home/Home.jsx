@@ -1,21 +1,18 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { Helmet } from 'react-helmet/es/Helmet';
-import Grid from '@material-ui/core/Grid';
-import { withStyles } from '@material-ui/styles';
-import GlobalStyle from '../GlobalStyle';
+import { Grid } from '@material-ui/core';
+import { useTheme } from '@material-ui/styles';
 import Multiplying from './Multiplying';
 
-function Home(props) {
-  const { classes } = props;
+function Home() {
+  const theme = useTheme();
   return (
     <React.Fragment>
       <Helmet>
         <meta charset="utf-8" />
         <title>Sustineo</title>
       </Helmet>
-      <div className={classNames(classes.layout)}>
+      <div className={theme.layout}>
         <Grid container spacing={16} justify="center">
           <Grid item>
             <Multiplying aboveButtonText="This is above" buttonText="button 1" />
@@ -29,9 +26,4 @@ function Home(props) {
   );
 }
 
-Home.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(GlobalStyle)(Home);
-// export default Home;
+export default Home;
