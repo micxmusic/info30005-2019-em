@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Participant = mongoose.model('participation');
 
 const showUsersForDrop = (req, res) => {
-  Participant.find({ drop_id: req.params.drop_id }, (err, participants) => {
+  Participant.find({ dropId: req.params.dropId }, (err, participants) => {
     if (!err) {
       res.send(participants);
     } else {
@@ -13,7 +13,7 @@ const showUsersForDrop = (req, res) => {
 };
 
 const showDropsForUser = (req, res) => {
-  Participant.find({ user_id: req.params.user_id }, (err, participants) => {
+  Participant.find({ userId: req.params.userId }, (err, participants) => {
     if (!err) {
       res.send(participants);
     } else {
@@ -24,10 +24,14 @@ const showDropsForUser = (req, res) => {
 
 const joinDrop = (req, res) => {
   const newDrop = new Participant({
-    user_id: mongoose.Types.ObjectId(req.body.user_id),
-    drop_id: mongoose.Types.ObjectId(req.body.drop_id),
-    participation_type: req.body.participation_type,
+    userId: mongoose.Types.ObjectId(req.body.userId),
+    dropId: mongoose.Types.ObjectId(req.body.dropId),
+    participationType: req.body.participationType,
   });
+  newDrop
+    .save()
+    .then(result => res.send(result))
+    .catch(err => res.send(err));
   newDrop.save((err, participants) => {
     if (!err) {
       res.send(participants);

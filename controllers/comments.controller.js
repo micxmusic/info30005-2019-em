@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Comments = mongoose.model('comments');
 
 const showDropComments = (req, res) => {
-  Comments.find({ drop_id: req.params.drop_id }, (err, drop) => {
+  Comments.find({ dropId: req.params.dropId }, (err, drop) => {
     if (!err) {
       res.send(drop);
     } else {
@@ -14,8 +14,8 @@ const showDropComments = (req, res) => {
 
 const addDropComment = (req, res) => {
   const newComment = new Comments({
-    user_id: mongoose.Types.ObjectId(req.body.user_id),
-    drop_id: mongoose.Types.ObjectId(req.body.drop_id),
+    userId: mongoose.Types.ObjectId(req.body.userId),
+    dropId: mongoose.Types.ObjectId(req.body.dropId),
     content: req.body.content,
     inReplyTo: mongoose.Types.ObjectId(req.body.inReplyTo),
   });

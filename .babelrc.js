@@ -7,5 +7,12 @@ module.exports = {
         loose: true,
       },
     ],
+    [
+      '@babel/plugin-transform-runtime',
+      {
+        regenerator: true,
+      },
+    ],
+    '@babel/plugin-syntax-dynamic-import',
   ],
 };

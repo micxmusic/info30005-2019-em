@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
+const db = require('./models/db.js');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -27,6 +28,15 @@ const sessionSettings = {
   },
 };
 
+app.use(compression());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(session(sessionSettings));
+
+app.use('/', require('./routes/routes.js'));
+
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('dist'));
   sessionSettings.cookie.secure = true;
@@ -36,19 +46,10 @@ if (process.env.NODE_ENV === 'production') {
   app.use(bundle.middleware());
 }
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(compression());
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(session(sessionSettings));
-
-require('./models/db.js');
-
-const routes = require('./routes/routes.js');
-
-app.use('/', routes);
-
-app.listen(PORT, () => {
-  console.log(`Express listening on port ${PORT}`);
-});
+db.connectDb()
+  .then(() =>
+    app.listen(PORT, () => {
+      console.log(`Express listening on port ${PORT}`);
+    })
+  )
+  .catch(err => console.error(err));

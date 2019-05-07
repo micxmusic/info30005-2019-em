@@ -1,18 +1,32 @@
 import React from 'react';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import { ThemeProvider } from '@material-ui/styles';
+import { CssBaseline } from '@material-ui/core';
+import { ThemeProvider, withStyles } from '@material-ui/styles';
+import PropTypes from 'prop-types';
 import AppBar from './AppBar';
 import Routes from './Routes';
 import GlobalTheme from '../GlobalTheme';
 
-function App() {
+const styles = {
+  root: {
+    marginTop: 64,
+  },
+};
+
+function App(props) {
+  const { classes } = props;
   return (
     <ThemeProvider theme={GlobalTheme}>
       <CssBaseline />
       <AppBar />
-      <Routes />
+      <div className={classes.root}>
+        <Routes />
+      </div>
     </ThemeProvider>
   );
 }
 
-export default App;
+App.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(App);

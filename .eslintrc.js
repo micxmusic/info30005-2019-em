@@ -14,7 +14,7 @@ module.exports = {
       experimentalObjectRestSpread: true,
     },
   },
-  plugins: ['html', 'prettier', 'promise'],
+  plugins: ['html', 'prettier', 'promise', 'react-hooks'],
   rules: {
     'prettier/prettier': [
       'error',
@@ -29,6 +29,8 @@ module.exports = {
       1,
       { forbid: ['any', 'array'], checkContextTypes: false, checkChildContextTypes: false },
     ],
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn',
   },
   overrides: [
     {
