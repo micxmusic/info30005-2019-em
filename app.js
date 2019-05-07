@@ -5,6 +5,7 @@ const passport = require('passport');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const db = require('./models/db.js');
+const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -35,16 +36,24 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(session(sessionSettings));
 
-app.use('/', require('./routes/routes.js'));
-
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('dist'));
   sessionSettings.cookie.secure = true;
+  app.use(express.static('dist'));
+  app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, '/./dist/index.html'));
+  });
 } else {
-  const Parcel = require('parcel-bundler');
-  const bundle = new Parcel('public/index.html');
-  app.use(bundle.middleware());
+  const webpack = require('webpack');
+  const webpackDevMiddleware = require('webpack-dev-middleware');
+  const webpackHotMiddleware = require('webpack-hot-middleware');
+  const config = require('./webpack.dev.js');
+  const compiler = webpack(config);
+
+  app.use(webpackDevMiddleware(compiler));
+  app.use(webpackHotMiddleware(compiler));
 }
+
+app.use('/', require('./routes/routes.js'));
 
 db.connectDb()
   .then(() =>
