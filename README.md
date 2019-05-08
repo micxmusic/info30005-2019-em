@@ -11,7 +11,7 @@ Ensure that a .env file is created with the following
 
 ```
 NODE_ENV=<development/production>
-MONGO_URI='mongodb+srv://<username>:<password>@<server>'
+MONGO_URI=mongodb+srv://<username>:<password>@<server>
 PORT=<default 3000>
 SECRET=<securely generated>
 ```
@@ -19,6 +19,7 @@ SECRET=<securely generated>
 ### Production
 
 ```sh
+npm run build
 npm start
 ```
 

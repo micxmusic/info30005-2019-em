@@ -1,43 +1,49 @@
 const express = require('express');
+const path = require('path');
 const compression = require('compression');
 const bodyParser = require('body-parser');
 const passport = require('passport');
-const session = require('express-session');
-const MongoDBStore = require('connect-mongodb-session')(session);
+const passportJWT = require('passport-jwt');
+
 const db = require('./models/db.js');
-const path = require('path');
+const Account = require('./models/account');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+const { ExtractJwt } = passportJWT;
+const JwtStrategy = passportJWT.Strategy;
 
 if (!process.env.MONGO_URI) {
   throw new Error('MONGO_URI not defined in env');
 }
 
-const store = new MongoDBStore({
-  uri: process.env.MONGO_URI,
-  collection: 'sessions',
-});
-const sessionSettings = {
-  store,
-  secret: process.env.SECRET || '9Ipebao4fF11XFizc92pFmSTp8I=',
-  saveUninitialized: false,
-  resave: false,
-  cookie: {
-    maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
-    secure: false,
-  },
-};
-
 app.use(compression());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
-app.use(passport.session());
-app.use(session(sessionSettings));
+
+passport.use(Account.createStrategy());
+passport.serializeUser(Account.serializeUser());
+passport.deserializeUser(Account.deserializeUser());
+
+passport.use(
+  new JwtStrategy(
+    {
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      secretOrKey: process.env.SECRET,
+    },
+    async (token, done) => {
+      try {
+        return done(null, await Account.findById(token.id));
+      } catch (error) {
+        return done(error);
+      }
+    }
+  )
+);
 
 if (process.env.NODE_ENV === 'production') {
-  sessionSettings.cookie.secure = true;
   app.use(express.static('dist'));
   app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, '/./dist/index.html'));
@@ -53,7 +59,8 @@ if (process.env.NODE_ENV === 'production') {
   app.use(webpackHotMiddleware(compiler));
 }
 
-app.use('/', require('./routes/routes.js'));
+app.use('/', require('./routes/auth.routes.js'));
+app.use('/', passport.authenticate('jwt', { session: false }), require('./routes/routes.js'));
 
 db.connectDb()
   .then(() =>
