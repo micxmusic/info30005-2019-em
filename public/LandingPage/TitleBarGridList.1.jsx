@@ -4,14 +4,14 @@ import { withStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
+import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
 import image from './Pictures/tomatos.jpg';
 import image1 from './Pictures/carrots.jpg';
 import image2 from './Pictures/cherries.jpg';
 import image3 from './Pictures/onion.jpg';
-import Link from '@material-ui/core/Link';
-
+import Paper from '@material-ui/core/Paper';
 const styles = theme => ({
   root: {
     display: 'flex',
@@ -20,7 +20,7 @@ const styles = theme => ({
     overflow: 'hidden',
     paddingBottom: theme.spacing.unit * 2,
     margin: `${theme.spacing.unit * 9}px ${theme.spacing.unit * 9}px ${theme.spacing.unit *
-      5}px  ${theme.spacing.unit * 1}px`,
+      5}px  ${theme.spacing.unit * 3}px`,
   },
   gridList: {
     width: 500,
@@ -64,6 +64,11 @@ const tileData = [
     title: 'Cherries for sale',
     author: 'test',
   },
+  {
+    img: image3,
+    title: 'Onions for sale',
+    author: 'test1',
+  },
 ];
 function TitlebarGridList(props) {
   const { classes } = props;
@@ -75,17 +80,15 @@ function TitlebarGridList(props) {
         {tileData.map(tile => (
           <GridListTile key={tile.img}>
             <img src={tile.img} alt={tile.title} />
-            <Link href={'about:blank'} className={classes.link}>
-              <GridListTileBar
-                title={tile.title}
-                subtitle={<span>by: {tile.author}</span>}
-                actionIcon={
-                  <IconButton className={classes.icon}>
-                    <InfoIcon />
-                  </IconButton>
-                }
-              />
-            </Link>
+            <GridListTileBar
+              title={tile.title}
+              subtitle={<span>by: {tile.author}</span>}
+              actionIcon={
+                <IconButton className={classes.icon}>
+                  <InfoIcon />
+                </IconButton>
+              }
+            />
           </GridListTile>
         ))}
       </GridList>

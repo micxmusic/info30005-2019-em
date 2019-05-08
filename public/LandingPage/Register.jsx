@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Avatar from '@material-ui/core/Avatar';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import InputAdornment from '@material-ui/core/InputAdornment';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -71,18 +68,11 @@ function Register(props) {
           autoComplete="email"
           margin="normal"
           variant="outlined"
+          fullWidth
         />
 
-        <TextField
-          required
-          id="outlined-password-input"
-          label="Password"
-          className={classes.textField}
-          type="password"
-          name="password"
-          margin="normal"
-          variant="outlined"
-        />
+        <HiddenPassword />
+
         <Button
           type="submit"
           fullWidth

@@ -145,7 +145,7 @@ class PrimarySearchAppBar extends React.Component {
     const sideList = (
       <div className={classes.list}>
         <List>
-          <ListItem button key="Index" component={Link} to="/">
+          <ListItem button key="Index" component={Link} to="/landing">
             <ListItemIcon>
               <Home />
             </ListItemIcon>
@@ -243,7 +243,7 @@ class PrimarySearchAppBar extends React.Component {
             <Button
               className={classes.title}
               component={Link}
-              to="/"
+              to="/landing"
               style={{ textTransform: 'none' }}
             >
               <Typography variant="h5" color="inherit" noWrap>

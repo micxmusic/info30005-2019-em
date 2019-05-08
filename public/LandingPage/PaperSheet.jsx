@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { withStyles } from '@material-ui/styles';
 import { Paper, Typography } from '@material-ui/core';
 
@@ -8,8 +7,14 @@ import { Paper, Typography } from '@material-ui/core';
 const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    overflow: 'hidden',
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
+    margin: `${theme.spacing.unit * 9}px ${theme.spacing.unit * 20}px ${theme.spacing.unit *
+      9}px  ${theme.spacing.unit * 14}px`,
   },
 });
 
@@ -17,14 +22,14 @@ function PaperSheet(props) {
   const { classes, titleText, bodyText } = props;
 
   return (
-    <div>
+    <React.Fragment>
       <Paper className={classes.root} elevation={1}>
         <Typography variant="h5" component="h3">
           {titleText}
         </Typography>
         <Typography component="p">{bodyText}</Typography>
       </Paper>
-    </div>
+    </React.Fragment>
   );
 }
 PaperSheet.propTypes = {

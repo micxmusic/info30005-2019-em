@@ -1,18 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import PropTypes, { func } from 'prop-types';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-
+import HiddenPassword from './HiddenPassword';
 const styles = theme => ({
   main: {
     width: 'auto',
@@ -51,7 +49,6 @@ function SignIn(props) {
   return (
     <main className={classes.main}>
       <CssBaseline />
-      {/*<Paper className={classes.paper}>*/}
       <Avatar className={classes.avatar}>
         <LockOutlinedIcon />
       </Avatar>
@@ -61,27 +58,35 @@ function SignIn(props) {
             Sign in
           </Typography>
         </Grid>
-        <Grid item xs={8}>
-          <Button
-            href="#text-buttons"
-            colour="secondary"
-            variant="outlined"
-            size="small"
-            className={classes.button}
-          >
-            Or register as a new user
-          </Button>
-        </Grid>
+        <Grid item xs={8} />
       </Grid>
       <form className={classes.form}>
-        <FormControl margin="normal" required fullWidth>
-          <InputLabel htmlFor="email">Email Address</InputLabel>
-          <Input id="email" name="email" autoComplete="email" autoFocus />
-        </FormControl>
-        <FormControl margin="normal" required fullWidth>
-          <InputLabel htmlFor="password">Password</InputLabel>
-          <Input name="password" type="password" id="password" autoComplete="current-password" />
-        </FormControl>
+        <TextField
+          required
+          id="outlined-username-input"
+          label="Username"
+          className={classes.textField}
+          type="username"
+          name="username"
+          autoComplete="name"
+          margin="normal"
+          variant="outlined"
+        />
+
+        <TextField
+          required
+          id="outlined-email-input"
+          label="Email"
+          className={classes.textField}
+          type="email"
+          name="email"
+          autoComplete="email"
+          margin="normal"
+          variant="outlined"
+          fullWidth
+        />
+
+        <HiddenPassword />
         <FormControlLabel
           control={<Checkbox value="remember" color="primary" />}
           label="Remember me"
