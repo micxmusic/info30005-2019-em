@@ -1,8 +1,8 @@
-import React, { memo } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
-  AppBar,
+  AppBar as MaterialAppBar,
   Button,
   Drawer,
   Toolbar,
@@ -21,14 +21,18 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 import {
   AccountCircle,
   Chat,
+  ExitToApp,
   Home,
-  ShoppingBasket,
   Menu as MenuIcon,
   MoreVert,
-  VerticalAlignBottom,
   Notifications,
+  PersonAdd,
+  PowerSettingsNew,
   Search,
+  ShoppingBasket,
+  VerticalAlignBottom,
 } from '@material-ui/icons';
+import { AuthContext } from './AuthContext';
 
 const styles = theme => ({
   root: {
@@ -107,150 +111,176 @@ const styles = theme => ({
   },
 });
 
-class PrimarySearchAppBar extends React.Component {
-  state = {
-    anchorEl: null,
-    drawer: false,
-    mobileMoreAnchorEl: null,
+function AppBar(props) {
+  const { classes, history } = props;
+  const { token, setUser, setToken } = useContext(AuthContext);
+  const [drawer, setDrawer] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+
+  const isDrawerOpen = Boolean(drawer);
+  const isMenuOpen = Boolean(anchorEl);
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const toggleDrawer = () => {
+    setDrawer(!drawer);
   };
 
-  toggleDrawer = () => {
-    this.setState({ drawer: !this.state.drawer });
+  const handleProfileMenuOpen = event => {
+    setAnchorEl(event.currentTarget);
   };
 
-  handleProfileMenuOpen = event => {
-    this.setState({ anchorEl: event.currentTarget });
+  const handleMobileMenuOpen = event => {
+    setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  handleMenuClose = () => {
-    this.setState({ anchorEl: null });
-    this.handleMobileMenuClose();
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
   };
 
-  handleMobileMenuOpen = event => {
-    this.setState({ mobileMoreAnchorEl: event.currentTarget });
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    handleMobileMenuClose();
   };
 
-  handleMobileMenuClose = () => {
-    this.setState({ mobileMoreAnchorEl: null });
+  const logout = () => {
+    handleMenuClose();
+    handleMobileMenuClose();
+    history.push('/');
+    setUser({});
+    setToken('');
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
   };
 
-  render() {
-    const { anchorEl, drawer, mobileMoreAnchorEl } = this.state;
-    const { classes } = this.props;
-    const isDrawerOpen = Boolean(drawer);
-    const isMenuOpen = Boolean(anchorEl);
-    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const sideList = (
+    <div className={classes.list}>
+      <List>
+        <ListItem button key="Index" component={Link} to="/">
+          <ListItemIcon>
+            <Home />
+          </ListItemIcon>
+          <ListItemText primary="Index" />
+        </ListItem>
+        {token ? (
+          <>
+            <ListItem button key="Marketplace" component={Link} to="/marketplace">
+              <ListItemIcon>
+                <ShoppingBasket />
+              </ListItemIcon>
+              <ListItemText primary="Marketplace" />
+            </ListItem>
+            <ListItem button key="Drop" component={Link} to="/drop">
+              <ListItemIcon>
+                <VerticalAlignBottom />
+              </ListItemIcon>
+              <ListItemText primary="Drop" />
+            </ListItem>
+          </>
+        ) : (
+          <>
+            <ListItem button key="Login" component={Link} to="/login">
+              <ListItemIcon>
+                <ExitToApp />
+              </ListItemIcon>
+              <ListItemText primary="Login" />
+            </ListItem>
+            <ListItem button key="Register" component={Link} to="/register">
+              <ListItemIcon>
+                <PersonAdd />
+              </ListItemIcon>
+              <ListItemText primary="Register" />
+            </ListItem>
+          </>
+        )}
+      </List>
+    </div>
+  );
 
-    const sideList = (
-      <div className={classes.list}>
-        <List>
-          <ListItem button key="Index" component={Link} to="/">
-            <ListItemIcon>
-              <Home />
-            </ListItemIcon>
-            <ListItemText primary="Index" />
-          </ListItem>
-          <ListItem button key="Marketplace" component={Link} to="/marketplace">
-            <ListItemIcon>
-              <ShoppingBasket />
-            </ListItemIcon>
-            <ListItemText primary="Marketplace" />
-          </ListItem>
-          <ListItem button key="Drop" component={Link} to="/drop">
-            <ListItemIcon>
-              <VerticalAlignBottom />
-            </ListItemIcon>
-            <ListItemText primary="Drop" />
-          </ListItem>
-        </List>
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleMenuClose} component={Link} to="/profile">
+        Profile
+      </MenuItem>
+      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={logout}>Logout</MenuItem>
+    </Menu>
+  );
+
+  const renderMobileMenu = (
+    <Menu
+      anchorEl={mobileMoreAnchorEl}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={isMobileMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleMobileMenuClose}>
+        <IconButton color="inherit">
+          <Chat />
+        </IconButton>
+        <p>Messages</p>
+      </MenuItem>
+      <MenuItem onClick={handleMobileMenuClose}>
+        <IconButton color="inherit">
+          <Notifications />
+        </IconButton>
+        <p>Notifications</p>
+      </MenuItem>
+      <MenuItem onClick={handleMobileMenuClose} component={Link} to="/profile">
+        <IconButton color="inherit">
+          <AccountCircle />
+        </IconButton>
+        <p>Profile</p>
+      </MenuItem>
+      <MenuItem onClick={logout}>
+        <IconButton color="inherit">
+          <PowerSettingsNew />
+        </IconButton>
+        <p>Logout</p>
+      </MenuItem>
+    </Menu>
+  );
+
+  const mobileDrawer = (
+    <Drawer open={isDrawerOpen} onClose={toggleDrawer}>
+      <div tabIndex={0} role="button" onClick={toggleDrawer} onKeyDown={toggleDrawer}>
+        {sideList}
       </div>
-    );
+    </Drawer>
+  );
 
-    const renderMenu = (
-      <Menu
-        anchorEl={anchorEl}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        open={isMenuOpen}
-        onClose={this.handleMenuClose}
-      >
-        <MenuItem onClick={this.handleMenuClose} component={Link} to="/profile">
-          Profile
-        </MenuItem>
-        <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
-      </Menu>
-    );
-
-    const renderMobileMenu = (
-      <Menu
-        anchorEl={mobileMoreAnchorEl}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        open={isMobileMenuOpen}
-        onClose={this.handleMenuClose}
-      >
-        <MenuItem onClick={this.handleMobileMenuClose}>
-          <IconButton color="inherit">
-            <Chat />
+  return (
+    <div className={classes.root}>
+      {mobileDrawer}
+      <MaterialAppBar position="fixed" className={classes.appBar}>
+        <Toolbar>
+          <IconButton
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="Open drawer"
+            onClick={toggleDrawer}
+          >
+            <MenuIcon />
           </IconButton>
-          <p>Messages</p>
-        </MenuItem>
-        <MenuItem onClick={this.handleMobileMenuClose}>
-          <IconButton color="inherit">
-            <Notifications />
-          </IconButton>
-          <p>Notifications</p>
-        </MenuItem>
-        <MenuItem onClick={this.handleMobileMenuClose} component={Link} to="/profile">
-          <IconButton color="inherit">
-            <AccountCircle />
-          </IconButton>
-          <p>Profile</p>
-        </MenuItem>
-        {/*
-        <MenuItem onClick={this.handleProfileMenuOpen}>
-          <IconButton color="inherit" component={Link} to="/profile">
-            <AccountCircle />
-          </IconButton>
-          <p>Profile</p>
-        </MenuItem>
-        */}
-      </Menu>
-    );
-
-    const mobileDrawer = (
-      <Drawer open={isDrawerOpen} onClose={this.toggleDrawer}>
-        <div tabIndex={0} role="button" onClick={this.toggleDrawer} onKeyDown={this.toggleDrawer}>
-          {sideList}
-        </div>
-      </Drawer>
-    );
-
-    return (
-      <div className={classes.root}>
-        {mobileDrawer}
-        <AppBar position="fixed" className={classes.appBar}>
-          <Toolbar>
-            <IconButton
-              className={classes.menuButton}
-              color="inherit"
-              aria-label="Open drawer"
-              onClick={this.toggleDrawer}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Button
-              className={classes.title}
-              component={Link}
-              to="/"
-              style={{ textTransform: 'none' }}
-            >
-              <Typography variant="h5" color="inherit" noWrap>
-                Sustineo
-              </Typography>
-            </Button>
-            <div className={classes.grow} />
+          <Button
+            className={classes.title}
+            component={Link}
+            to="/"
+            style={{ textTransform: 'none' }}
+          >
+            <Typography variant="h5" color="inherit" noWrap>
+              Sustineo
+            </Typography>
+          </Button>
+          <div className={classes.grow} />
+          {token ? (
             <div className={classes.search}>
               <div className={classes.searchIcon}>
                 <Search />
@@ -265,50 +295,70 @@ class PrimarySearchAppBar extends React.Component {
                 }}
               />
             </div>
-            <div className={classes.grow} />
-            <div className={classes.sectionDesktop}>
-              <Button component={Link} to="/marketplace">
-                Marketplace
-              </Button>
-              <Button component={Link} to="/drop">
-                Drop
-              </Button>
-              <IconButton color="inherit">
-                <Chat />
-              </IconButton>
-              <IconButton color="inherit">
-                <Notifications />
-              </IconButton>
-              <IconButton
-                aria-owns={isMenuOpen ? 'material-appbar' : undefined}
-                aria-haspopup="true"
-                onClick={this.handleProfileMenuOpen}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-            </div>
+          ) : (
+            <></>
+          )}
+          <div className={classes.grow} />
+          <div className={classes.sectionDesktop}>
+            {token ? (
+              <>
+                <Button component={Link} to="/marketplace">
+                  Marketplace
+                </Button>
+                <Button component={Link} to="/drop/5cb2c5b2e46ea361bcbe13de">
+                  Drop
+                </Button>
+                <IconButton color="inherit">
+                  <Chat />
+                </IconButton>
+                <IconButton color="inherit">
+                  <Notifications />
+                </IconButton>
+                <IconButton
+                  aria-owns={isMenuOpen ? 'material-appbar' : undefined}
+                  aria-haspopup="true"
+                  onClick={handleProfileMenuOpen}
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>
+              </>
+            ) : (
+              <>
+                <Button component={Link} to="/login">
+                  Login
+                </Button>
+                <Button component={Link} to="/register">
+                  Register
+                </Button>
+              </>
+            )}
+          </div>
+          {token ? (
             <div className={classes.sectionMobile}>
               <IconButton
                 aria-haspopup="true"
-                onClick={this.handleMobileMenuOpen}
+                onClick={handleMobileMenuOpen}
                 aria-label="User Menu"
                 color="inherit"
               >
                 <MoreVert />
               </IconButton>
             </div>
-          </Toolbar>
-        </AppBar>
-        {renderMenu}
-        {renderMobileMenu}
-      </div>
-    );
-  }
+          ) : (
+            <></>
+          )}
+        </Toolbar>
+      </MaterialAppBar>
+      {renderMenu}
+      {renderMobileMenu}
+    </div>
+  );
 }
 
-PrimarySearchAppBar.propTypes = {
+AppBar.propTypes = {
   classes: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
-export default memo(withStyles(styles)(PrimarySearchAppBar));
+export default withRouter(withStyles(styles)(AppBar));

@@ -1,7 +1,6 @@
 const express = require('express');
 const path = require('path');
 const compression = require('compression');
-const bodyParser = require('body-parser');
 const passport = require('passport');
 const passportJWT = require('passport-jwt');
 
@@ -19,8 +18,8 @@ if (!process.env.MONGO_URI) {
 }
 
 app.use(compression());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(passport.initialize());
 
 passport.use(Account.createStrategy());
@@ -43,6 +42,9 @@ passport.use(
   )
 );
 
+app.use('/api', require('./routes/auth.routes.js'));
+app.use('/api', passport.authenticate('jwt', { session: false }), require('./routes/routes.js'));
+
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('dist'));
   app.get('/*', (req, res) => {
@@ -58,9 +60,6 @@ if (process.env.NODE_ENV === 'production') {
   app.use(webpackDevMiddleware(compiler));
   app.use(webpackHotMiddleware(compiler));
 }
-
-app.use('/', require('./routes/auth.routes.js'));
-app.use('/', passport.authenticate('jwt', { session: false }), require('./routes/routes.js'));
 
 db.connectDb()
   .then(() =>

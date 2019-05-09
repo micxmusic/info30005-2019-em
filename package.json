@@ -47,7 +47,8 @@
     "react-swipeable-views": "^0.13.1",
     "require-dir": "^1.2.0",
     "styled-components": "^4.2.0",
-    "typeface-roboto": "0.0.54"
+    "typeface-roboto": "0.0.54",
+    "validator": "^10.11.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",

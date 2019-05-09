@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Helmet } from 'react-helmet/es/Helmet';
 import { withStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import DropDetails from './DropDetails';
 import Comment from './Comments';
 import CenteredCircularProgress from '../components/CenteredCircularProgress';
+import { AuthContext } from '../components/AuthContext';
 
 const styles = theme => ({
   layout: {
@@ -35,16 +36,23 @@ function Drop(props) {
   } = props;
 
   const [dropData, setDropData] = useState(null);
-
+  const { user, token } = useContext(AuthContext);
   // equivalent to React lifecycle method componentDidMount
   useEffect(() => {
     const source = axios.CancelToken.source();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      cancelToken: source.token,
+    };
     (async () => {
       try {
+        console.log(token);
         // await the result for all API calls run asynchronously (Promise.all)
         const [details, comments] = await Promise.all([
-          axios.get(`/api/drops/byID/${params.dropId}`, { cancelToken: source.token }),
-          axios.get(`/api/comments/${params.dropId}`, { cancelToken: source.token }),
+          axios.get(`/api/drops/byID/${params.dropId}`, config),
+          axios.get(`/api/comments/${params.dropId}`, config),
         ]);
         setDropData({ details: details.data, comments: comments.data });
       } catch (err) {
