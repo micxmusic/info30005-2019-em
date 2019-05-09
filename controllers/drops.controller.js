@@ -45,7 +45,7 @@ const pullLastDrop = (req, res) => {
     .limit(1)
     .exec((err, drop) => {
       if (!err) {
-        res.send(drop);
+        res.send([drop]);
       } else {
         res.sendStatus(404);
       }

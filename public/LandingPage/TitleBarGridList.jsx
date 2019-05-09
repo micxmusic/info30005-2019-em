@@ -1,4 +1,5 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
@@ -11,6 +12,7 @@ import image1 from './Pictures/carrots.jpg';
 import image2 from './Pictures/cherries.jpg';
 import image3 from './Pictures/onion.jpg';
 import Link from '@material-ui/core/Link';
+import CenteredCircularProgress from '../components/CenteredCircularProgress';
 
 const styles = theme => ({
   root: {
@@ -65,29 +67,59 @@ const tileData = [
     author: 'test',
   },
 ];
+
 function TitlebarGridList(props) {
   const { classes } = props;
+
+  const [dropData, setDropData] = useState(null);
+  // getting stuff
+  useEffect(() => {
+    const source = axios.CancelToken.source();
+    (async () => {
+      try {
+        // await the result for all API calls run asynchronously (Promise.all)
+        const [details] = await Promise.all([
+          axios.get(`/api/drops/mostRecent`, { cancelToken: source.token }),
+        ]);
+        setDropData({ details: details.data });
+      } catch (err) {
+        if (!axios.isCancel(err)) {
+          console.error(err);
+        }
+      }
+    })();
+    // equivalent to componentDidUnmount
+    return () => {
+      // cancel API requests when component unmounted
+      source.cancel();
+    };
+    // only update if params.dropID (/drops/dropID in url) changes
+  }, []); // shouldComponentUpdate equivalent check
 
   return (
     <div className={classes.root}>
       {/* <Paper className={classes.paper}> */}
       <GridList cellHeight={180} className={classes.gridList}>
-        {tileData.map(tile => (
-          <GridListTile key={tile.img}>
-            <img src={tile.img} alt={tile.title} />
-            <Link href={'about:blank'} className={classes.link}>
-              <GridListTileBar
-                title={tile.title}
-                subtitle={<span>by: {tile.author}</span>}
-                actionIcon={
-                  <IconButton className={classes.icon}>
-                    <InfoIcon />
-                  </IconButton>
-                }
-              />
-            </Link>
-          </GridListTile>
-        ))}
+        {!dropData ? (
+          <CenteredCircularProgress />
+        ) : (
+          dropData.details.map(tile => (
+            <GridListTile key={tile.image}>
+              <img src={tile.image} alt={tile.name} />
+              <Link href={`/drop/${tile._id}`} className={classes.link}>
+                <GridListTileBar
+                  title={tile.name}
+                  subtitle={<span>by: {tile.creator}</span>}
+                  actionIcon={
+                    <IconButton className={classes.icon}>
+                      <InfoIcon />
+                    </IconButton>
+                  }
+                />
+              </Link>
+            </GridListTile>
+          ))
+        )}
       </GridList>
       {/* </Paper> */}
     </div>
