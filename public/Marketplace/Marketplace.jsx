@@ -14,6 +14,7 @@ import MarketplaceDrop from './MarketplaceDrop';
 import DropDetails from 'C:/Users/meagh/Desktop/info30005-2019-em/public/Drops/DropDetails.jsx'
 import PopOver from './PopOver';
 import { Description } from '@material-ui/icons';
+import CenteredCircularProgress from '../components/CenteredCircularProgress';
 
 
 const styles = theme => ({
@@ -110,8 +111,11 @@ function Marketplace(props) {
           
             {cards.map(card => (
               <Grid item key={card} sm={6} md={4} lg={3}>
-              
+              {!dropData ? (
+          <CenteredCircularProgress />
+        ) : (
                 <MarketplaceDrop {...creator} {...name} {...price} {...description}/>
+        )}
               </Grid>
             ))}
           </Grid>

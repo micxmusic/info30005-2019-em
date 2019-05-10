@@ -53,11 +53,7 @@ function MarketplaceDrop(props) {
 
 MarketplaceDrop.propTypes = {
   classes: PropTypes.object.isRequired,
-  name: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  
-  creator: PropTypes.string.isRequired,
+     
   
 };
 
