@@ -26,16 +26,18 @@ const styles = {
 
 function MarketplaceDrop(props) {
 
-  const { classes, name, description, price, purchaseDate, creator } = props;
- // const {name}= props.name;
- // const {creator}= props.creator;
+  const { classes,description, purchaseDate} = props;
+  const name= props.name;
+  const creator= props.creator;
+  const price = props.price;
+
  // const {price}= props.price;
  
 
   return (
     <Card className={classes.card}>
       <CardContent>
-        <Typography component="p">{`Creator: ${creator}`}</Typography>
+        <Typography component="p">{`Name: ${name}`}</Typography>
         <Typography component="p">{`Creator: ${creator}`}</Typography>
          <Typography component="p">{`Price: ${price}`}</Typography>
         
