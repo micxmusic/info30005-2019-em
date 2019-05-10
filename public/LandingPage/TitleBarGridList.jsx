@@ -5,15 +5,13 @@ import { withStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
+import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
-import image from './Pictures/tomatos.jpg';
-import image1 from './Pictures/carrots.jpg';
-import image2 from './Pictures/cherries.jpg';
-import image3 from './Pictures/onion.jpg';
 import Link from '@material-ui/core/Link';
 import CenteredCircularProgress from '../components/CenteredCircularProgress';
 
+// Theme settings in order to keep the title bar spaced appropriately
 const styles = theme => ({
   root: {
     display: 'flex',
@@ -33,7 +31,7 @@ const styles = theme => ({
   },
 });
 
-/**
+/** For static data, just in case
  * The example data is structured as follows:
  *
  * import image from 'path/to/image.jpg';
@@ -50,29 +48,16 @@ const styles = theme => ({
  *   },
  * ];
  */
-const tileData = [
-  {
-    img: image,
-    title: 'Fresh Tomatoes at Vic Market',
-    author: 'freshfoodie48',
-  },
-  {
-    img: image1,
-    title: 'Carrots at local Sunday Market',
-    author: 'sallyM',
-  },
-  {
-    img: image2,
-    title: 'Cherries for sale',
-    author: 'test',
-  },
-];
 
+// Optional array for including static data
+const tileData = [];
+
+// Beginning of the sample drops on the landing page
 function TitlebarGridList(props) {
   const { classes } = props;
 
   const [dropData, setDropData] = useState(null);
-  // getting stuff
+  // getting data from the database
   useEffect(() => {
     const source = axios.CancelToken.source();
     (async () => {
@@ -98,14 +83,21 @@ function TitlebarGridList(props) {
 
   return (
     <div className={classes.root}>
-      {/* <Paper className={classes.paper}> */}
-      <GridList cellHeight={180} className={classes.gridList}>
+      {/* Creating the grid */}
+      <GridList cellHeight={160} className={classes.gridList}>
+        <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
+          <ListSubheader color="inherit" component="div">
+            Some of our latest drops!
+          </ListSubheader>
+        </GridListTile>
+        {/*  Show a loading symbol if drops don't load else, if drop array loads, feed it into the tiles */}
         {!dropData ? (
           <CenteredCircularProgress />
         ) : (
           dropData.details.map(tile => (
             <GridListTile key={tile.image}>
               <img src={tile.image} alt={tile.name} />
+              {/* Feed relevant drop details in from data base, and link tile to the drop's page */}
               <Link href={`/drop/${tile._id}`} className={classes.link}>
                 <GridListTileBar
                   title={tile.name}
@@ -121,7 +113,6 @@ function TitlebarGridList(props) {
           ))
         )}
       </GridList>
-      {/* </Paper> */}
     </div>
   );
 }

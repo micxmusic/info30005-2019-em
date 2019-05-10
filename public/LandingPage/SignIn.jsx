@@ -62,6 +62,7 @@ function SignIn(props) {
       </Grid>
       <form className={classes.form}>
         <TextField
+          InputLabelProps={{ shrink: true }}
           required
           id="outlined-username-input"
           label="Username"
@@ -74,6 +75,7 @@ function SignIn(props) {
         />
 
         <TextField
+          InputLabelProps={{ shrink: true }}
           required
           id="outlined-email-input"
           label="Email"

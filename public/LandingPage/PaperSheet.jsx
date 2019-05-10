@@ -17,10 +17,9 @@ const styles = theme => ({
       9}px  ${theme.spacing.unit * 14}px`,
   },
 });
-
+// Defines a paper sheet where text can be placed
 function PaperSheet(props) {
   const { classes, titleText, bodyText } = props;
-
   return (
     <React.Fragment>
       <Paper className={classes.root} elevation={1}>

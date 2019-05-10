@@ -47,6 +47,7 @@ function Register(props) {
 
       <form className={classes.container} noValidate autoComplete="on">
         <TextField
+          InputLabelProps={{ shrink: true }}
           required
           id="outlined-username-input"
           label="Username"
@@ -59,6 +60,7 @@ function Register(props) {
         />
 
         <TextField
+          InputLabelProps={{ shrink: true }}
           required
           id="outlined-email-input"
           label="Email"

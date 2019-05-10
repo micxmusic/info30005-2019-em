@@ -40,12 +40,12 @@ const findDrop = (req, res) => {
 };
 
 const pullLastDrop = (req, res) => {
-  Drop.findOne()
+  Drop.find()
     .sort({ date: -1 })
-    .limit(1)
-    .exec((err, drop) => {
+    .limit(4)
+    .exec((err, drops) => {
       if (!err) {
-        res.send([drop]);
+        res.send(drops);
       } else {
         res.sendStatus(404);
       }

@@ -1,14 +1,11 @@
 import React from 'react';
-import classNames from 'classnames';
 import IconButton from '@material-ui/core/IconButton';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { TextField } from '@material-ui/core';
-//TODO still need to implement this class and fix it
+
 class HiddenPassword extends React.Component {
   state = {
     password: '',
@@ -27,13 +24,15 @@ class HiddenPassword extends React.Component {
     const { classes } = this.props;
 
     return (
-      <FormControl /*className={classNames(classes.margin, classes.textField)}*/>
-        {/* <InputLabel htmlFor="adornment-password">Password</InputLabel> */}
+      <FormControl>
+        {/* Put in text boxes for input */}
         <TextField
+          InputLabelProps={{ shrink: true }}
           required
           id="outlined-adornment-password"
           variant="outlined"
           margin="normal"
+          /* Handle the switch for password visibility*/
           type={this.state.showPassword ? 'text' : 'password'}
           label="Password"
           value={this.state.password}
