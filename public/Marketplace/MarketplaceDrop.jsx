@@ -26,13 +26,14 @@ const styles = {
 
 function MarketplaceDrop(props) {
 
-  const { classes,description, purchaseDate} = props;
+  const { classes} = props;
+  const dropId= props.dropId;
   const name= props.name;
   const creator= props.creator;
   const price = props.price;
 
  // const {price}= props.price;
- 
+
 
   return (
     <Card className={classes.card}>
@@ -44,7 +45,7 @@ function MarketplaceDrop(props) {
         
       </CardContent>
       <CardActions>
-        <Button size="small">Learn More</Button>
+        <Button size="small">Go to Drop</Button>
       </CardActions>
     </Card>
   );
@@ -52,6 +53,11 @@ function MarketplaceDrop(props) {
 
 MarketplaceDrop.propTypes = {
   classes: PropTypes.object.isRequired,
+  name: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  
+  creator: PropTypes.string.isRequired,
   
 };
 

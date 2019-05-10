@@ -64,7 +64,7 @@ function Marketplace(props) {
       try {
         // await the result for all API calls run asynchronously (Promise.all)
         const [details] = await Promise.all([
-          axios.get(`/api/drops/byID/5cd3d4c51c9d440000e64c7f`, { cancelToken: source.token }),
+          axios.get(`/api/drops/mostRecent`, { cancelToken: source.token }),
         ]);
         name = details.name;
         description = details.description;

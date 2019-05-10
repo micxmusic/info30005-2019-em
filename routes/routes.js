@@ -16,5 +16,6 @@ router.post('/api/drops', dropsController.createDrop);
 router.get('/api/drops', dropsController.findAllDrops);
 router.get('/api/drops/byID/:id', dropsController.findDrop);
 router.get('/api/drops/byName/:name', dropsController.findDropByName);
+router.get('/api/drops/mostRecent', dropsController.pullLastDrop);
 
 module.exports = router;
