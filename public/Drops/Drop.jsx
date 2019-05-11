@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState, useContext } from 'react';
-import { Helmet } from 'react-helmet/es/Helmet';
+import { Helmet } from 'react-helmet';
 import { withStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
@@ -35,7 +35,7 @@ function Drop(props) {
     classes,
   } = props;
 
-  const [dropData, setDropData] = useState(null);
+  const [dropData, setDropData] = useState({ details: {}, comments: [] });
   const { user, token } = useContext(AuthContext);
   // equivalent to React lifecycle method componentDidMount
   useEffect(() => {
@@ -48,7 +48,6 @@ function Drop(props) {
     };
     (async () => {
       try {
-        console.log(token);
         // await the result for all API calls run asynchronously (Promise.all)
         const [details, comments] = await Promise.all([
           axios.get(`/api/drops/byID/${params.dropId}`, config),
@@ -67,7 +66,7 @@ function Drop(props) {
       source.cancel();
     };
     // only update if params.dropID (/drops/dropID in url) changes
-  }, [params.dropId]); // shouldComponentUpdate equivalent check
+  }, [token, params.dropId]); // shouldComponentUpdate equivalent check
 
   return (
     <React.Fragment>
@@ -75,7 +74,7 @@ function Drop(props) {
         <title>Sustineo - Drops</title>
       </Helmet>
       <div className={classes.layout}>
-        {!dropData ? (
+        {!dropData.details._id ? (
           <CenteredCircularProgress />
         ) : (
           <Grid container spacing={16}>
