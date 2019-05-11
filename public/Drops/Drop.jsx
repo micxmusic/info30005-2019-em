@@ -108,7 +108,9 @@ function Drop(props) {
             <Grid item xs={12}>
               <Typography variant="h5">Comments</Typography>
               <Paper className={classes.paper}>
-                <NewComment dropId={params.dropId} updateCommentList={updateCommentList} />
+                {token ? (
+                  <NewComment dropId={params.dropId} updateCommentList={updateCommentList} />
+                ) : null}
                 {!commentList ? (
                   <Typography variant="h5">No comments</Typography>
                 ) : (
