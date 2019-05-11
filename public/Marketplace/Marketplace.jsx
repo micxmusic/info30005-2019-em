@@ -57,21 +57,18 @@ function Marketplace(props) {
     classes,
   } = props;
 
-  const [dropData,name, description, price, purchaseDate, creator] = useState(null);
+  const [details, dropData,name, description, price, purchaseDate, creator] = useState(null);
 
   useEffect(() => {
     const source = axios.CancelToken.source();
     (async () => {
       try {
         // await the result for all API calls run asynchronously (Promise.all)
-        const [details] = await Promise.all([
-          axios.get(`/api/drops/mostRecent`, { cancelToken: source.token }),
+        const [drops] = await Promise.all([
+          axios.get(`/api/drops`, { cancelToken: source.token }),
         ]);
-        name = details.name;
-        description = details.description;
-        price = details.price;
-        purchaseDate = details.purchaseDate;
-        creator = details.creator;
+        var details = JSON.parse(drops);
+        console.log("yes");
         
       } catch (err) {
         if (!axios.isCancel(err)) {
@@ -84,8 +81,8 @@ function Marketplace(props) {
       // cancel API requests when component unmounted
       source.cancel();
     };
-    // only update if params.dropID (/drops/dropID in url) changes
-  }, [params.dropId]); // shouldComponentUpdate equivalent check
+    
+  }, []); 
 
 
   return (
