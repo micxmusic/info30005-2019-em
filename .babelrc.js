@@ -7,6 +7,7 @@ module.exports = {
         loose: true,
       },
     ],
+    'react-hot-loader/babel',
     [
       '@babel/plugin-transform-runtime',
       {

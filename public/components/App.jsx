@@ -1,3 +1,4 @@
+import { hot } from 'react-hot-loader/root';
 import React from 'react';
 import { CssBaseline } from '@material-ui/core';
 import { ThemeProvider, withStyles } from '@material-ui/styles';
@@ -29,4 +30,4 @@ App.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(App);
+export default withStyles(styles)(hot(App));

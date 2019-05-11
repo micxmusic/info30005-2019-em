@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const commentSchema = mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, required: true },
+  name: { type: String, required: true },
   dropId: { type: mongoose.Schema.Types.ObjectId, required: true },
   content: { type: String, required: true },
   pinned: { type: Boolean, default: false },

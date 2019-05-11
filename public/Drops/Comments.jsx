@@ -26,7 +26,7 @@ const styles = theme => ({
 });
 
 function Comment(props) {
-  const { classes, userId, timeOfPost, content } = props;
+  const { classes, name, timeOfPost, content } = props;
   const options = {
     year: 'numeric',
     month: 'numeric',
@@ -49,7 +49,7 @@ function Comment(props) {
               primary: classes.listItemPrimaryText,
               secondary: classes.listItemSecondaryText,
             }}
-            primary={userId}
+            primary={name}
             secondary={content}
           />
         </Grid>
@@ -65,7 +65,7 @@ function Comment(props) {
 
 Comment.propTypes = {
   classes: PropTypes.object.isRequired,
-  userId: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   timeOfPost: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
 };

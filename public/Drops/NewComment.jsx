@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { memo, useState } from 'react';
+import React, { memo, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -10,10 +10,10 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { ListItem } from '@material-ui/core';
 import image from '../Images/cat.jpg';
+import { AuthContext } from '../components/AuthContext';
 
 const styles = theme => ({
   root: {
-    // ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
   },
@@ -22,6 +22,7 @@ const styles = theme => ({
 function NewComment(props) {
   const { classes, dropId, updateCommentList } = props;
   const [formData, setFormData] = useState({ comment: '' });
+  const { user, token } = useContext(AuthContext);
 
   const handleChange = event => {
     setFormData({ [event.target.name]: event.target.value });
@@ -29,12 +30,22 @@ function NewComment(props) {
 
   const handleSubmit = async event => {
     event.preventDefault();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
-      await axios.post('/api/comments', {
-        userId: '5ca1b58d1c9d440000c6d7e1',
-        dropId,
-        content: formData.comment,
-      });
+      await axios.post(
+        '/api/comments',
+        {
+          userId: user.userId,
+          name: user.name,
+          dropId,
+          content: formData.comment,
+        },
+        config
+      );
       setFormData({ comment: '' });
       await updateCommentList();
     } catch (err) {

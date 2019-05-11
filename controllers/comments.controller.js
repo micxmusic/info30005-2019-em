@@ -16,6 +16,7 @@ const showDropComments = async (req, res) => {
 const addDropComment = async (req, res) => {
   const newComment = new Comments({
     userId: mongoose.Types.ObjectId(req.body.userId),
+    name: req.body.name,
     dropId: mongoose.Types.ObjectId(req.body.dropId),
     content: req.body.content,
     inReplyTo: mongoose.Types.ObjectId(req.body.inReplyTo),

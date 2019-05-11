@@ -1,5 +1,5 @@
 import React from 'react';
-import { Helmet } from 'react-helmet/es/Helmet';
+import { Helmet } from 'react-helmet';
 import { Grid } from '@material-ui/core';
 import { useTheme } from '@material-ui/styles';
 import Multiplying from './Multiplying';

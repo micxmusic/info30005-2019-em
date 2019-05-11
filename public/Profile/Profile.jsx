@@ -1,9 +1,9 @@
 import React, { memo, Suspense } from 'react';
+import { Helmet } from 'react-helmet';
 import SwipeableViews from 'react-swipeable-views';
 import PropTypes from 'prop-types';
 import { Hidden, Paper, Tab, Tabs } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
-import { Helmet } from 'react-helmet/es/Helmet';
 
 import BottomNav from './BottomNav';
 import CenteredCircularProgress from '../components/CenteredCircularProgress';
