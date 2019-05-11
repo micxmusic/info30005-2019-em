@@ -14,7 +14,6 @@ const styles = theme => ({
     ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
-    margin: `${0}px ${0}px ${0}px  ${0}px`,
   },
   listItemPrimaryText: {
     fontSize: '0.7em',
