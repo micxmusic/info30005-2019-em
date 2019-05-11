@@ -9,6 +9,7 @@ import { List } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import DropDetails from './DropDetails';
 import Comment from './Comments';
+import NewComment from './NewComment';
 import CenteredCircularProgress from '../components/CenteredCircularProgress';
 
 const styles = theme => ({
@@ -35,6 +36,12 @@ function Drop(props) {
   } = props;
 
   const [dropData, setDropData] = useState(null);
+
+  const newCommentCallback = async () => {
+    const comments = await axios.get(`/api/comments/${params.dropId}`);
+    console.log(comments);
+    setDropData({ details: dropData.details, comments: comments.data });
+  };
 
   // equivalent to React lifecycle method componentDidMount
   useEffect(() => {
@@ -87,6 +94,7 @@ function Drop(props) {
             <Grid item xs={12}>
               <Typography variant="h5">Comments</Typography>
               <Paper className={classes.paper}>
+                <NewComment dropId={params.dropId} newCommentCallback={newCommentCallback} />
                 {!dropData.comments ? (
                   <Typography variant="h5">No comments</Typography>
                 ) : (
