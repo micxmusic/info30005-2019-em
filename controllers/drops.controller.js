@@ -39,6 +39,19 @@ const findDrop = (req, res) => {
   });
 };
 
+const pullLastDrop = (req, res) => {
+  Drop.find()
+    .sort({ date: -1 })
+    .limit(4)
+    .exec((err, drops) => {
+      if (!err) {
+        res.send(drops);
+      } else {
+        res.sendStatus(404);
+      }
+    });
+};
+
 const findDropByName = (req, res) => {
   Drop.find({ name: req.params.name }, (err, drop) => {
     if (!err) {
@@ -53,3 +66,4 @@ module.exports.createDrop = createDrop;
 module.exports.findAllDrops = findAllDrops;
 module.exports.findDrop = findDrop;
 module.exports.findDropByName = findDropByName;
+module.exports.pullLastDrop = pullLastDrop;

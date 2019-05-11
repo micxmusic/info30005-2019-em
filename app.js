@@ -46,8 +46,12 @@ passport.use(
   )
 );
 
-app.use('/api', require('./routes/auth.routes.js'));
-app.use('/api', passport.authenticate('jwt', { session: false }), require('./routes/routes.js'));
+app.use('/api', require('./routes/public.routes.js'));
+app.use(
+  '/api',
+  passport.authenticate('jwt', { session: false }),
+  require('./routes/protected.routes.js')
+);
 
 if (process.env.NODE_ENV === 'production') {
   app.disable('x-powered-by');

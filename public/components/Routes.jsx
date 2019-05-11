@@ -4,7 +4,7 @@ import CenteredCircularProgress from './CenteredCircularProgress';
 import PrivateRoute from './PrivateRoute';
 import Drop from '../Drops/Drop';
 
-const Home = React.lazy(() => import('../Home/Home'));
+const LandingPage = React.lazy(() => import('../LandingPage/LandingPage'));
 const Marketplace = React.lazy(() => import('../Marketplace/Marketplace'));
 const Profile = React.lazy(() => import('../Profile/Profile'));
 const Login = React.lazy(() => import('./Login'));
@@ -15,7 +15,7 @@ function Routes() {
   return (
     <Suspense fallback={<CenteredCircularProgress />}>
       <Switch>
-        <Route exact path="/" component={Home} />
+        <Route exact path="/" component={LandingPage} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
         <PrivateRoute exact path="/marketplace" component={Marketplace} />
