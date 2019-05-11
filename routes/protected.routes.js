@@ -11,6 +11,7 @@ router.post('/participate', participantController.joinDrop);
 
 router.post('/comments', commentsController.addDropComment);
 
+router.post('/drops/signUpload', dropsController.signUploadReq);
 router.post('/drops', dropsController.createDrop);
 router.get('/drops', dropsController.findAllDrops);
 router.get('/drops/byName/:name', dropsController.findDropByName);

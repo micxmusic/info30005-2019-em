@@ -2,10 +2,11 @@ import axios from 'axios';
 import React, { memo, useContext, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { withStyles } from '@material-ui/styles';
-import { Button, Grid, InputAdornment, TextField } from '@material-ui/core';
+import { Button, Grid, InputAdornment, LinearProgress, TextField } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import validator from 'validator';
+import ReactS3Uploader from 'react-s3-uploader';
 import { AuthContext } from '../components/AuthContext';
 
 const styles = theme => ({
@@ -43,7 +44,13 @@ function NewDrop(props) {
     description: '',
   });
   const [errorFlag, setErrorFlag] = useState(false);
+  const [progress, setProgress] = useState(undefined);
   const { token } = useContext(AuthContext);
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
 
   const handleChange = event => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -54,14 +61,13 @@ function NewDrop(props) {
 
   const handleSubmit = async event => {
     event.preventDefault();
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
     if (!validator.isCurrency(formData.price, { allow_negatives: false })) {
       setFormData({ ...formData, price: '' });
       setErrorFlag(true);
+      return;
+    }
+    if (formData.image && progress !== 100) {
+      return;
     }
     try {
       const newDrop = await axios.post(
@@ -71,14 +77,32 @@ function NewDrop(props) {
           price: formData.price,
           purchaseDate: formData.purchaseDate,
           description: formData.description,
+          image: formData.image,
         },
         config
       );
       history.push(`/drop/${newDrop.data._id}`);
-      setFormData({ name: '', price: '', purchaseDate: '', description: '' });
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const getSignedUrl = (file, callback) => {
+    axios
+      .post('/api/drops/signUpload', { fileType: file.type }, config)
+      .then(res => {
+        setFormData({ ...formData, image: res.data.url });
+        callback(res.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+  const onUploadProgress = event => {
+    setProgress(event);
+  };
+  const onUploadFinish = event => {
+    setProgress(100);
   };
 
   return (
@@ -152,6 +176,26 @@ function NewDrop(props) {
               onChange={handleChange}
             />
           </Grid>
+          {progress === undefined ? null : (
+            <LinearProgress variant="determinate" value={progress} />
+          )}
+          <Button
+            variant="contained"
+            component="label"
+            color="secondary"
+            className={classes.button}
+          >
+            Upload Image
+            <ReactS3Uploader
+              getSignedUrl={getSignedUrl}
+              accept="image/*"
+              s3path="/"
+              onProgress={onUploadProgress}
+              onFinish={onUploadFinish}
+              contentDisposition="auto"
+              style={{ display: 'none' }}
+            />
+          </Button>
           <Grid item>
             <Button type="submit" variant="contained" color="primary" className={classes.button}>
               Submit

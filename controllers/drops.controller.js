@@ -1,7 +1,39 @@
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
+const aws = require('aws-sdk');
+const uuidv4 = require('uuid/v4');
+
+const { S3_BUCKET_NAME } = process.env;
+
+aws.config.update({
+  region: 'ap-southeast-2',
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+});
 
 const Drop = mongoose.model('drops');
+
+const signUploadReq = (req, res) => {
+  const s3 = new aws.S3();
+  const { fileType } = req.body;
+  const s3Params = {
+    Bucket: S3_BUCKET_NAME,
+    Key: uuidv4(),
+    Expires: 60,
+    ContentType: fileType,
+    ACL: 'public-read',
+  };
+  s3.getSignedUrl('putObject', s3Params, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.sendStatus(400);
+    }
+    return res.json({
+      signedUrl: data,
+      url: `https://${S3_BUCKET_NAME}.s3.amazonaws.com/${s3Params.Key}`,
+    });
+  });
+};
 
 const createDrop = (req, res) => {
   const userToken = jwt.verify(req.headers.authorization.split(' ')[1], process.env.SECRET);
@@ -11,6 +43,7 @@ const createDrop = (req, res) => {
     purchaseDate: req.body.purchaseDate,
     creator: userToken.name,
     description: req.body.description,
+    image: req.body.image,
   });
   drop.save((err, newDrop) => {
     if (!err) {
@@ -64,6 +97,7 @@ const findDropByName = (req, res) => {
   });
 };
 
+module.exports.signUploadReq = signUploadReq;
 module.exports.createDrop = createDrop;
 module.exports.findAllDrops = findAllDrops;
 module.exports.findDrop = findDrop;
