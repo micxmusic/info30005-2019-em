@@ -6,6 +6,7 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const Visualizer = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const WebpackAssetsManifest = require('webpack-assets-manifest');
 
 module.exports = merge.smart(common, {
   mode: 'production',
@@ -46,5 +47,6 @@ module.exports = merge.smart(common, {
       },
     }),
     new Visualizer({ analyzerMode: 'static' }),
+    new WebpackAssetsManifest({ integrity: true }),
   ],
 });

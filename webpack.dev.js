@@ -10,6 +10,7 @@ module.exports = merge.smart(common, {
   ],
   output: {
     path: path.join(__dirname, 'dist'),
+    publicPath: '/',
     filename: './bundle.js',
   },
   target: 'web',

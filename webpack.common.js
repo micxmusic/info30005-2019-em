@@ -1,12 +1,15 @@
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
+const SriPlugin = require('webpack-subresource-integrity');
 
 module.exports = {
   entry: [`${path.resolve(__dirname, 'public')}/index.js`],
   output: {
     path: path.join(__dirname, 'dist'),
+    publicPath: '/',
     filename: '[name].bundle.js',
+    crossOriginLoading: 'anonymous',
   },
   target: 'web',
   module: {
@@ -46,14 +49,6 @@ module.exports = {
           },
         ],
       },
-      {
-        test: /\.html$/,
-        use: [
-          {
-            loader: 'html-loader',
-          },
-        ],
-      },
     ],
   },
   resolve: {
@@ -71,6 +66,10 @@ module.exports = {
         quality: '95-100',
       },
       cacheFolder: path.resolve('./cache'),
+    }),
+    new SriPlugin({
+      hashFuncNames: ['sha384'],
+      enabled: process.env.NODE_ENV === 'production',
     }),
   ],
 };
