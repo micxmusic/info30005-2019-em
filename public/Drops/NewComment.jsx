@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
 import axios from 'axios';
+import React, { memo, useState } from 'react';
+import PropTypes from 'prop-types';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import { withStyles } from '@material-ui/core/styles';
@@ -19,7 +20,7 @@ const styles = theme => ({
 });
 
 function NewComment(props) {
-  const { classes, dropId, newCommentCallback } = props;
+  const { classes, dropId, updateCommentList } = props;
   const [formData, setFormData] = useState({ comment: '' });
 
   const handleChange = event => {
@@ -29,14 +30,13 @@ function NewComment(props) {
   const handleSubmit = async event => {
     event.preventDefault();
     try {
-      console.log(dropId);
       await axios.post('/api/comments', {
         userId: '5ca1b58d1c9d440000c6d7e1',
         dropId,
         content: formData.comment,
       });
       setFormData({ comment: '' });
-      newCommentCallback();
+      await updateCommentList();
     } catch (err) {
       console.log(err);
     }
@@ -78,4 +78,10 @@ function NewComment(props) {
   );
 }
 
-export default withStyles(styles)(NewComment);
+NewComment.propTypes = {
+  classes: PropTypes.object.isRequired,
+  dropId: PropTypes.string.isRequired,
+  updateCommentList: PropTypes.func.isRequired,
+};
+
+export default memo(withStyles(styles)(NewComment));

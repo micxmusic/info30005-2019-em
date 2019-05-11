@@ -22,18 +22,15 @@ function DropDetails(props) {
         {name}
       </Typography>
       <Grid container>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={6}>
           <Typography component="p">{description}</Typography>
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={6}>
           <Typography component="p">{`Creator: ${creator}`}</Typography>
           <Typography component="p">{`Price: ${price}`}</Typography>
           <Typography component="p">
             {`Drop ends: ${Intl.DateTimeFormat().format(new Date(purchaseDate))}`}
           </Typography>
-        </Grid>
-        <Grid item xs={12} sm={4}>
-          <Typography component="p">INSERT LIST OF VOLUNTEERS HERE</Typography>
         </Grid>
       </Grid>
     </Paper>
