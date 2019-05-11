@@ -70,6 +70,7 @@ function NewComment(props) {
               name="comment"
               multiline
               fullWidth
+              required
               rows="4"
               placeholder="Type your comment here"
               value={formData.comment}
