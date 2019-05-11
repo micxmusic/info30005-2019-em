@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet/es/Helmet';
 import { withStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
@@ -35,16 +35,18 @@ function Drop(props) {
     classes,
   } = props;
 
-  const [dropData, setDropData] = useState(null);
+  const [dropDetails, setDropDetails] = useState(null);
+  const [commentList, setCommentList] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const newCommentCallback = async () => {
+  const updateCommentList = useCallback(async () => {
     const comments = await axios.get(`/api/comments/${params.dropId}`);
-    console.log(comments);
-    setDropData({ details: dropData.details, comments: comments.data });
-  };
+    setCommentList(comments.data);
+  }, [params.dropId]);
 
   // equivalent to React lifecycle method componentDidMount
   useEffect(() => {
+    setLoading(true);
     const source = axios.CancelToken.source();
     (async () => {
       try {
@@ -53,7 +55,9 @@ function Drop(props) {
           axios.get(`/api/drops/byID/${params.dropId}`, { cancelToken: source.token }),
           axios.get(`/api/comments/${params.dropId}`, { cancelToken: source.token }),
         ]);
-        setDropData({ details: details.data, comments: comments.data });
+        setDropDetails(details.data);
+        setCommentList(comments.data);
+        setLoading(false);
       } catch (err) {
         if (!axios.isCancel(err)) {
           console.error(err);
@@ -70,11 +74,9 @@ function Drop(props) {
 
   return (
     <React.Fragment>
-      <Helmet>
-        <title>Sustineo - Drops</title>
-      </Helmet>
+      <Helmet title={`Sustineo - Drop${dropDetails ? ' - '.concat(dropDetails.name) : ''}`} />
       <div className={classes.layout}>
-        {!dropData ? (
+        {loading ? (
           <CenteredCircularProgress />
         ) : (
           <Grid container spacing={16}>
@@ -84,22 +86,22 @@ function Drop(props) {
                   maxWidth: '100%',
                   maxHeight: '50vh',
                 }}
-                src={dropData.details.image}
+                src={dropDetails.image}
                 alt="food"
               />
             </Grid>
             <Grid item xs={12}>
-              <DropDetails {...dropData.details} />
+              <DropDetails {...dropDetails} />
             </Grid>
             <Grid item xs={12}>
               <Typography variant="h5">Comments</Typography>
               <Paper className={classes.paper}>
-                <NewComment dropId={params.dropId} newCommentCallback={newCommentCallback} />
-                {!dropData.comments ? (
+                <NewComment dropId={params.dropId} updateCommentList={updateCommentList} />
+                {!commentList ? (
                   <Typography variant="h5">No comments</Typography>
                 ) : (
                   <List>
-                    {dropData.comments.map(comment => (
+                    {commentList.map(comment => (
                       <Comment {...comment} key={comment._id} />
                     ))}
                   </List>
