@@ -1,35 +1,32 @@
-import React, { useContext, useState } from 'react';
 import axios from 'axios';
+import React, { useContext, useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
   Avatar,
   Button,
   CircularProgress,
   FormControl,
+  IconButton,
   Input,
+  InputAdornment,
   InputLabel,
   Paper,
   Snackbar,
+  TextField,
   Typography,
   withStyles,
 } from '@material-ui/core';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { AuthContext } from './AuthContext';
+import { LockOutlined, Visibility, VisibilityOff } from '@material-ui/icons';
+import { AuthContext } from '../components/AuthContext';
 
 const styles = theme => ({
   main: {
     width: 'auto',
     display: 'block', // Fix IE 11 issue.
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-      width: 400,
-      marginLeft: 'auto',
-      marginRight: 'auto',
-    },
   },
   paper: {
-    marginTop: theme.spacing.unit * 8,
+    // marginTop: theme.spacing.unit * 4,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -61,7 +58,8 @@ const styles = theme => ({
 
 function Login(props) {
   const { classes, history } = props;
-  const [form, setForm] = useState({ username: '', password: '' });
+  const [formData, setForm] = useState({ username: '', password: '' });
+  const [showPassword, setShowPassword] = useState(false);
   const [snackbar, setSnackbar] = useState({ open: false, message: '' });
   const [loading, setLoading] = useState(false);
 
@@ -70,7 +68,7 @@ function Login(props) {
   const onFormChange = async event => {
     const { target } = event;
     const { name, value } = target;
-    setForm({ ...form, [name]: value });
+    setForm({ ...formData, [name]: value });
   };
 
   const submitForm = async event => {
@@ -78,8 +76,8 @@ function Login(props) {
     setLoading(true);
     try {
       const res = await axios.post('/api/login', {
-        username: form.username,
-        password: form.password,
+        username: formData.email,
+        password: formData.password,
       });
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('user', JSON.stringify(res.data.user));
@@ -93,6 +91,10 @@ function Login(props) {
     }
   };
 
+  const togglePassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   const handleClose = () => {
     setSnackbar({ open: false });
   };
@@ -100,35 +102,46 @@ function Login(props) {
   return (
     <main className={classes.main}>
       <Paper className={classes.paper}>
+        {/*<Paper>*/}
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
+          <LockOutlined />
         </Avatar>
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
         <form className={classes.form} onSubmit={submitForm}>
           <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="username">Username/Email Address</InputLabel>
+            <InputLabel htmlFor="username">Email Address</InputLabel>
             <Input
               error={snackbar.open}
-              id="username"
-              name="username"
-              autoComplete="username"
+              id="email"
+              name="email"
+              autoComplete="email"
               autoFocus
               onChange={onFormChange}
             />
           </FormControl>
-          <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="password">Password</InputLabel>
-            <Input
-              error={snackbar.open}
-              name="password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              onChange={onFormChange}
-            />
-          </FormControl>
+          <TextField
+            required
+            fullWidth
+            error={snackbar.open}
+            type={showPassword ? 'text' : 'password'}
+            value={formData.password}
+            id="password"
+            name="password"
+            label="Password"
+            autoComplete="current-password"
+            onChange={onFormChange}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton aria-label="Toggle password visibility" onClick={togglePassword}>
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
           <div className={classes.wrapper}>
             <Button
               type="submit"
@@ -158,4 +171,4 @@ Login.propTypes = {
   history: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Login);
+export default withRouter(withStyles(styles)(Login));

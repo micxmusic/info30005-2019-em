@@ -6,7 +6,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
-import SignIn from './SignIn';
+import Login from './Login';
 import Register from './Register';
 
 // Defines a tab component where different pages can be accessed via tabs
@@ -53,8 +53,9 @@ class FullWidthTabs extends React.Component {
     const { classes, theme, tabOneText, tabTwoText } = this.props;
     // Start code to produce tabs and containers
     return (
-      <div className={classes.root}>
-        {/* Defines tabs at the top */}
+      // <div className={classes.root}>
+      // Defines tabs at the top
+      <>
         <AppBar position="relative" color="default" style={{ zIndex: '0' }}>
           <Tabs
             value={this.state.value}
@@ -74,15 +75,16 @@ class FullWidthTabs extends React.Component {
           onChangeIndex={this.handleChangeIndex}
         >
           <TabContainer dir={theme.direction}>
-            {/* Places the sign in form in one tab*/}
-            <SignIn />
+            {/* Places the sign in form in one tab */}
+            <Login />
           </TabContainer>
           <TabContainer dir={theme.direction}>
-            {/* Places the register form in one tab*/}
+            {/* Places the register form in one tab */}
             <Register />
           </TabContainer>
         </SwipeableViews>
-      </div>
+      </>
+      /* </div> */
     );
   }
 }

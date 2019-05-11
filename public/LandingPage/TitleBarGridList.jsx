@@ -1,14 +1,15 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import IconButton from '@material-ui/core/IconButton';
+import {
+  GridList,
+  GridListTile,
+  GridListTileBar,
+  IconButton,
+} from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
-import Link from '@material-ui/core/Link';
 import CenteredCircularProgress from '../components/CenteredCircularProgress';
 
 // Theme settings in order to keep the title bar spaced appropriately
@@ -18,13 +19,11 @@ const styles = theme => ({
     flexWrap: 'wrap',
     justifyContent: 'space-around',
     overflow: 'hidden',
-    paddingBottom: theme.spacing.unit * 2,
-    margin: `${theme.spacing.unit * 9}px ${theme.spacing.unit * 9}px ${theme.spacing.unit *
-      5}px  ${theme.spacing.unit * 1}px`,
+    paddingTop: theme.spacing.unit,
   },
   gridList: {
-    width: 500,
-    height: 450,
+    width: '100%',
+    height: 408,
   },
   icon: {
     color: 'rgba(255, 255, 255, 0.54)',
@@ -83,36 +82,31 @@ function TitlebarGridList(props) {
 
   return (
     <div className={classes.root}>
+      {/*<Paper className={classes.paper}>*/}
       {/* Creating the grid */}
-      <GridList cellHeight={160} className={classes.gridList}>
-        <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
-          <ListSubheader color="inherit" component="div">
-            Some of our latest drops!
-          </ListSubheader>
-        </GridListTile>
+      <GridList cellHeight={200} className={classes.gridList}>
         {/*  Show a loading symbol if drops don't load else, if drop array loads, feed it into the tiles */}
         {!dropData ? (
           <CenteredCircularProgress />
         ) : (
           dropData.details.map(tile => (
-            <GridListTile key={tile.image}>
+            <GridListTile key={tile._id} component={Link} to={`/drop/${tile._id}`}>
               <img src={tile.image} alt={tile.name} />
               {/* Feed relevant drop details in from data base, and link tile to the drop's page */}
-              <Link href={`/drop/${tile._id}`} className={classes.link}>
-                <GridListTileBar
-                  title={tile.name}
-                  subtitle={<span>by: {tile.creator}</span>}
-                  actionIcon={
-                    <IconButton className={classes.icon}>
-                      <InfoIcon />
-                    </IconButton>
-                  }
-                />
-              </Link>
+              <GridListTileBar
+                title={tile.name}
+                subtitle={<span>by:{tile.creator}</span>}
+                actionIcon={
+                  <IconButton className={classes.icon}>
+                    <InfoIcon />
+                  </IconButton>
+                }
+              />
             </GridListTile>
           ))
         )}
       </GridList>
+      {/*</Paper>*/}
     </div>
   );
 }
