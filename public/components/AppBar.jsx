@@ -170,11 +170,11 @@ function AppBar(props) {
               </ListItemIcon>
               <ListItemText primary="Marketplace" />
             </ListItem>
-            <ListItem button key="Drop" component={Link} to="/drop">
+            <ListItem button key="New Drop" component={Link} to="/newdrop">
               <ListItemIcon>
                 <VerticalAlignBottom />
               </ListItemIcon>
-              <ListItemText primary="Drop" />
+              <ListItemText primary="New Drop" />
             </ListItem>
           </>
         ) : (
@@ -305,8 +305,8 @@ function AppBar(props) {
                 <Button component={Link} to="/marketplace">
                   Marketplace
                 </Button>
-                <Button component={Link} to="/drop/5cb2c5b2e46ea361bcbe13de">
-                  Drop
+                <Button component={Link} to="/newdrop">
+                  New Drop
                 </Button>
                 <IconButton color="inherit">
                   <Chat />

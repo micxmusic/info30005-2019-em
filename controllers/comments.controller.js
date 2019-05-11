@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 
 const Comments = mongoose.model('comments');
 
@@ -14,9 +15,10 @@ const showDropComments = async (req, res) => {
 };
 
 const addDropComment = async (req, res) => {
+  const userToken = jwt.verify(req.headers.authorization.split(' ')[1], process.env.SECRET);
   const newComment = new Comments({
-    userId: mongoose.Types.ObjectId(req.body.userId),
-    name: req.body.name,
+    userId: mongoose.Types.ObjectId(userToken.id),
+    name: userToken.name,
     dropId: mongoose.Types.ObjectId(req.body.dropId),
     content: req.body.content,
     inReplyTo: mongoose.Types.ObjectId(req.body.inReplyTo),

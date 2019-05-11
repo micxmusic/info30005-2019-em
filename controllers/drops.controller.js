@@ -1,13 +1,15 @@
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 
 const Drop = mongoose.model('drops');
 
 const createDrop = (req, res) => {
+  const userToken = jwt.verify(req.headers.authorization.split(' ')[1], process.env.SECRET);
   const drop = new Drop({
     name: req.body.name,
     price: req.body.price,
     purchaseDate: req.body.purchaseDate,
-    creator: req.body.creator,
+    creator: userToken.name,
     description: req.body.description,
   });
   drop.save((err, newDrop) => {

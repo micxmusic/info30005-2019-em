@@ -22,7 +22,7 @@ const styles = theme => ({
 function NewComment(props) {
   const { classes, dropId, updateCommentList } = props;
   const [formData, setFormData] = useState({ comment: '' });
-  const { user, token } = useContext(AuthContext);
+  const { token } = useContext(AuthContext);
 
   const handleChange = event => {
     setFormData({ [event.target.name]: event.target.value });
@@ -39,8 +39,6 @@ function NewComment(props) {
       await axios.post(
         '/api/comments',
         {
-          userId: user.userId,
-          name: user.name,
           dropId,
           content: formData.comment,
         },

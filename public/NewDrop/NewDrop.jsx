@@ -1,11 +1,12 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { memo, useContext, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { withStyles } from '@material-ui/styles';
 import { Button, Grid, InputAdornment, TextField } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import validator from 'validator';
+import { AuthContext } from '../components/AuthContext';
 
 const styles = theme => ({
   layout: {
@@ -42,6 +43,7 @@ function NewDrop(props) {
     description: '',
   });
   const [errorFlag, setErrorFlag] = useState(false);
+  const { token } = useContext(AuthContext);
 
   const handleChange = event => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -52,18 +54,26 @@ function NewDrop(props) {
 
   const handleSubmit = async event => {
     event.preventDefault();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     if (!validator.isCurrency(formData.price, { allow_negatives: false })) {
       setFormData({ ...formData, price: '' });
       setErrorFlag(true);
     }
     try {
-      const newDrop = await axios.post('/api/drops', {
-        creator: '5ca1b58d1c9d440000c6d7e1',
-        name: formData.name,
-        price: formData.price,
-        purchaseDate: formData.purchaseDate,
-        description: formData.description,
-      });
+      const newDrop = await axios.post(
+        '/api/drops',
+        {
+          name: formData.name,
+          price: formData.price,
+          purchaseDate: formData.purchaseDate,
+          description: formData.description,
+        },
+        config
+      );
       history.push(`/drop/${newDrop.data._id}`);
       setFormData({ name: '', price: '', purchaseDate: '', description: '' });
     } catch (err) {
@@ -155,6 +165,7 @@ function NewDrop(props) {
 
 NewDrop.propTypes = {
   classes: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(NewDrop);
+export default memo(withStyles(styles)(NewDrop));
