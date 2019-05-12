@@ -15,6 +15,7 @@ import DropDetails from 'C:/Users/meagh/Desktop/info30005-2019-em/public/Drops/D
 import PopOver from './PopOver';
 import { Description } from '@material-ui/icons';
 import CenteredCircularProgress from '../components/CenteredCircularProgress';
+import Drops from 'C:/Users/meagh/Desktop/info30005-2019-em/models/drops.js';
 
 
 const styles = theme => ({
@@ -57,19 +58,20 @@ function Marketplace(props) {
     classes,
   } = props;
 
-  const [details, dropData,name, description, price, purchaseDate, creator] = useState(null);
+  const [dropData, setDropData] = useState(null);
 
+  // equivalent to React lifecycle method componentDidMount
   useEffect(() => {
     const source = axios.CancelToken.source();
     (async () => {
       try {
         // await the result for all API calls run asynchronously (Promise.all)
-        const [drops] = await Promise.all([
+        const [details] = await Promise.all([
           axios.get(`/api/drops`, { cancelToken: source.token }),
+          
         ]);
-        var details = JSON.parse(drops);
-        console.log("yes");
-        
+        setDropData({ details: details.data});
+        var drps = [dropData.details[0],dropData.details[0],dropData.details[0]];
       } catch (err) {
         if (!axios.isCancel(err)) {
           console.error(err);
@@ -81,8 +83,10 @@ function Marketplace(props) {
       // cancel API requests when component unmounted
       source.cancel();
     };
-    
-  }, []); 
+    // only update if params.dropID (/drops/dropID in url) changes
+  }, []); // shouldComponentUpdate equivalent check
+
+
 
 
   return (
@@ -94,6 +98,8 @@ function Marketplace(props) {
             <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
               Marketplace
             </Typography>
+            
+           
             <Typography variant="h6" align="center" color="textSecondary" paragraph>
               Welcome to the Marketplace
             </Typography>
@@ -106,16 +112,17 @@ function Marketplace(props) {
           {/* End hero unit */}
           <Grid container spacing={40}>
           
-            {cards.map(card => (
-              <Grid item key={card} sm={6} md={4} lg={3}>
+          
               {!dropData ? (
           <CenteredCircularProgress />
         ) : (
-                <MarketplaceDrop {...creator} {...name} {...price} {...description}/>
+          dropData.details.map((drop,index) =>
+          {<MarketplaceDrop {...drop} />})    
+          
         )}
               </Grid>
-            ))}
-          </Grid>
+           
+        
         </div>
       </main>
     </React.Fragment>

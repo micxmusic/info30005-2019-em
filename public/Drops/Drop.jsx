@@ -59,7 +59,7 @@ function Drop(props) {
       source.cancel();
     };
     // only update if params.dropID (/drops/dropID in url) changes
-  }, [params.dropId]); // shouldComponentUpdate equivalent check
+  }, []); // shouldComponentUpdate equivalent check
 
   return (
     <React.Fragment>
