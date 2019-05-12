@@ -84,7 +84,7 @@ function Marketplace(props) {
       <div className={classNames(classes.layout, classes.cardGrid)}>
         {/* End hero unit */}
 
-        <Grid container spacing="auto">
+        <Grid container spacing={32}>
           {!cardsData ? (
             <CenteredCircularProgress />
           ) : (
