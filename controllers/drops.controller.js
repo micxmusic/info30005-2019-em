@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const aws = require('aws-sdk');
 const uuidv4 = require('uuid/v4');
 
-const { S3_BUCKET_NAME } = process.env;
+const { S3_BUCKET } = process.env;
 
 aws.config.update({
   region: 'ap-southeast-2',
@@ -17,7 +17,7 @@ const signUploadReq = (req, res) => {
   const s3 = new aws.S3();
   const { fileType } = req.body;
   const s3Params = {
-    Bucket: S3_BUCKET_NAME,
+    Bucket: S3_BUCKET,
     Key: uuidv4(),
     Expires: 60,
     ContentType: fileType,
@@ -30,7 +30,7 @@ const signUploadReq = (req, res) => {
     }
     return res.json({
       signedUrl: data,
-      url: `https://${S3_BUCKET_NAME}.s3.amazonaws.com/${s3Params.Key}`,
+      url: `https://${S3_BUCKET}.s3.amazonaws.com/${s3Params.Key}`,
     });
   });
 };
