@@ -2,7 +2,18 @@ import axios from 'axios';
 import React, { memo, useContext, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { withStyles } from '@material-ui/styles';
-import { Button, Grid, InputAdornment, LinearProgress, TextField } from '@material-ui/core';
+import {
+  Button,
+  Grid,
+  IconButton,
+  InputAdornment,
+  LinearProgress,
+  Snackbar,
+  SnackbarContent,
+  TextField,
+} from '@material-ui/core';
+import { CheckCircle, Close, Error, Info, Warning } from '@material-ui/icons';
+import { amber, green } from '@material-ui/core/colors';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import validator from 'validator';
@@ -33,7 +44,79 @@ const styles = theme => ({
     marginRight: theme.spacing.unit,
     marginTop: 16,
   },
+  progress: {
+    marginTop: theme.spacing.unit * 2,
+    marginLeft: theme.spacing.unit * 2,
+    flexGrow: 1,
+  },
 });
+
+const snackbarStyles = theme => ({
+  success: {
+    backgroundColor: green[600],
+  },
+  error: {
+    backgroundColor: theme.palette.error.dark,
+  },
+  info: {
+    backgroundColor: theme.palette.primary.dark,
+  },
+  warning: {
+    backgroundColor: amber[700],
+  },
+  icon: {
+    fontSize: 20,
+  },
+  iconVariant: {
+    opacity: 0.9,
+    marginRight: theme.spacing.unit,
+  },
+});
+
+const iconVariants = {
+  success: CheckCircle,
+  warning: Warning,
+  error: Error,
+  info: Info,
+};
+
+function UploadStatus(props) {
+  const { classes, message, onClose, variant, ...other } = props;
+  const Icon = iconVariants[variant];
+  return (
+    <SnackbarContent
+      className={classes[variant]}
+      aria-describedby="client-snackbar"
+      message={
+        <span id="client-snackbar" className={classes.message}>
+          <Icon className={classNames(classes.icon, classes.iconVariant)} />
+          {message}
+        </span>
+      }
+      action={[
+        <IconButton
+          key="close"
+          aria-label="Close"
+          color="inherit"
+          className={classes.close}
+          onClick={onClose}
+        >
+          <Close className={classes.icon} />
+        </IconButton>,
+      ]}
+      {...other}
+    />
+  );
+}
+
+UploadStatus.propTypes = {
+  classes: PropTypes.object.isRequired,
+  message: PropTypes.node.isRequired,
+  onClose: PropTypes.func.isRequired,
+  variant: PropTypes.oneOf(['success', 'warning', 'error', 'info']).isRequired,
+};
+
+const UploadStatusWrapper = withStyles(snackbarStyles)(UploadStatus);
 
 function NewDrop(props) {
   const { classes, history } = props;
@@ -42,14 +125,27 @@ function NewDrop(props) {
     price: '',
     purchaseDate: '',
     description: '',
+    image: '',
   });
+
   const [errorFlag, setErrorFlag] = useState(false);
   const [progress, setProgress] = useState(undefined);
+  const [snackbar, toggleSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState();
+  const [uploadDone, setUploadDone] = useState('secondary');
+
   const { token } = useContext(AuthContext);
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    toggleSnackbar(false);
   };
 
   const handleChange = event => {
@@ -67,6 +163,7 @@ function NewDrop(props) {
       return;
     }
     if (formData.image && progress !== 100) {
+      setSnackbarMessage({ message: 'Image upload still in progress', variant: 'warning' });
       return;
     }
     try {
@@ -86,7 +183,7 @@ function NewDrop(props) {
       console.log(err);
     }
   };
-
+  
   const getSignedUrl = (file, callback) => {
     axios
       .post('/api/drops/signUpload', { fileType: file.type }, config)
@@ -98,10 +195,23 @@ function NewDrop(props) {
         console.error(error);
       });
   };
+
+  // File upload handlers
+  const onUploadStart = (file, next) => {
+    setSnackbarMessage({ message: 'Uploading image', variant: 'info' });
+    toggleSnackbar(true);
+    next(file);
+  };
+  const onUploadError = () => {
+    setSnackbarMessage({ message: 'Image upload failed', variant: 'error' });
+    toggleSnackbar(true);
+  };
   const onUploadProgress = event => {
     setProgress(event);
   };
   const onUploadFinish = event => {
+    setSnackbarMessage({ message: 'Image upload complete', variant: 'success' });
+    setUploadDone('primary');
     setProgress(100);
   };
 
@@ -176,9 +286,13 @@ function NewDrop(props) {
               onChange={handleChange}
             />
           </Grid>
-          {progress === undefined ? null : (
-            <LinearProgress variant="determinate" value={progress} />
-          )}
+          <Grid item xs={12}>
+            <div className={classes.progress}>
+              {progress === undefined ? null : (
+                <LinearProgress color={uploadDone} variant="determinate" value={progress} />
+              )}
+            </div>
+          </Grid>
           <Button
             variant="contained"
             component="label"
@@ -190,6 +304,8 @@ function NewDrop(props) {
               getSignedUrl={getSignedUrl}
               accept="image/*"
               s3path="/"
+              preprocess={onUploadStart}
+              onError={onUploadError}
               onProgress={onUploadProgress}
               onFinish={onUploadFinish}
               contentDisposition="auto"
@@ -203,6 +319,17 @@ function NewDrop(props) {
           </Grid>
         </Grid>
       </form>
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        open={snackbar}
+        autoHideDuration={2000}
+        onClose={handleClose}
+      >
+        <UploadStatusWrapper {...snackbarMessage} onClose={handleClose} />
+      </Snackbar>
     </React.Fragment>
   );
 }
