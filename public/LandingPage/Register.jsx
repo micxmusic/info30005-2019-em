@@ -12,10 +12,8 @@ const styles = theme => ({
   main: {
     width: 'auto',
     display: 'block', // Fix IE 11 issue.
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
     [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-      width: 400,
+      width: 'auto',
       marginLeft: 'auto',
       marginRight: 'auto',
     },
@@ -23,10 +21,15 @@ const styles = theme => ({
   avatar: {
     margin: theme.spacing.unit,
     backgroundColor: theme.palette.secondary.main,
+    marginLeft: theme.spacing.unit * 4,
   },
-  form: {
+  typography: {
+    marginLeft: theme.spacing.unit * 4,
+  },
+  container: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing.unit,
+    marginLeft: theme.spacing.unit * 4,
   },
   submit: {
     marginTop: theme.spacing.unit * 3,
@@ -41,7 +44,7 @@ function Register(props) {
       <Avatar className={classes.avatar}>
         <InsertEmoticonOutlinedIcon />
       </Avatar>
-      <Typography component="h1" variant="h5">
+      <Typography className={classes.typography} component="h1" variant="h5">
         Register as a new user
       </Typography>
 

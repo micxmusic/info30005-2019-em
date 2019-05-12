@@ -13,8 +13,8 @@ const styles = theme => ({
     overflow: 'hidden',
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
-    margin: `${theme.spacing.unit * 9}px ${theme.spacing.unit * 20}px ${theme.spacing.unit *
-      9}px  ${theme.spacing.unit * 14}px`,
+    margin: `${theme.spacing.unit * 9}px ${theme.spacing.unit * 5}px ${theme.spacing.unit *
+      9}px  ${theme.spacing.unit * 20}px`,
   },
 });
 // Defines a paper sheet where text can be placed

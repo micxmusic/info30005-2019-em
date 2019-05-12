@@ -31,8 +31,8 @@ const styles = theme => ({
     justifyContent: 'center',
     overflow: 'hidden',
     paddingBottom: theme.spacing.unit * 2,
-    margin: `${theme.spacing.unit * 9}px ${theme.spacing.unit * 12}px ${theme.spacing.unit *
-      1}px  ${theme.spacing.unit * 1}px`,
+    margin: `${theme.spacing.unit * 9}px ${theme.spacing.unit * 20}px ${theme.spacing.unit *
+      3}px  ${theme.spacing.unit * 7}px`,
   },
 });
 

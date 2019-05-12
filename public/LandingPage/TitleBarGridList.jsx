@@ -19,8 +19,8 @@ const styles = theme => ({
     justifyContent: 'space-around',
     overflow: 'hidden',
     paddingBottom: theme.spacing.unit * 2,
-    margin: `${theme.spacing.unit * 9}px ${theme.spacing.unit * 9}px ${theme.spacing.unit *
-      5}px  ${theme.spacing.unit * 1}px`,
+    margin: `${theme.spacing.unit * 9}px ${theme.spacing.unit * 5}px ${theme.spacing.unit *
+      9}px  ${theme.spacing.unit * 20}px`,
   },
   gridList: {
     width: 500,
@@ -86,7 +86,7 @@ function TitlebarGridList(props) {
       {/* Creating the grid */}
       <GridList cellHeight={160} className={classes.gridList}>
         <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
-          <ListSubheader color="inherit" component="div">
+          <ListSubheader color="inherit" component="div" align="right">
             Some of our latest drops!
           </ListSubheader>
         </GridListTile>
