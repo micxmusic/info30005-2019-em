@@ -6,6 +6,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { Link } from 'react-router-dom';
 
 const styles = {
   card: {
@@ -26,11 +27,7 @@ const styles = {
 
 function MarketplaceDrop(props) {
 
-  const { classes} = props;
-  const dropId= props.dropId;
-  const name= props.name;
-  const creator= props.creator;
-  const price = props.price;
+  const { classes, _id, name, description, price, purchaseDate, creator } = props;
 
  // const {price}= props.price;
 
@@ -45,7 +42,10 @@ function MarketplaceDrop(props) {
         
       </CardContent>
       <CardActions>
-        <Button size="small">Go to Drop</Button>
+        
+        <Button component={Link} to={`/drop/${_id}`}>
+                Go to Drop
+              </Button>
       </CardActions>
     </Card>
   );
