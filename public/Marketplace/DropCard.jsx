@@ -25,36 +25,29 @@ const styles = {
   },
 };
 
-function MarketplaceDrop(props) {
-
+function DropCard(props) {
   const { classes, _id, name, description, price, purchaseDate, creator } = props;
 
- // const {price}= props.price;
-
+  // const {price}= props.price;
 
   return (
     <Card className={classes.card}>
       <CardContent>
         <Typography component="p">{`Name: ${name}`}</Typography>
         <Typography component="p">{`Creator: ${creator}`}</Typography>
-         <Typography component="p">{`Price: ${price}`}</Typography>
-        
-        
+        <Typography component="p">{`Price: ${price}`}</Typography>
       </CardContent>
       <CardActions>
-        
         <Button component={Link} to={`/drop/${_id}`}>
-                Go to Drop
-              </Button>
+          Go to Drop
+        </Button>
       </CardActions>
     </Card>
   );
 }
 
-MarketplaceDrop.propTypes = {
+DropCard.propTypes = {
   classes: PropTypes.object.isRequired,
-     
-  
 };
 
-export default withStyles(styles)(MarketplaceDrop);
+export default withStyles(styles)(DropCard);
