@@ -1,12 +1,12 @@
 const express = require('express');
 const path = require('path');
+const expressStaticGzip = require('express-static-gzip');
 const compression = require('compression');
 const passport = require('passport');
 const passportJWT = require('passport-jwt');
 const helmet = require('helmet');
 const csp = require('helmet-csp');
 const cors = require('cors');
-const _ = require('lodash');
 
 const db = require('./models/db.js');
 const Account = require('./models/account');
@@ -46,10 +46,15 @@ passport.use(
   )
 );
 
-app.use('/api', require('./routes/public.routes.js'));
+const corsOptions = {
+  origin: ['localhost', 'https://info30005-2019-em.herokuapp.com'],
+  optionsSuccessStatus: 200,
+};
+
+app.use('/api', cors(corsOptions), require('./routes/public.routes.js'));
 app.use(
   '/api',
-  passport.authenticate('jwt', { session: false }),
+  [passport.authenticate('jwt', { session: false }), cors(corsOptions)],
   require('./routes/protected.routes.js')
 );
 
@@ -63,32 +68,27 @@ if (process.env.NODE_ENV === 'production') {
   app.use(helmet.frameguard({ action: 'sameorigin' }));
   app.use(helmet.noSniff());
   app.use(helmet.xssFilter());
-  app.use(cors());
-  const manifest = require(path.join(__dirname, '/./dist/manifest.json'));
-  const scriptHash = [];
-  const styleHash = [];
-
-  _.forEach(manifest, file => {
-    if (file.src.match('.js$')) {
-      scriptHash.push(`'${file.integrity}'`);
-    } else if (file.src.match('.css$')) {
-      styleHash.push(`'${file.integrity}'`);
-    }
-  });
   app.use(
     csp({
       directives: {
         defaultSrc: ["'none'"],
-        scriptSrc: [...scriptHash, "'unsafe-inline'", "'unsafe-eval'", 'https:'],
-        styleSrc: [...styleHash, "'unsafe-inline'", 'https:'],
-        fontSrc: ['http:'],
-        imgSrc: ["'self'", 'https://s3.amazonaws.com', 'https://images.unsplash.com'],
-        requireSriFor: ['script', 'style'],
-        upgradeInsecureRequests: true,
+        connectSrc: ["'self'", 'https://info30005-2019-em.s3.ap-southeast-2.amazonaws.com/'],
+        scriptSrc: ["'self'", "'unsafe-inline'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        fontSrc: ["'self'"],
+        imgSrc: [
+          "'self'",
+          'data:',
+          'https://info30005-2019-em.s3.amazonaws.com',
+          'https://images.unsplash.com',
+        ],
+        frameAncestors: ["'self'"],
+        // upgradeInsecureRequests: true,
       },
     })
   );
-  app.use(express.static('dist'));
+  app.use('/', expressStaticGzip('dist', { index: false }));
+  // app.use(express.static('dist'));
   app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, '/./dist/index.html'));
   });

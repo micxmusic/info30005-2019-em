@@ -14,7 +14,7 @@ module.exports = merge.smart(common, {
     filename: './bundle.js',
   },
   target: 'web',
-  devtool: 'source-map',
+  devtool: 'inline-source-map',
   mode: process.env.NODE_ENV || 'development',
   module: {
     rules: [

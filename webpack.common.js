@@ -1,7 +1,6 @@
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
-const SriPlugin = require('webpack-subresource-integrity');
 
 module.exports = {
   entry: [`${path.resolve(__dirname, 'public')}/index.js`],
@@ -66,10 +65,6 @@ module.exports = {
         quality: '95-100',
       },
       cacheFolder: path.resolve('./cache'),
-    }),
-    new SriPlugin({
-      hashFuncNames: ['sha384'],
-      enabled: process.env.NODE_ENV === 'production',
     }),
   ],
 };

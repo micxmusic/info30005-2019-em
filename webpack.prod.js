@@ -5,8 +5,9 @@ const cssnano = require('cssnano');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const Visualizer = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const CompressionPlugin = require('compression-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const WebpackAssetsManifest = require('webpack-assets-manifest');
+// const WebpackAssetsManifest = require('webpack-assets-manifest');
 
 module.exports = merge.smart(common, {
   mode: 'production',
@@ -18,6 +19,25 @@ module.exports = merge.smart(common, {
     minimize: true,
     minimizer: [new TerserPlugin({ parallel: 3, cache: true, terserOptions: { toplevel: true } })],
     runtimeChunk: true,
+    usedExports: true,
+    // splitChunks: {
+    //   chunks: 'all',
+    //   maxInitialRequests: Infinity,
+    //   minSize: 0,
+    //   cacheGroups: {
+    //     vendor: {
+    //       test: /[\\/]node_modules[\\/]/,
+    //       name(module) {
+    //         // get the name. E.g. node_modules/packageName/not/this/part.js
+    //         // or node_modules/packageName
+    //         const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+    //
+    //         // npm package names are URL-safe, but some servers don't like @ symbols
+    //         return `npm.${packageName.replace('@', '')}`;
+    //       },
+    //     },
+    //   },
+    // },
   },
   module: {
     rules: [
@@ -47,6 +67,7 @@ module.exports = merge.smart(common, {
       },
     }),
     new Visualizer({ analyzerMode: 'static' }),
-    new WebpackAssetsManifest({ integrity: true }),
+    new CompressionPlugin(),
+    // new webpack.HashedModuleIdsPlugin(),
   ],
 });
