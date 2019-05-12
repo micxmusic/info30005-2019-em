@@ -117,11 +117,12 @@ function Marketplace(props) {
           <CenteredCircularProgress />
         ) : (
           dropData.details.map((drop,index) =>
-          {<MarketplaceDrop {...drop} />})    
-          
-        )}
+          <Grid item key={drop} sm={6} md={4} lg={3}>
+          <MarketplaceDrop {...drop} />    
+          </Grid>
+        ))}
               </Grid>
-           
+       
         
         </div>
       </main>
