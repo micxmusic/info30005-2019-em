@@ -11,6 +11,7 @@ import {
   Snackbar,
   SnackbarContent,
   TextField,
+  Typography,
 } from '@material-ui/core';
 import { CheckCircle, Close, Error, Info, Warning } from '@material-ui/icons';
 import { amber, green } from '@material-ui/core/colors';
@@ -261,9 +262,12 @@ function NewDrop(props) {
   return (
     <React.Fragment>
       <Helmet title="Sustineo - New Drop" />
-      <form onSubmit={handleSubmit} autoComplete="off">
-        <Grid container className={classes.layout}>
+      <Grid container className={classes.layout}>
+        <form onSubmit={handleSubmit} autoComplete="off">
           <Grid container spacing={16}>
+            <Grid item xs={12}>
+              <Typography variant="h2">Add New Drop</Typography>
+            </Grid>
             <Grid item xs={12} sm={4}>
               <TextField
                 id="outlined-dense"
@@ -369,8 +373,8 @@ function NewDrop(props) {
               Submit
             </Button>
           </Grid>
-        </Grid>
-      </form>
+        </form>
+      </Grid>
       <Snackbar
         anchorOrigin={{
           vertical: 'bottom',
