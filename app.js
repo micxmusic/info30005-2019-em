@@ -25,6 +25,7 @@ app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(passport.initialize());
+app.disable('x-powered-by');
 
 passport.use(Account.createStrategy());
 passport.serializeUser(Account.serializeUser());
@@ -36,12 +37,8 @@ passport.use(
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: process.env.SECRET,
     },
-    async (token, done) => {
-      try {
-        return done(null, await Account.findById(token.id));
-      } catch (error) {
-        return done(error);
-      }
+    (token, done) => {
+      return done(null, token);
     }
   )
 );
@@ -59,7 +56,16 @@ app.use(
 );
 
 if (process.env.NODE_ENV === 'production') {
-  app.disable('x-powered-by');
+  app.use(
+    helmet.hsts({
+      maxAge: 15768000,
+    })
+  );
+  app.use((req, res, next) => {
+    if (req.header('x-forwarded-proto') !== 'https')
+      res.redirect(`https://${req.header('host')}${req.url}`);
+    else next();
+  });
   app.use(
     helmet.referrerPolicy({
       policy: ['no-referrer', 'strict-origin-when-cross-origin'],
@@ -83,7 +89,9 @@ if (process.env.NODE_ENV === 'production') {
           'https://images.unsplash.com',
         ],
         frameAncestors: ["'self'"],
-        // upgradeInsecureRequests: true,
+        baseUri: ["'self'"],
+        formAction: ["'self'"],
+        upgradeInsecureRequests: true,
       },
     })
   );
