@@ -16,12 +16,14 @@ import {
   Typography,
   withStyles,
 } from '@material-ui/core';
-import { LockOutlined, Visibility, VisibilityOff } from '@material-ui/icons/index';
+import { LockOutlined, Visibility, VisibilityOff } from '@material-ui/icons';
 import { AuthContext } from '../components/AuthContext';
 
 const styles = theme => ({
   main: {
-    width: 'auto',
+    maxWidth: '500px',
+    marginLeft: 'auto',
+    marginRight: 'auto',
     display: 'block', // Fix IE 11 issue.
   },
   paper: {

@@ -22,11 +22,12 @@ import { AuthContext } from '../components/AuthContext';
 
 const styles = theme => ({
   main: {
-    width: 'auto',
+    maxWidth: '500px',
+    marginLeft: 'auto',
+    marginRight: 'auto',
     display: 'block', // Fix IE 11 issue.
   },
   paper: {
-    // marginTop: theme.spacing.unit * 4,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
