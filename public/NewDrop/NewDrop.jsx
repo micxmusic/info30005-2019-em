@@ -16,7 +16,9 @@ import { CheckCircle, Close, Error, Info, Warning } from '@material-ui/icons';
 import { amber, green } from '@material-ui/core/colors';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import validator from 'validator';
+import isAfter from 'validator/lib/isAfter';
+import isCurrency from 'validator/lib/isCurrency';
+import isLength from 'validator/lib/isLength';
 import ReactS3Uploader from 'react-s3-uploader';
 import { AuthContext } from '../components/AuthContext';
 
@@ -128,7 +130,12 @@ function NewDrop(props) {
     image: '',
   });
 
-  const [errorFlag, setErrorFlag] = useState(false);
+  const [errorFlag, setErrorFlag] = useState({
+    name: false,
+    description: false,
+    price: false,
+    purchaseDate: false,
+  });
   const [progress, setProgress] = useState(undefined);
   const [snackbar, toggleSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState();
@@ -149,21 +156,57 @@ function NewDrop(props) {
   };
 
   const handleChange = event => {
-    setFormData({ ...formData, [event.target.name]: event.target.value });
-    if (event.target.name === 'price') {
-      setErrorFlag(false);
+    switch (event.target.name) {
+      case 'price':
+        setErrorFlag({
+          ...errorFlag,
+          price: !isCurrency(event.target.value, { allow_negatives: false }),
+        });
+        break;
+      case 'name':
+        setErrorFlag({ ...errorFlag, name: !isLength(event.target.value, { max: 100 }) });
+        break;
+      case 'purchaseDate':
+        setErrorFlag({
+          ...errorFlag,
+          purchaseDate: !isAfter(event.target.value.toString()),
+        });
+        break;
+      case 'description':
+        setErrorFlag({
+          ...errorFlag,
+          description: !isLength(event.target.value, { max: 500 }),
+        });
+        break;
+      default:
+        break;
     }
+    setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
   const handleSubmit = async event => {
     event.preventDefault();
-    if (!validator.isCurrency(formData.price, { allow_negatives: false })) {
-      setFormData({ ...formData, price: '' });
-      setErrorFlag(true);
+    const validate = {
+      name: !isLength(formData.name, { max: 100 }),
+      description: !isLength(formData.description, { max: 500 }),
+      purchaseDate: !isAfter(formData.purchaseDate.toString()),
+      price: !isCurrency(formData.price, { allow_negatives: false }),
+    };
+    const invalid = !Object.keys(validate).every(k => !validate[k]);
+    setErrorFlag(validate);
+    if (invalid) {
+      setSnackbarMessage({ message: 'Please check the form details', variant: 'warning' });
+      toggleSnackbar(true);
       return;
     }
     if (formData.image && progress !== 100) {
       setSnackbarMessage({ message: 'Image upload still in progress', variant: 'warning' });
+      toggleSnackbar(true);
+      return;
+    }
+    if (!formData.image) {
+      setSnackbarMessage({ message: 'Please upload an image', variant: 'warning' });
+      toggleSnackbar(true);
       return;
     }
     try {
@@ -183,7 +226,7 @@ function NewDrop(props) {
       console.log(err);
     }
   };
-  
+
   const getSignedUrl = (file, callback) => {
     axios
       .post('/api/drops/signUpload', { fileType: file.type }, config)
@@ -228,6 +271,8 @@ function NewDrop(props) {
                 label="Item Name"
                 fullWidth
                 required
+                error={errorFlag.name}
+                helperText={errorFlag.name ? 'Item name has to be less than 100 characters' : null}
                 className={classNames(classes.textField, classes.dense)}
                 margin="dense"
                 variant="outlined"
@@ -242,7 +287,8 @@ function NewDrop(props) {
                 type="number"
                 fullWidth
                 required
-                error={errorFlag}
+                error={errorFlag.price}
+                helperText={errorFlag.price ? 'Price invalid' : null}
                 value={formData.price}
                 className={classNames(classes.textField, classes.dense)}
                 margin="dense"
@@ -264,6 +310,8 @@ function NewDrop(props) {
                 }}
                 fullWidth
                 required
+                error={errorFlag.purchaseDate}
+                helperText={errorFlag.purchaseDate ? 'Purchase date has to be in the future' : null}
                 className={classNames(classes.textField, classes.dense)}
                 margin="dense"
                 variant="outlined"
@@ -280,6 +328,10 @@ function NewDrop(props) {
               rows="4"
               fullWidth
               required
+              error={errorFlag.description}
+              helperText={
+                errorFlag.description ? 'Item description has to be less than 500 characters' : null
+              }
               className={classNames(classes.textField, classes.dense)}
               margin="dense"
               variant="outlined"
