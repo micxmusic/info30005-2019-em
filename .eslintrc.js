@@ -1,5 +1,11 @@
 module.exports = {
-  extends: ['airbnb', 'prettier', 'plugin:node/recommended', 'plugin:promise/recommended'],
+  extends: [
+    'airbnb',
+    'prettier',
+    'prettier/react',
+    'plugin:node/recommended',
+    'plugin:promise/recommended',
+  ],
   env: {
     browser: true,
     node: true,
@@ -11,20 +17,12 @@ module.exports = {
     ecmaVersion: 2018,
     ecmaFeatures: {
       jsx: true,
-      experimentalObjectRestSpread: true,
     },
   },
   plugins: ['html', 'prettier', 'promise', 'react-hooks'],
   rules: {
-    'prettier/prettier': [
-      'error',
-      {
-        printWidth: 100,
-        singleQuote: true,
-        trailingComma: 'es5',
-      },
-    ],
-    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
+    'prettier/prettier': 'error',
+    'react/jsx-filename-extension': ['warn', { extensions: ['.js', '.jsx'] }],
     'react/forbid-prop-types': [
       1,
       { forbid: ['any', 'array'], checkContextTypes: false, checkChildContextTypes: false },

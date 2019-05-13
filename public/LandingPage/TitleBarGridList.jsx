@@ -3,13 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import {
-  GridList,
-  GridListTile,
-  GridListTileBar,
-  IconButton,
-} from '@material-ui/core';
-import InfoIcon from '@material-ui/icons/Info';
+import { GridList, GridListTile, GridListTileBar, IconButton } from '@material-ui/core';
+import { Info } from '@material-ui/icons';
 import CenteredCircularProgress from '../components/CenteredCircularProgress';
 
 // Theme settings in order to keep the title bar spaced appropriately
@@ -98,7 +93,7 @@ function TitlebarGridList(props) {
                 subtitle={<span>by:{tile.creator}</span>}
                 actionIcon={
                   <IconButton className={classes.icon}>
-                    <InfoIcon />
+                    <Info />
                   </IconButton>
                 }
               />

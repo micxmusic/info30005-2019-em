@@ -60,6 +60,9 @@ function Drop(props) {
       },
       cancelToken: source.token,
     };
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     (async () => {
       try {
         // await the result for all API calls run asynchronously (Promise.all)
