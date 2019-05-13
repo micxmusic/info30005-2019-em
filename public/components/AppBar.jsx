@@ -208,7 +208,9 @@ function AppBar(props) {
       <MenuItem onClick={handleMenuClose} component={Link} to="/profile">
         Profile
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose} component={Link} to="/account">
+        My account
+      </MenuItem>
       <MenuItem onClick={logout}>Logout</MenuItem>
     </Menu>
   );
