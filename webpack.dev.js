@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies,node/no-unpublished-require */
 const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
@@ -16,14 +17,6 @@ module.exports = merge.smart(common, {
   target: 'web',
   devtool: 'inline-source-map',
   mode: process.env.NODE_ENV || 'development',
-  module: {
-    rules: [
-      {
-        test: /\.(js|jsx)$/,
-        loader: require.resolve('babel-loader'),
-      },
-    ],
-  },
   resolve: {
     alias: {
       'react-dom': '@hot-loader/react-dom',

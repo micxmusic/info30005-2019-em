@@ -1,6 +1,6 @@
+/* eslint-disable import/no-extraneous-dependencies,node/no-unpublished-require,global-require */
 const webpack = require('webpack');
 const merge = require('webpack-merge');
-const common = require('./webpack.common.js');
 const cssnano = require('cssnano');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
@@ -8,6 +8,7 @@ const Visualizer = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const CompressionPlugin = require('compression-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 // const WebpackAssetsManifest = require('webpack-assets-manifest');
+const common = require('./webpack.common.js');
 
 module.exports = merge.smart(common, {
   mode: 'production',

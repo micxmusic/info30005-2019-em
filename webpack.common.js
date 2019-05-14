@@ -1,3 +1,4 @@
+/* eslint-disable node/no-unpublished-require,import/no-extraneous-dependencies */
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
