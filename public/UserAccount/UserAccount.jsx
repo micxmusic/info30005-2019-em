@@ -23,7 +23,7 @@ function LandingPage(props) {
       <div className={classes.layout}>
         <Grid container spacing={16}>
           <Grid item xs={12} sm={6}>
-            <Avatar />
+            <Avatar align="center" />
           </Grid>
           <Grid item xs={12} sm={6} />
         </Grid>

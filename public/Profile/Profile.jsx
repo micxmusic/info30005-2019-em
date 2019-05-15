@@ -4,7 +4,7 @@ import SwipeableViews from 'react-swipeable-views';
 import PropTypes from 'prop-types';
 import { Hidden, Paper, Tab, Tabs } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
-
+import image from './Pictures/profile.png';
 import BottomNav from './BottomNav';
 import CenteredCircularProgress from '../components/CenteredCircularProgress';
 
@@ -29,6 +29,9 @@ const styles = theme => ({
     [theme.breakpoints.down('md')]: {
       width: '90%',
       paddingBottom: '64px',
+    },
+    Picture: {
+      paddingLeft: theme.spacing.unit * 70,
     },
   },
 });
@@ -116,6 +119,7 @@ class Profile extends React.Component {
         <Hidden lgUp>
           <BottomNav tab={tab} handleChange={this.handleChange} />
         </Hidden>
+        <img className={classes.Picture} src={image} width="25%" flexDirection="row-reverse" />
       </React.Fragment>
     );
   }

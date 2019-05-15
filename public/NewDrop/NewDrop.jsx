@@ -22,7 +22,7 @@ import isCurrency from 'validator/lib/isCurrency';
 import isLength from 'validator/lib/isLength';
 import ReactS3Uploader from 'react-s3-uploader';
 import { AuthContext } from '../components/AuthContext';
-
+import image from './Pictures/upload1.png';
 const styles = theme => ({
   layout: {
     width: 'auto',
@@ -51,6 +51,9 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 2,
     marginLeft: theme.spacing.unit * 2,
     flexGrow: 1,
+  },
+  Picture: {
+    marginLeft: theme.spacing.unit * 60,
   },
 });
 
@@ -374,6 +377,10 @@ function NewDrop(props) {
             </Button>
           </Grid>
         </form>
+        <Grid item>
+          {/* <img className={classes.Picture1} src={image1} width="25%" /> */}
+          <img className={classes.Picture} src={image} width="65%" />
+        </Grid>
       </Grid>
       <Snackbar
         anchorOrigin={{

@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
-import { Grid, Paper, Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import FullWidthTabs from './FullWidthTabs';
 import TitleBarGridList from './TitleBarGridList';
-
+import image from './Pictures/hamburg.png';
 const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
@@ -22,8 +22,12 @@ const styles = theme => ({
       width: 1100,
       marginTop: theme.spacing.unit * 10,
     },
+    Picture: {
+      paddingLeft: theme.spacing.unit * 10,
+    },
   },
 });
+
 function LandingPage(props) {
   const { classes } = props;
   return (
@@ -44,14 +48,11 @@ function LandingPage(props) {
             <br />
             <br />
             <Typography variant="h4">Some of our latest drops!</Typography>
-            {/*<PaperSheet
-              titleText="Welcome to Sustineo!"
-              bodyText="Our goal is to redefine the way people look at buying and using foods, so that we can create a less wasteful, communal way of eating for everyone."
-            />*/}
             <TitleBarGridList />
           </Grid>
           <Grid item xs={12} sm={6}>
             <FullWidthTabs tabOneText="Sign In" tabTwoText="Register" zIndex="modal" />
+            <img className={classes.Picture} src={image} width="80%" flexDirection="row-reverse" />
           </Grid>
         </Grid>
       </div>
