@@ -22,23 +22,18 @@ const showDropsForUser = (req, res) => {
   });
 };
 
-const joinDrop = (req, res) => {
+const joinDrop = async (req, res) => {
   const newDrop = new Participant({
     userId: mongoose.Types.ObjectId(req.body.userId),
     dropId: mongoose.Types.ObjectId(req.body.dropId),
     participationType: req.body.participationType,
   });
-  newDrop
-    .save()
-    .then(result => res.send(result))
-    .catch(err => res.send(err));
-  newDrop.save((err, participants) => {
-    if (!err) {
-      res.send(participants);
-    } else {
-      res.sendStatus(400);
-    }
-  });
+  try {
+    await newDrop.save();
+    res.sendStatus(200);
+  } catch {
+    res.sendStatus(406);
+  }
 };
 
 module.exports.showUsersForDrop = showUsersForDrop;

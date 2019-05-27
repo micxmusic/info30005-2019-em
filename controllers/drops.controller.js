@@ -25,17 +25,16 @@ const signUploadReq = (req, res) => {
   };
   s3.getSignedUrl('putObject', s3Params, (err, data) => {
     if (err) {
-      console.log(err);
-      return res.sendStatus(400);
+      res.sendStatus(400);
     }
-    return res.json({
+    res.json({
       signedUrl: data,
       url: `https://${S3_BUCKET}.s3.amazonaws.com/${s3Params.Key}`,
     });
   });
 };
 
-const createDrop = (req, res) => {
+const createDrop = async (req, res) => {
   const userToken = jwt.verify(req.headers.authorization.split(' ')[1], process.env.SECRET);
   const drop = new Drop({
     name: req.body.name,
@@ -45,56 +44,53 @@ const createDrop = (req, res) => {
     description: req.body.description,
     image: req.body.image,
   });
-  drop.save((err, newDrop) => {
-    if (!err) {
-      res.send(newDrop);
-    } else {
-      res.sendStatus(400);
-    }
-  });
+
+  try {
+    res.send({ id: await drop.save().id });
+  } catch {
+    res.sendStatus(400);
+  }
 };
 
-const findAllDrops = (req, res) => {
-  Drop.find((err, drop) => {
-    if (!err) {
+const findAllDrops = async (req, res) => {
+  try {
+    res.send(await Drop.find());
+  } catch {
+    res.sendStatus(404);
+  }
+};
+
+const findDrop = async (req, res) => {
+  try {
+    const drop = await Drop.findById(req.params.id);
+    if (drop) {
       res.send(drop);
     } else {
       res.sendStatus(404);
     }
-  });
+  } catch {
+    res.sendStatus(500);
+  }
 };
 
-const findDrop = (req, res) => {
-  Drop.findById(req.params.id, (err, drop) => {
-    if (!err) {
-      res.send(drop);
-    } else {
-      res.sendStatus(404);
-    }
-  });
+const pullLastDrop = async (req, res) => {
+  try {
+    res.send(
+      await Drop.find()
+        .sort({ date: -1 })
+        .limit(4)
+    );
+  } catch {
+    res.sendStatus(404);
+  }
 };
 
-const pullLastDrop = (req, res) => {
-  Drop.find()
-    .sort({ date: -1 })
-    .limit(4)
-    .exec((err, drops) => {
-      if (!err) {
-        res.send(drops);
-      } else {
-        res.sendStatus(404);
-      }
-    });
-};
-
-const findDropByName = (req, res) => {
-  Drop.find({ name: req.params.name }, (err, drop) => {
-    if (!err) {
-      res.send(drop);
-    } else {
-      res.sendStatus(404);
-    }
-  });
+const findDropByName = async (req, res) => {
+  try {
+    res.send(await Drop.find({ name: req.params.name }));
+  } catch {
+    res.sendStatus(500);
+  }
 };
 
 module.exports.signUploadReq = signUploadReq;

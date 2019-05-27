@@ -8,25 +8,27 @@ const register = async (req, res) => {
     return res.sendStatus(400);
   }
   try {
-    Account.register(
+    return Account.register(
       new Account({
         username: validator.normalizeEmail(req.body.username),
         name: validator.trim(req.body.name),
       }),
       req.body.password,
-      (err, account) => {
+      err => {
         if (err) {
-          return res.status(500).send(err);
+          res.sendStatus(409);
         }
         passport.authenticate('local', {
           session: false,
         })(req, res, () => {
-          return res.status(200).send('Successfully created new account');
+          res.status(201).json({
+            message: 'Successfully created new account',
+          });
         });
       }
     );
-  } catch (err) {
-    return res.status(500).send(`An error occurred: ${err}`);
+  } catch {
+    return res.sendStatus(500);
   }
 };
 
@@ -37,25 +39,24 @@ const login = async (req, res, next) => {
         message: 'Something is not right with your input',
       });
     }
-    passport.authenticate('local', { session: false }, (err, user, info) => {
-      if (err || !user) {
-        return res.status(400).json({
+    return passport.authenticate('local', { session: false }, (authErr, user) => {
+      if (authErr || !user) {
+        res.status(403).json({
           message: 'Incorrect username/email or password',
         });
       }
       req.login(user, { session: false }, err => {
         if (err) {
-          return res.send(err);
+          res.sendStatus(500);
         }
         const token = jwt.sign({ id: user.id, name: user.name }, process.env.SECRET, {
           expiresIn: '1d',
         });
-        return res.json({ user: { userId: user.id, name: user.name }, token });
+        res.status(200).json({ user: { userId: user.id, name: user.name }, token });
       });
     })(req, res, next);
   } catch (err) {
-    console.log(err);
-    return res.status(500).send(err);
+    return res.sendStatus(500);
   }
 };
 

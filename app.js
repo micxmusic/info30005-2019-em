@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies,node/no-unpublished-require,global-require,no-console */
 const express = require('express');
 const path = require('path');
 const expressStaticGzip = require('express-static-gzip');
