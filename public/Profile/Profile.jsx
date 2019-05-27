@@ -1,5 +1,5 @@
 import React, { memo, Suspense } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import SwipeableViews from 'react-swipeable-views';
 import PropTypes from 'prop-types';
 import { Hidden, Paper, Tab, Tabs } from '@material-ui/core';
@@ -65,9 +65,7 @@ class Profile extends React.Component {
 
     return (
       <React.Fragment>
-        <Helmet>
-          <title>Sustineo - Profile</title>
-        </Helmet>
+        <Helmet title="Sustineo - Profile" />
         <Hidden mdDown>
           <Paper className={classes.root}>
             <Tabs

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { memo, useContext, useState } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { withStyles } from '@material-ui/styles';
 import {
   Button,
@@ -16,7 +16,7 @@ import {
 import { CheckCircle, Close, Error, Info, Warning } from '@material-ui/icons';
 import { amber, green } from '@material-ui/core/colors';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import isAfter from 'validator/lib/isAfter';
 import isCurrency from 'validator/lib/isCurrency';
 import isLength from 'validator/lib/isLength';
@@ -92,7 +92,7 @@ function UploadStatus(props) {
       aria-describedby="client-snackbar"
       message={
         <span id="client-snackbar" className={classes.message}>
-          <Icon className={classNames(classes.icon, classes.iconVariant)} />
+          <Icon className={clsx(classes.icon, classes.iconVariant)} />
           {message}
         </span>
       }
@@ -222,22 +222,20 @@ function NewDrop(props) {
         },
         config
       );
-      history.push(`/drop/${newDrop.data._id}`);
+      history.push(`/drop/${newDrop.data.id}`);
     } catch (err) {
-      console.log(err);
+      (() => {})();
     }
   };
 
-  const getSignedUrl = (file, callback) => {
-    axios
-      .post('/api/drops/signUpload', { fileType: file.type }, config)
-      .then(res => {
-        setFormData({ ...formData, image: res.data.url });
-        callback(res.data);
-      })
-      .catch(error => {
-        console.error(error);
-      });
+  const getSignedUrl = async (file, callback) => {
+    try {
+      const res = await axios.post('/api/drops/signUpload', { fileType: file.type }, config);
+      setFormData({ ...formData, image: res.data.url });
+      return callback(res.data);
+    } catch {
+      return null;
+    }
   };
 
   // File upload handlers
@@ -253,7 +251,7 @@ function NewDrop(props) {
   const onUploadProgress = event => {
     setProgress(event);
   };
-  const onUploadFinish = event => {
+  const onUploadFinish = () => {
     setSnackbarMessage({ message: 'Image upload complete', variant: 'success' });
     setUploadDone('primary');
     setProgress(100);
@@ -277,7 +275,7 @@ function NewDrop(props) {
                 required
                 error={errorFlag.name}
                 helperText={errorFlag.name ? 'Item name has to be less than 100 characters' : null}
-                className={classNames(classes.textField, classes.dense)}
+                className={clsx(classes.textField, classes.dense)}
                 margin="dense"
                 variant="outlined"
                 onChange={handleChange}
@@ -294,7 +292,7 @@ function NewDrop(props) {
                 error={errorFlag.price}
                 helperText={errorFlag.price ? 'Price invalid' : null}
                 value={formData.price}
-                className={classNames(classes.textField, classes.dense)}
+                className={clsx(classes.textField, classes.dense)}
                 margin="dense"
                 variant="outlined"
                 InputProps={{
@@ -316,7 +314,7 @@ function NewDrop(props) {
                 required
                 error={errorFlag.purchaseDate}
                 helperText={errorFlag.purchaseDate ? 'Purchase date has to be in the future' : null}
-                className={classNames(classes.textField, classes.dense)}
+                className={clsx(classes.textField, classes.dense)}
                 margin="dense"
                 variant="outlined"
                 onChange={handleChange}
@@ -336,7 +334,7 @@ function NewDrop(props) {
               helperText={
                 errorFlag.description ? 'Item description has to be less than 500 characters' : null
               }
-              className={classNames(classes.textField, classes.dense)}
+              className={clsx(classes.textField, classes.dense)}
               margin="dense"
               variant="outlined"
               onChange={handleChange}

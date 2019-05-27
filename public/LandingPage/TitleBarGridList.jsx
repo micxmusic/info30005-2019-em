@@ -2,9 +2,9 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import { GridList, GridListTile, GridListTileBar, IconButton } from '@material-ui/core';
 import { Info } from '@material-ui/icons';
+import { withStyles } from '@material-ui/styles';
 import CenteredCircularProgress from '../components/CenteredCircularProgress';
 
 // Theme settings in order to keep the title bar spaced appropriately
@@ -44,7 +44,7 @@ const styles = theme => ({
  */
 
 // Optional array for including static data
-const tileData = [];
+// const tileData = [];
 
 // Beginning of the sample drops on the landing page
 function TitlebarGridList(props) {
@@ -63,7 +63,7 @@ function TitlebarGridList(props) {
         setDropData({ details: details.data });
       } catch (err) {
         if (!axios.isCancel(err)) {
-          console.error(err);
+          (() => {})();
         }
       }
     })();
@@ -77,7 +77,6 @@ function TitlebarGridList(props) {
 
   return (
     <div className={classes.root}>
-      {/*<Paper className={classes.paper}>*/}
       {/* Creating the grid */}
       <GridList cellHeight={200} className={classes.gridList}>
         {/*  Show a loading symbol if drops don't load else, if drop array loads, feed it into the tiles */}
@@ -85,7 +84,7 @@ function TitlebarGridList(props) {
           <CenteredCircularProgress />
         ) : (
           dropData.details.map(tile => (
-            <GridListTile key={tile._id} component={Link} to={`/drop/${tile._id}`}>
+            <GridListTile key={tile.id} component={Link} to={`/drop/${tile.id}`}>
               <img src={tile.image} alt={tile.name} />
               {/* Feed relevant drop details in from data base, and link tile to the drop's page */}
               <GridListTileBar
@@ -101,7 +100,6 @@ function TitlebarGridList(props) {
           ))
         )}
       </GridList>
-      {/*</Paper>*/}
     </div>
   );
 }

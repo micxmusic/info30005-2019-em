@@ -1,12 +1,9 @@
 import axios from 'axios';
-import { Helmet } from 'react-helmet';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { withStyles } from '@material-ui/styles';
+import { Helmet } from 'react-helmet-async';
 import PropTypes from 'prop-types';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import { List } from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
+import { Grid, List, Paper, Typography } from '@material-ui/core';
+import { withStyles } from '@material-ui/styles';
 import DropDetails from './DropDetails';
 import Comment from './Comments';
 import NewComment from './NewComment';
@@ -32,6 +29,7 @@ const styles = theme => ({
 
 function Drop(props) {
   const {
+    history,
     match: { params },
     classes,
   } = props;
@@ -75,7 +73,7 @@ function Drop(props) {
         setLoading(false);
       } catch (err) {
         if (!axios.isCancel(err)) {
-          console.error(err);
+          history.push('/');
         }
       }
     })();
@@ -85,7 +83,7 @@ function Drop(props) {
       source.cancel();
     };
     // only update if params.dropID (/drops/dropID in url) changes
-  }, [token, params.dropId]); // shouldComponentUpdate equivalent check
+  }, [history, token, params.dropId]); // shouldComponentUpdate equivalent check
 
   return (
     <React.Fragment>
@@ -119,7 +117,7 @@ function Drop(props) {
                 ) : (
                   <List>
                     {commentList.map(comment => (
-                      <Comment {...comment} key={comment._id} />
+                      <Comment {...comment} key={comment.id} />
                     ))}
                   </List>
                 )}
@@ -134,6 +132,7 @@ function Drop(props) {
 Drop.propTypes = {
   classes: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(Drop);

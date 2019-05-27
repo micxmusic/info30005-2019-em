@@ -1,14 +1,16 @@
 import axios from 'axios';
 import React, { memo, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import { withStyles } from '@material-ui/core/styles';
-import Avatar from '@material-ui/core/Avatar';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import { ListItem } from '@material-ui/core';
+import {
+  Avatar,
+  Button,
+  Grid,
+  ListItem,
+  ListItemAvatar,
+  ListItemIcon,
+  TextField,
+} from '@material-ui/core';
+import { withStyles } from '@material-ui/styles';
 import image from '../Images/cat.jpg';
 import { AuthContext } from '../components/AuthContext';
 
@@ -46,8 +48,8 @@ function NewComment(props) {
       );
       setFormData({ comment: '' });
       await updateCommentList();
-    } catch (err) {
-      console.log(err);
+    } catch {
+      (() => {})();
     }
   };
 
@@ -76,8 +78,8 @@ function NewComment(props) {
               variant="outlined"
               onChange={handleChange}
             />
-            <div align="right">
-              <Button type="submit" variant="contained" color="primary" className={classes.button}>
+            <div style={{ textAlign: 'right' }}>
+              <Button type="submit" variant="contained" color="primary">
                 Post
               </Button>
             </div>

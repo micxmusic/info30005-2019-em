@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
-import PropTypes, { func } from 'prop-types';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
-import withStyles from '@material-ui/core/styles/withStyles';
+import React from 'react';
+import PropTypes from 'prop-types';
+import {
+  Avatar,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  TextField,
+  Typography,
+} from '@material-ui/core';
+import { LockOutlined } from '@material-ui/icons';
+import { withStyles } from '@material-ui/styles';
 import HiddenPassword from './HiddenPassword';
+
 const styles = theme => ({
   main: {
     width: 'auto',
@@ -48,9 +50,8 @@ function SignIn(props) {
 
   return (
     <main className={classes.main}>
-      <CssBaseline />
       <Avatar className={classes.avatar}>
-        <LockOutlinedIcon />
+        <LockOutlined />
       </Avatar>
       <Grid container className={classes.root} spacing={16}>
         <Grid item xs={4}>

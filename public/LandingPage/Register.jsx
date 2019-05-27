@@ -1,6 +1,6 @@
+import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
-import axios from 'axios/index';
 import isEmail from 'validator/lib/isEmail';
 import isLength from 'validator/lib/isLength';
 import PropTypes from 'prop-types';
@@ -120,7 +120,7 @@ function Register(props) {
       history.push('/login');
     } catch (err) {
       setLoading(false);
-      if (err.response.data.name === 'UserExistsError') {
+      if (err.response.status === 409) {
         setFormValidation({ emailInUse: true });
         setSnackbar({ open: true, message: 'Email already in use' });
       } else {
@@ -140,7 +140,6 @@ function Register(props) {
   return (
     <main className={classes.main}>
       <Paper className={classes.paper}>
-        {/*<Paper>*/}
         <Avatar className={classes.avatar}>
           <LockOutlined />
         </Avatar>

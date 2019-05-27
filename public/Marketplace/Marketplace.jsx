@@ -1,10 +1,9 @@
-import React, { useEffect, useState, useContext } from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
 import axios from 'axios';
+import React, { useContext, useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
+import PropTypes from 'prop-types';
+import { Grid, Typography } from '@material-ui/core';
+import { withStyles } from '@material-ui/styles';
 import { AuthContext } from '../components/AuthContext';
 import DropCard from './DropCard';
 import CenteredCircularProgress from '../components/CenteredCircularProgress';
@@ -52,7 +51,7 @@ function Marketplace(props) {
         setCardsData(allDrops.data);
       } catch (err) {
         if (!axios.isCancel(err)) {
-          console.error(err);
+          (() => {})();
         }
       }
     })();
@@ -66,29 +65,33 @@ function Marketplace(props) {
 
   return (
     <React.Fragment>
+      <Helmet title="Sustineo - Marketplace" />
       {/* Hero unit */}
       <div className={classes.heroUnit}>
         <div className={classes.heroContent}>
-          <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+          <Typography
+            component="h1"
+            variant="h2"
+            style={{ textAlign: 'center' }}
+            color="textPrimary"
+            gutterBottom
+          >
             Marketplace
           </Typography>
-          <Typography variant="h6" align="center" color="textSecondary" paragraph>
+          <Typography variant="h6" style={{ textAlign: 'center' }} color="textSecondary" paragraph>
             Welcome to the Marketplace
           </Typography>
-
-          <div className={classes.heroButtons} />
         </div>
       </div>
-      <div className={classNames(classes.layout, classes.cardGrid)}>
-        {/* End hero unit */}
-
+      {/* End hero unit */}
+      <div className={classes.layout}>
         <Grid container spacing={32}>
           {!cardsData ? (
             <CenteredCircularProgress />
           ) : (
             cardsData.map(card => (
-              <Grid item key={card} xs={12} sm={6} md={4} lg={3}>
-                <DropCard {...card} key={card._id} />
+              <Grid item key={card.id} xs={12} sm={6} md={4} lg={3}>
+                <DropCard {...card} />
               </Grid>
             ))
           )}

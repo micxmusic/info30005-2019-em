@@ -1,8 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import { Button, Card, CardActions, CardContent, CardMedia, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { Card, CardContent, CardMedia, Typography } from '@material-ui/core';
+import { withStyles } from '@material-ui/styles';
 
 const styles = {
   card: {
@@ -23,12 +23,10 @@ const styles = {
 };
 
 function DropCard(props) {
-  const { classes, _id, name, price, creator, image } = props;
-
-  // const {price}= props.price;
+  const { classes, id, name, price, creator, image } = props;
 
   return (
-    <Link to={`/drop/${_id}`} style={{ textDecoration: 'none' }}>
+    <Link to={`/drop/${id}`} style={{ textDecoration: 'none' }}>
       <Card className={classes.card}>
         <CardMedia className={classes.cardMedia} image={image} />
         <CardContent>
@@ -43,6 +41,11 @@ function DropCard(props) {
 
 DropCard.propTypes = {
   classes: PropTypes.object.isRequired,
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  creator: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
 };
 
 export default withStyles(styles)(DropCard);

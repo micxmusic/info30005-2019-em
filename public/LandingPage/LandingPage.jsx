@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Helmet } from 'react-helmet';
-import { Grid, Paper, Typography } from '@material-ui/core';
+import { Helmet } from 'react-helmet-async';
+import { Grid, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import FullWidthTabs from './FullWidthTabs';
 import TitleBarGridList from './TitleBarGridList';
@@ -28,10 +28,7 @@ function LandingPage(props) {
   const { classes } = props;
   return (
     <React.Fragment>
-      <Helmet>
-        <meta charset="utf-8" />
-        <title>Sustineo</title>
-      </Helmet>
+      <Helmet title="Sustineo" />
       <div className={classes.layout}>
         <Grid container spacing={16}>
           <Grid item xs={12} sm={6}>
@@ -44,10 +41,6 @@ function LandingPage(props) {
             <br />
             <br />
             <Typography variant="h4">Some of our latest drops!</Typography>
-            {/*<PaperSheet
-              titleText="Welcome to Sustineo!"
-              bodyText="Our goal is to redefine the way people look at buying and using foods, so that we can create a less wasteful, communal way of eating for everyone."
-            />*/}
             <TitleBarGridList />
           </Grid>
           <Grid item xs={12} sm={6}>

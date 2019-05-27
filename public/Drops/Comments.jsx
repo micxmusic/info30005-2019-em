@@ -1,12 +1,15 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import Avatar from '@material-ui/core/Avatar';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import { ListItem, ListItemText } from '@material-ui/core';
+import {
+  Avatar,
+  Grid,
+  ListItem,
+  ListItemAvatar,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+} from '@material-ui/core';
+import { withStyles } from '@material-ui/styles';
 import image from '../Images/cat.jpg';
 
 const styles = theme => ({
@@ -54,7 +57,7 @@ function Comment(props) {
           />
         </Grid>
         <Grid item xs={12} sm={2}>
-          <Typography component="p" align="right">
+          <Typography component="p" style={{ textAlign: 'right' }}>
             {Intl.DateTimeFormat('en-AU', options).format(new Date(timeOfPost))}
           </Typography>
         </Grid>

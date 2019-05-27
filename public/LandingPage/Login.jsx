@@ -103,7 +103,6 @@ function Login(props) {
   return (
     <main className={classes.main}>
       <Paper className={classes.paper}>
-        {/*<Paper>*/}
         <Avatar className={classes.avatar}>
           <LockOutlined />
         </Avatar>

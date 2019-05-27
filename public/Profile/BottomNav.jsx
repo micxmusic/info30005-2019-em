@@ -61,7 +61,6 @@ function BottomNav(props) {
           </SvgIcon>
         }
       />
-      />
       <BottomNavigationAction
         label="Volunteer"
         value={2}

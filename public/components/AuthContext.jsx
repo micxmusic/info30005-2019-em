@@ -1,7 +1,7 @@
 import React, { useState, createContext } from 'react';
 import PropTypes from 'prop-types';
 
-export const AuthContext = createContext();
+export const AuthContext = createContext({});
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || {});
