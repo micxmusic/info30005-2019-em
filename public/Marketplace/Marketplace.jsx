@@ -8,7 +8,7 @@ import axios from 'axios';
 import { AuthContext } from '../components/AuthContext';
 import DropCard from './DropCard';
 import CenteredCircularProgress from '../components/CenteredCircularProgress';
-
+import image from './Pictures/market.png';
 const styles = theme => ({
   layout: {
     width: 'auto',
@@ -27,6 +27,9 @@ const styles = theme => ({
     maxWidth: 600,
     margin: '0 auto',
     padding: `${theme.spacing.unit * 8}px 0 ${theme.spacing.unit * 6}px`,
+  },
+  Picture: {
+    paddingLeft: theme.spacing.unit * 8,
   },
 });
 
@@ -69,6 +72,7 @@ function Marketplace(props) {
       {/* Hero unit */}
       <div className={classes.heroUnit}>
         <div className={classes.heroContent}>
+          <img className={classes.Picture} src={image} width="90%" align="center" />
           <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
             Marketplace
           </Typography>

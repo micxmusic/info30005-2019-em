@@ -44,7 +44,7 @@ const styles = theme => ({
   },
   button: {
     marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
+    //  marginRight: theme.spacing.unit,
     marginTop: 16,
   },
   progress: {
@@ -53,7 +53,7 @@ const styles = theme => ({
     flexGrow: 1,
   },
   Picture: {
-    marginLeft: theme.spacing.unit * 60,
+    marginLeft: theme.spacing.unit * 80,
   },
 });
 
@@ -371,16 +371,14 @@ function NewDrop(props) {
               style={{ display: 'none' }}
             />
           </Button>
-          <Grid item>
+          <Grid item direction="row">
             <Button type="submit" variant="contained" color="primary" className={classes.button}>
               Submit
             </Button>
+            <img className={classes.Picture} src={image} width="45%" />
           </Grid>
         </form>
-        <Grid item>
-          {/* <img className={classes.Picture1} src={image1} width="25%" /> */}
-          <img className={classes.Picture} src={image} width="65%" />
-        </Grid>
+        <Grid item>{/* <img className={classes.Picture1} src={image1} width="25%" /> */}</Grid>
       </Grid>
       <Snackbar
         anchorOrigin={{
