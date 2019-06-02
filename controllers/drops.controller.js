@@ -41,6 +41,7 @@ const createDrop = async (req, res) => {
     price: req.body.price,
     purchaseDate: req.body.purchaseDate,
     creator: userToken.name,
+    creatorId: userToken.id,
     description: req.body.description,
     image: req.body.image,
     participants: [userToken.userId],

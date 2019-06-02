@@ -34,6 +34,7 @@ function DropDetails(props) {
     price,
     purchaseDate,
     creator,
+    creatorId,
     participants,
     id,
     updateDropDetails,
@@ -82,16 +83,18 @@ function DropDetails(props) {
             {`Drop ends: ${Intl.DateTimeFormat().format(new Date(purchaseDate))}`}
           </Typography>
         </Grid>
-        {user ? (
-          <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={4}>
+          {user.userId === creatorId ? (
+            <Typography>Number of participants: {participants.length} </Typography>
+          ) : user.userId ? (
             <div className={classes.wrapper}>
               <Button variant="contained" color="primary" onClick={handleSubmit}>
                 {participants.includes(user.userId) ? 'Leave the drop' : 'Join now!'}
               </Button>
               {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
             </div>
-          </Grid>
-        ) : null}
+          ) : null}
+        </Grid>
       </Grid>
     </Paper>
   );
@@ -104,6 +107,7 @@ DropDetails.propTypes = {
   price: PropTypes.number.isRequired,
   purchaseDate: PropTypes.string.isRequired,
   creator: PropTypes.string.isRequired,
+  creatorId: PropTypes.string.isRequired,
   participants: PropTypes.arrayOf(PropTypes.string).isRequired,
   id: PropTypes.string.isRequired,
   updateDropDetails: PropTypes.func.isRequired,

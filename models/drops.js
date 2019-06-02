@@ -6,6 +6,7 @@ const dropSchema = mongoose
     price: Number,
     purchaseDate: Date,
     creator: String,
+    creatorId: mongoose.Schema.ObjectId,
     description: String,
     image: String,
     participants: [mongoose.Schema.ObjectId],
