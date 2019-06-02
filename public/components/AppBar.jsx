@@ -8,6 +8,7 @@ import {
   Toolbar,
   IconButton,
   Typography,
+  InputAdornment,
   InputBase,
   List,
   ListItem,
@@ -15,6 +16,7 @@ import {
   ListItemText,
   Menu,
   MenuItem,
+  TextField,
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
@@ -110,6 +112,7 @@ const styles = theme => ({
 
 function AppBar(props) {
   const { classes, history } = props;
+  const [formData, setFormData] = useState({ searchTerm: '' });
   const { token, setUser, setToken } = useContext(AuthContext);
   const [drawer, setDrawer] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -255,6 +258,15 @@ function AppBar(props) {
     </Drawer>
   );
 
+  const handleChange = event => {
+    setFormData({ [event.target.name]: event.target.value });
+  };
+
+  const handleSubmit = async event => {
+    event.preventDefault();
+    history.push(`/search/${formData.searchTerm}`);
+  };
+
   return (
     <div className={classes.root}>
       {mobileDrawer}
@@ -281,18 +293,22 @@ function AppBar(props) {
           <div className={classes.grow} />
           {token ? (
             <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <Search />
-              </div>
-              <InputBase
-                inputProps={{ 'aria-label': 'search for drops' }}
-                id="search-bar"
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-              />
+              <form onSubmit={handleSubmit}>
+                <TextField
+                  className={classes.inputRoot}
+                  id="searchTerm"
+                  name="searchTerm"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Search />
+                      </InputAdornment>
+                    ),
+                  }}
+                  onChange={handleChange}
+                />
+                <input type="submit" value="Search" hidden />
+              </form>
             </div>
           ) : (
             <></>

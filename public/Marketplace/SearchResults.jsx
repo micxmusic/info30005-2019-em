@@ -35,7 +35,10 @@ const styles = theme => ({
 });
 
 function Marketplace(props) {
-  const { classes } = props;
+  const {
+    classes,
+    match: { params },
+  } = props;
 
   const { token } = useContext(AuthContext);
 
@@ -51,8 +54,8 @@ function Marketplace(props) {
     };
     (async () => {
       try {
-        // await the result for all API calls run asynchronously (Promise.all)
-        const allDrops = await axios.get(`/api/drops`, config);
+        // await the result for all API calls run asynchronously
+        const allDrops = await axios.get(`/api/drops/byName/${params.searchTerm}`, config);
         setCardsData(allDrops.data);
       } catch (err) {
         if (!axios.isCancel(err)) {
@@ -66,7 +69,7 @@ function Marketplace(props) {
       source.cancel();
     };
     // only update if params.dropID (/drops/dropID in url) changes
-  }, [token]); // shouldComponentUpdate equivalent check
+  }, [params.searchTerm, token]); // shouldComponentUpdate equivalent check
 
   function marketPlaceHeader() {
     return (
@@ -95,6 +98,7 @@ function Marketplace(props) {
 
 Marketplace.propTypes = {
   classes: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(Marketplace);

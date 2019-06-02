@@ -62,7 +62,7 @@ const findAllDrops = async (req, res) => {
   }
 };
 
-const findDrop = async (req, res) => {
+const getDrop = async (req, res) => {
   try {
     const drop = await Drop.findById(req.params.id);
     if (drop) {
@@ -88,11 +88,12 @@ const pullLastDrop = async (req, res) => {
 };
 
 const findDropByName = async (req, res) => {
-  try {
-    res.send(await Drop.find({ name: req.params.name }));
-  } catch {
-    res.sendStatus(500);
-  }
+  Drop.search(req.params.name, (err, data) => {
+    if (err) {
+      res.sendStatus(500);
+    }
+    res.send(data);
+  });
 };
 
 const joinDrop = async (req, res) => {
@@ -128,7 +129,7 @@ const leaveDrop = async (req, res) => {
 module.exports.signUploadReq = signUploadReq;
 module.exports.createDrop = createDrop;
 module.exports.findAllDrops = findAllDrops;
-module.exports.findDrop = findDrop;
+module.exports.findDrop = getDrop;
 module.exports.findDropByName = findDropByName;
 module.exports.pullLastDrop = pullLastDrop;
 module.exports.joinDrop = joinDrop;

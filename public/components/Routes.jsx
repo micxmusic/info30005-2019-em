@@ -6,6 +6,7 @@ import { AuthContext } from './AuthContext';
 
 const LandingPage = React.lazy(() => import('../LandingPage/LandingPage'));
 const Marketplace = React.lazy(() => import('../Marketplace/Marketplace'));
+const SearchResults = React.lazy(() => import('../Marketplace/SearchResults'));
 const Profile = React.lazy(() => import('../Profile/Profile'));
 const Login = React.lazy(() => import('../LandingPage/Login'));
 const Register = React.lazy(() => import('../LandingPage/Register'));
@@ -23,6 +24,7 @@ function Routes() {
         <Route exact path="/register" component={Register} />
         <Route exact path="/drop/:dropId" component={Drop} />
         <PrivateRoute exact path="/marketplace" component={Marketplace} />
+        <PrivateRoute exact path="/search/:searchTerm" component={SearchResults} />
         <PrivateRoute exact path="/profile" component={Profile} />
         <PrivateRoute exact path="/newdrop" component={NewDrop} />
         <PrivateRoute exact path="/account" component={UserAccount} />
