@@ -31,6 +31,9 @@ const styles = theme => ({
   Profile: {
     margin: theme.spacing(5, 1, 0, 5),
   },
+  typography: {
+    textAlign: 'center',
+  },
 });
 
 function UserAccount(props) {
@@ -40,14 +43,16 @@ function UserAccount(props) {
     <React.Fragment>
       <Helmet title={'Sustineo - Account Settings - '.concat(user.name)} />
       <div className={classes.layout}>
-        <Grid container spacing={4} direction="row">
+        <Grid container spacing={4}>
           <Grid item xs={12} sm={4}>
             <Avatar className={classes.avatar} />
           </Grid>
           <Grid item xs={12} sm={8}>
             <Grid container spacing={4}>
               <Grid item xs={12}>
-                <Typography variant="h2">Account Settings</Typography>
+                <Typography variant="h2" className={classes.typography}>
+                  Account Settings
+                </Typography>
               </Grid>
               <Grid item xs={12}>
                 <ProfileTabs className={classes.Profile} />

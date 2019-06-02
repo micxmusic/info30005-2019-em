@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tab, Tabs, Typography } from '@material-ui/core';
+import { Grid, Tab, Tabs, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import ChangeEmail from './ChangeEmail';
 import ChangePassword from './ChangePassword';
@@ -20,33 +20,32 @@ class ProfileTabs extends React.Component {
   render() {
     const { activeIndex } = this.state;
     return (
-      <div
-        style={{
-          display: 'flex',
-        }}
-      >
-        <VerticalTabs value={activeIndex} onChange={this.handleChange}>
-          <MyTab label="E-mail" />
-          <MyTab label="Password" />
-          <MyTab label="Profile Picture" />
-        </VerticalTabs>
-
-        {activeIndex === 0 && (
-          <TabContainer>
-            <ChangeEmail />
-          </TabContainer>
-        )}
-        {activeIndex === 1 && (
-          <TabContainer>
-            <ChangePassword />
-          </TabContainer>
-        )}
-        {activeIndex === 2 && (
-          <TabContainer>
-            <ChangeAvatar />
-          </TabContainer>
-        )}
-      </div>
+      <Grid container>
+        <Grid item xs={12} sm={6}>
+          <VerticalTabs value={activeIndex} onChange={this.handleChange}>
+            <MyTab label="E-mail" />
+            <MyTab label="Password" />
+            {/* <MyTab label="Profile Picture" /> */}
+          </VerticalTabs>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          {activeIndex === 0 && (
+            <TabContainer>
+              <ChangeEmail />
+            </TabContainer>
+          )}
+          {activeIndex === 1 && (
+            <TabContainer>
+              <ChangePassword />
+            </TabContainer>
+          )}
+          {/* {activeIndex === 2 && (
+            <TabContainer>
+              <ChangeAvatar />
+            </TabContainer>
+          )} */}
+        </Grid>
+      </Grid>
     );
   }
 }

@@ -133,7 +133,7 @@ function ChangePassword(props) {
             margin="normal"
             variant="outlined"
             error={formValidation.wrongPassword}
-            helperText="Current password did not match"
+            helperText={formValidation.wrongPassword ? 'Current password did not match' : ''}
             onChange={handleChange}
             fullWidth
           />
@@ -149,7 +149,7 @@ function ChangePassword(props) {
             margin="normal"
             variant="outlined"
             error={formValidation.passwordShort}
-            helperText="Please provide a password of at least 6 characters"
+            helperText="Minimum 6 characters"
             onChange={handleChange}
             fullWidth
           />

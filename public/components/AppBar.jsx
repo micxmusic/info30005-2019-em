@@ -9,7 +9,6 @@ import {
   IconButton,
   Typography,
   InputAdornment,
-  InputBase,
   List,
   ListItem,
   ListItemIcon,
@@ -22,15 +21,14 @@ import { withStyles } from '@material-ui/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import {
   AccountCircle,
-  Chat,
   ExitToApp,
   Home,
   Menu as MenuIcon,
   MoreVert,
-  Notifications,
   PersonAdd,
   PowerSettingsNew,
   Search,
+  Settings,
   ShoppingBasket,
   VerticalAlignBottom,
 } from '@material-ui/icons';
@@ -223,23 +221,17 @@ function AppBar(props) {
       open={isMobileMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMobileMenuClose}>
-        <IconButton color="inherit">
-          <Chat />
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem onClick={handleMobileMenuClose}>
-        <IconButton color="inherit">
-          <Notifications />
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
       <MenuItem onClick={handleMobileMenuClose} component={Link} to="/profile">
         <IconButton color="inherit">
           <AccountCircle />
         </IconButton>
         <p>Profile</p>
+      </MenuItem>
+      <MenuItem onClick={handleMobileMenuClose} component={Link} to="/account">
+        <IconButton color="inherit">
+          <Settings />
+        </IconButton>
+        <p>My Account</p>
       </MenuItem>
       <MenuItem onClick={logout}>
         <IconButton color="inherit">
@@ -323,12 +315,6 @@ function AppBar(props) {
                 <Button component={Link} to="/newdrop">
                   New Drop
                 </Button>
-                <IconButton color="inherit">
-                  <Chat />
-                </IconButton>
-                <IconButton color="inherit">
-                  <Notifications />
-                </IconButton>
                 <IconButton
                   aria-owns={isMenuOpen ? 'material-appbar' : undefined}
                   aria-haspopup="true"
