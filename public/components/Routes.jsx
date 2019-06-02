@@ -11,6 +11,7 @@ const Login = React.lazy(() => import('../LandingPage/Login'));
 const Register = React.lazy(() => import('../LandingPage/Register'));
 const Drop = React.lazy(() => import('../Drops/Drop'));
 const NewDrop = React.lazy(() => import('../NewDrop/NewDrop'));
+const UserAccount = React.lazy(() => import('../UserAccount/UserAccount'));
 
 function Routes() {
   const { token } = useContext(AuthContext);
@@ -24,6 +25,7 @@ function Routes() {
         <PrivateRoute exact path="/marketplace" component={Marketplace} />
         <PrivateRoute exact path="/profile" component={Profile} />
         <PrivateRoute exact path="/newdrop" component={NewDrop} />
+        <PrivateRoute exact path="/account" component={UserAccount} />
       </Switch>
     </Suspense>
   );

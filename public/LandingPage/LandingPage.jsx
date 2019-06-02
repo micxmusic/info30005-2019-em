@@ -5,7 +5,7 @@ import { Grid, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import FullWidthTabs from './FullWidthTabs';
 import TitleBarGridList from './TitleBarGridList';
-
+import image from './Pictures/hamburg.png';
 const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
@@ -21,8 +21,12 @@ const styles = theme => ({
       width: 1100,
       marginTop: theme.spacing(10),
     },
+    Picture: {
+      paddingLeft: theme.spacing.unit * 10,
+    },
   },
 });
+
 function LandingPage(props) {
   const { classes } = props;
   return (
@@ -44,6 +48,7 @@ function LandingPage(props) {
           </Grid>
           <Grid item xs={12} sm={6}>
             <FullWidthTabs tabOneText="Sign In" tabTwoText="Register" zIndex="modal" />
+            <img className={classes.Picture} src={image} width="80%" flexDirection="row-reverse" />
           </Grid>
         </Grid>
       </div>

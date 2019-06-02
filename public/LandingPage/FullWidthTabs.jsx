@@ -27,7 +27,7 @@ const styles = theme => ({
     flexWrap: 'wrap',
     justifyContent: 'center',
     overflow: 'hidden',
-    paddingBottom: theme.spacing(2),
+    // paddingBottom: theme.spacing(2),
     margin: theme.spacing(9, 12, 1, 1),
   },
 });
