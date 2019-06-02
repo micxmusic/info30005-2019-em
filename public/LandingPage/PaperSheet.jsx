@@ -11,10 +11,9 @@ const styles = theme => ({
     flexWrap: 'wrap',
     justifyContent: 'space-around',
     overflow: 'hidden',
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
-    margin: `${theme.spacing.unit * 9}px ${theme.spacing.unit * 20}px ${theme.spacing.unit *
-      9}px  ${theme.spacing.unit * 14}px`,
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
+    margin: theme.spacing(9, 20, 9, 14),
   },
 });
 // Defines a paper sheet where text can be placed

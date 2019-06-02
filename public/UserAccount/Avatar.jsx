@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Avatar from '@material-ui/core/Avatar';
-import Grid from '@material-ui/core/Grid';
+import { Avatar, Grid } from '@material-ui/core';
+import { withStyles } from '@material-ui/styles';
 import img from '../Images/cat.jpg';
+
 const styles = {
   bigAvatar: {
     margin: 10,

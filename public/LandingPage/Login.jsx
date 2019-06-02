@@ -84,7 +84,6 @@ function Login(props) {
       localStorage.setItem('user', JSON.stringify(res.data.user));
       setUser(res.data.user);
       setToken(res.data.token);
-      setLoading(false);
       history.push('/');
     } catch (err) {
       setLoading(false);

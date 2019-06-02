@@ -31,7 +31,8 @@ const styles = theme => ({
       paddingBottom: '64px',
     },
     Picture: {
-      paddingLeft: theme.spacing.unit * 70,
+      paddingLeft: theme.spacing(70),
+      flexDirection: 'row-reverse',
     },
   },
 });
@@ -117,7 +118,7 @@ class Profile extends React.Component {
         <Hidden lgUp>
           <BottomNav tab={tab} handleChange={this.handleChange} />
         </Hidden>
-        <img className={classes.Picture} src={image} width="25%" flexDirection="row-reverse" />
+        <img className={classes.Picture} src={image} width="25%" />
       </React.Fragment>
     );
   }

@@ -23,6 +23,7 @@ import isLength from 'validator/lib/isLength';
 import ReactS3Uploader from 'react-s3-uploader';
 import { AuthContext } from '../components/AuthContext';
 import image from './Pictures/upload1.png';
+
 const styles = theme => ({
   layout: {
     width: 'auto',
@@ -53,7 +54,7 @@ const styles = theme => ({
     flexGrow: 1,
   },
   Picture: {
-    marginLeft: theme.spacing.unit * 80,
+    marginLeft: theme.spacing(80),
   },
 });
 

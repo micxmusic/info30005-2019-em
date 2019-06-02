@@ -28,7 +28,7 @@ const styles = theme => ({
     padding: theme.spacing(8, 0, 6, 0),
   },
   Picture: {
-    paddingLeft: theme.spacing.unit * 8,
+    paddingLeft: theme.spacing(8),
   },
 });
 

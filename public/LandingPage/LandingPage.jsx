@@ -22,7 +22,8 @@ const styles = theme => ({
       marginTop: theme.spacing(10),
     },
     Picture: {
-      paddingLeft: theme.spacing.unit * 10,
+      paddingLeft: theme.spacing(10),
+      flexDirection: 'row-reverse',
     },
   },
 });
@@ -48,7 +49,7 @@ function LandingPage(props) {
           </Grid>
           <Grid item xs={12} sm={6}>
             <FullWidthTabs tabOneText="Sign In" tabTwoText="Register" zIndex="modal" />
-            <img className={classes.Picture} src={image} width="80%" flexDirection="row-reverse" />
+            <img className={classes.Picture} src={image} width="80%" />
           </Grid>
         </Grid>
       </div>
