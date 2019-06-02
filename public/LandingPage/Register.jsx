@@ -30,18 +30,18 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
+    padding: theme.spacing(2, 3, 3, 2),
   },
   avatar: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing(1),
   },
   submit: {
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing(3),
   },
   buttonProgress: {
     color: 'black',
@@ -51,7 +51,7 @@ const styles = theme => ({
     marginLeft: -12,
   },
   wrapper: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     position: 'relative',
   },
 });

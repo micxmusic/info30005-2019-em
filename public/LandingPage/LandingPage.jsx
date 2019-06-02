@@ -9,18 +9,17 @@ import TitleBarGridList from './TitleBarGridList';
 const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
-    margin: `${theme.spacing.unit * 5}px ${0}px ${theme.spacing.unit * 5}px  ${0}px`,
+    padding: theme.spacing(2, 0, 2, 0),
+    margin: theme.spacing(5, 0, 5, 0),
   },
   layout: {
     ...theme.mixins.gutters(),
     width: 'auto',
     margin: '0 auto 0 auto',
-    padding: `${theme.spacing.unit * 6}px 0 ${theme.spacing.unit * 6}px`,
-    [theme.breakpoints.up(1100 + theme.spacing.unit * 3 * 2)]: {
+    padding: theme.spacing(6, 0, 6, 0),
+    [theme.breakpoints.up(1100 + theme.spacing(3 * 2))]: {
       width: 1100,
-      marginTop: theme.spacing.unit * 10,
+      marginTop: theme.spacing(10),
     },
   },
 });
@@ -30,7 +29,7 @@ function LandingPage(props) {
     <React.Fragment>
       <Helmet title="Sustineo" />
       <div className={classes.layout}>
-        <Grid container spacing={16}>
+        <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <Typography variant="h3">Welcome to Sustineo!</Typography>
             <br />

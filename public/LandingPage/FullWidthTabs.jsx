@@ -27,9 +27,8 @@ const styles = theme => ({
     flexWrap: 'wrap',
     justifyContent: 'center',
     overflow: 'hidden',
-    paddingBottom: theme.spacing.unit * 2,
-    margin: `${theme.spacing.unit * 9}px ${theme.spacing.unit * 12}px ${theme.spacing.unit *
-      1}px  ${theme.spacing.unit * 1}px`,
+    paddingBottom: theme.spacing(2),
+    margin: theme.spacing(9, 12, 1, 1),
   },
 });
 

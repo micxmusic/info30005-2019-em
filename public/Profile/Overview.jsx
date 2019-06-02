@@ -24,10 +24,10 @@ const styles = theme => ({
     width: '95%',
   },
   button: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
   },
   leftIcon: {
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(1),
   },
   media: {
     height: 0,
@@ -44,12 +44,12 @@ function Overview(props) {
   return (
     <Grid
       container
-      spacing={40}
+      spacing={5}
       className={classes.root}
       alignItems="flex-start"
       justify="space-around"
     >
-      <Grid container item xs={12} sm={6} spacing={8}>
+      <Grid container item xs={12} sm={6} spacing={1}>
         <Grid item xs={12}>
           <Typography variant="h6">Points</Typography>
         </Grid>
@@ -69,7 +69,7 @@ function Overview(props) {
           </List>
         </Grid>
       </Grid>
-      <Grid container item xs={12} sm={6} spacing={8}>
+      <Grid container item xs={12} sm={6} spacing={1}>
         <Grid item xs={12}>
           <Typography variant="h6">Arriving Soon</Typography>
         </Grid>

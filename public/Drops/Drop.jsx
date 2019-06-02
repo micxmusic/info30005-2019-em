@@ -13,17 +13,17 @@ import { AuthContext } from '../components/AuthContext';
 const styles = theme => ({
   layout: {
     width: 'auto',
-    padding: `${theme.spacing.unit * 5}px 0 ${theme.spacing.unit * 6}px`,
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(1100 + theme.spacing.unit * 3 * 2)]: {
+    padding: theme.spacing(5, 0, 6, 0),
+    marginLeft: theme.spacing(3),
+    marginRight: theme.spacing(3),
+    [theme.breakpoints.up(1100 + theme.spacing(3 * 2))]: {
       width: 1100,
       marginLeft: 'auto',
       marginRight: 'auto',
     },
   },
   commentBox: {
-    marginTop: theme.spacing.unit * 2,
+    marginTop: theme.spacing(2),
   },
 });
 
@@ -92,7 +92,7 @@ function Drop(props) {
         {loading ? (
           <CenteredCircularProgress />
         ) : (
-          <Grid container spacing={16}>
+          <Grid container spacing={2}>
             <Grid item xs={12} style={{ textAlign: 'center' }}>
               <img
                 style={{

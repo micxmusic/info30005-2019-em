@@ -23,9 +23,9 @@ const styles = theme => ({
   },
   tabContainer: {
     'max-width': 1100,
-    margin: `${theme.spacing.unit * 2}px auto ${theme.spacing.unit * 2}px auto`,
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
+    margin: `${theme.spacing(2)}px auto ${theme.spacing(2)}px auto`,
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
     [theme.breakpoints.down('md')]: {
       width: '90%',
       paddingBottom: '64px',

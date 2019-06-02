@@ -6,9 +6,9 @@ import { withStyles } from '@material-ui/styles';
 const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
-    margin: `${theme.spacing.unit * 5}px ${0}px ${theme.spacing.unit * 5}px  ${0}px`,
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
+    margin: theme.spacing(5, 0, 5, 0),
   },
 });
 
