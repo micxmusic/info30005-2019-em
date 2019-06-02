@@ -43,6 +43,7 @@ const createDrop = async (req, res) => {
     creator: userToken.name,
     description: req.body.description,
     image: req.body.image,
+    participants: [userToken.userId],
   });
 
   try {
@@ -93,9 +94,41 @@ const findDropByName = async (req, res) => {
   }
 };
 
+const joinDrop = async (req, res) => {
+  const userToken = jwt.verify(req.headers.authorization.split(' ')[1], process.env.SECRET);
+  const dropToJoin = await Drop.findById(req.body.id);
+  console.log(userToken.id);
+  console.log(dropToJoin);
+  dropToJoin.participants.push(userToken.id);
+  console.log(dropToJoin);
+  try {
+    await dropToJoin.save();
+    res.sendStatus(200);
+  } catch {
+    res.sendStatus(406);
+  }
+};
+
+const leaveDrop = async (req, res) => {
+  const userToken = jwt.verify(req.headers.authorization.split(' ')[1], process.env.SECRET);
+  const dropToLeave = await Drop.findById(req.body.id);
+  console.log(userToken.id);
+  console.log(dropToLeave);
+  dropToLeave.participants = dropToLeave.participants.filter(x => x === userToken.id);
+  console.log(dropToLeave);
+  try {
+    await dropToLeave.save();
+    res.sendStatus(200);
+  } catch {
+    res.sendStatus(406);
+  }
+};
+
 module.exports.signUploadReq = signUploadReq;
 module.exports.createDrop = createDrop;
 module.exports.findAllDrops = findAllDrops;
 module.exports.findDrop = findDrop;
 module.exports.findDropByName = findDropByName;
 module.exports.pullLastDrop = pullLastDrop;
+module.exports.joinDrop = joinDrop;
+module.exports.leaveDrop = leaveDrop;

@@ -14,6 +14,8 @@ router.post('/comments', commentsController.addDropComment);
 router.post('/drops/signUpload', dropsController.signUploadReq);
 router.post('/drops', dropsController.createDrop);
 router.get('/drops', dropsController.findAllDrops);
+router.post('/drops/join', dropsController.joinDrop);
+router.post('/drops/leave', dropsController.leaveDrop);
 router.get('/drops/byName/:name', dropsController.findDropByName);
 
 module.exports = router;

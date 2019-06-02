@@ -8,6 +8,7 @@ const dropSchema = mongoose
     creator: String,
     description: String,
     image: String,
+    participants: [mongoose.Schema.ObjectId],
   })
   .set('toJSON', {
     virtuals: true,

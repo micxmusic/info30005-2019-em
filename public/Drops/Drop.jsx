@@ -48,6 +48,15 @@ function Drop(props) {
     setCommentList(comments.data);
   }, [token, params.dropId]);
 
+  const updateDropDetails = useCallback(async () => {
+    const details = await axios.get(`/api/drops/byID/${params.dropId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    setDropDetails(details.data);
+  }, [token, params.dropId]);
+
   // equivalent to React lifecycle method componentDidMount
   useEffect(() => {
     setLoading(true);
@@ -104,7 +113,7 @@ function Drop(props) {
               />
             </Grid>
             <Grid item xs={12}>
-              <DropDetails {...dropDetails} />
+              <DropDetails {...dropDetails} updateDropDetails={updateDropDetails} />
             </Grid>
             <Grid item xs={12}>
               <Typography variant="h5">Comments</Typography>
