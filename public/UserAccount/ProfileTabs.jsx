@@ -1,16 +1,14 @@
 import React from 'react';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
+import { Tab, Tabs, Typography } from '@material-ui/core';
+import { withStyles } from '@material-ui/styles';
 import ChangeEmail from './ChangeEmail';
 import ChangePassword from './ChangePassword';
 import ChangeAvatar from './ChangeAvatar';
+
 const styles = theme => ({
   root: {
-    marginTop: theme.spacing.unit * 4,
-    margin: `${theme.spacing.unit * 9}px ${theme.spacing.unit * 12}px ${theme.spacing.unit *
-      1}px  ${theme.spacing.unit * 1}px`,
+    marginTop: theme.spacing(4),
+    margin: theme.spacing(9, 12, 1, 1),
   },
 });
 
@@ -18,6 +16,7 @@ class ProfileTabs extends React.Component {
   state = { activeIndex: 0 };
 
   handleChange = (_, activeIndex) => this.setState({ activeIndex });
+
   render() {
     const { activeIndex } = this.state;
     return (
@@ -52,7 +51,7 @@ class ProfileTabs extends React.Component {
   }
 }
 
-const VerticalTabs = withStyles(theme => ({
+const VerticalTabs = withStyles(() => ({
   flexContainer: {
     flexDirection: 'column',
   },
@@ -61,7 +60,7 @@ const VerticalTabs = withStyles(theme => ({
   },
 }))(Tabs);
 
-const MyTab = withStyles(theme => ({
+const MyTab = withStyles(() => ({
   selected: {
     color: '#9966FF',
     borderBottom: '2px solid #9966FF',
